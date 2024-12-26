@@ -738,53 +738,30 @@ class DashboardProvider with ChangeNotifier {
 
   void loadMockData() {
     bannerList = [
-      BannerModel.fromJson(BannerModel.demoJson()),
-      BannerModel.fromJson(BannerModel.demoJson())
+      BannerModel(
+          id: 1,
+          type: "type",
+          relatedId: "relatedId",
+          status: 1,
+          createdAt: "createdAt",
+          updatedAt: "updatedAt",
+          media: [Media(id: 1, createdAt: "createdAt", updatedAt: "updatedAt")]),
     ];
     offerList = [
-      OfferModel.fromJson(OfferModel.demoJson()),
-      OfferModel.fromJson(OfferModel.demoJson())
+      OfferModel(id: 1, title: "title", status: 1, createdAt: "createdAt", updatedAt: "updatedAt"),
+      OfferModel(id: 1, title: "title", status: 1, createdAt: "createdAt", updatedAt: "updatedAt")
     ];
     highestRateList = [
-      ProviderModel.fromJson(ProviderModel.demoJson()),
-      ProviderModel.fromJson(ProviderModel.demoJson())
+      ProviderModel(
+          id: 1,
+          name: "name",
+          email: "email",
+          status: 1,
+          createdAt: "createdAt",
+          updatedAt: "updatedAt",
+          media: [Media(id: 1, createdAt: "createdAt", updatedAt: "updatedAt")]),
     ];
-    currencyList = [
-      CurrencyModel.fromJson(CurrencyModel.demoJson()),
-      CurrencyModel.fromJson(CurrencyModel.demoJson())
-    ];
-    couponList = [
-      CouponModel.fromJson(CouponModel.demoJson()),
-      CouponModel.fromJson(CouponModel.demoJson())
-    ];
-    categoryList = [
-      CategoryModel.fromJson(CategoryModel.demoJson()),
-      CategoryModel.fromJson(CategoryModel.demoJson())
-    ];
-    servicePackagesList = [
-      ServicePackageModel.fromJson(ServicePackageModel.demoJson()),
-      ServicePackageModel.fromJson(ServicePackageModel.demoJson())
-    ];
-    firstThreeServiceList = servicePackagesList.take(3).toList();
-    featuredServiceList = [
-      Services.fromJson(Services.demoJson()),
-      Services.fromJson(Services.demoJson())
-    ];
-    firstTwoFeaturedServiceList = featuredServiceList.take(2).toList();
-    firstTwoHighRateList = highestRateList.take(2).toList();
-    blogList = [
-      BlogModel.fromJson(BlogModel.demoJson()),
-      BlogModel.fromJson(BlogModel.demoJson())
-    ];
-    firstTwoBlogList = blogList.take(2).toList();
-    providerList = [
-      ProviderModel.fromJson(ProviderModel.demoJson()),
-      ProviderModel.fromJson(ProviderModel.demoJson())
-    ];
-    bookingStatusList = [
-      BookingStatusModel.fromJson(BookingStatusModel.demoJson()),
-      BookingStatusModel.fromJson(BookingStatusModel.demoJson())
-    ];
+
     notifyListeners();
   }
 }
