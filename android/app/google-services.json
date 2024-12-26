@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "839943292420",
+    "firebase_url": "https://shadhin-0805-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "shadhin-0805",
+    "storage_bucket": "shadhin-0805.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839943290421:android:e40ffc766788c474983b7c",
+        "android_client_info": {
+          "package_name": "com.example.leadvala"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0-E8s--v-sxXH2PbtEkAGq8sWl8mvj2g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
