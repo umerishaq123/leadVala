@@ -314,10 +314,10 @@ class CategoriesDetailsProvider with ChangeNotifier {
               if (!serviceList.contains(services)) {
                 serviceList.add(services);
               }
-              if (services.price! > maxPrice) {
-                maxPrice = services.price!;
-                log(" a :::::::$maxPrice");
-              }
+              // if (services.price! > maxPrice) {
+              //   maxPrice = services.price!;
+              //   log(" a :::::::$maxPrice");
+              // }
 
               notifyListeners();
             }
