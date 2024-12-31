@@ -64,6 +64,10 @@ class ProviderDetailsScreen extends StatelessWidget {
                               return SingleChildScrollView(
                                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                                   const ProviderTopLayout(),
+                                  const VSpace(Sizes.s20),
+                                  Text(language(context, "Time Line"),
+                                      overflow: TextOverflow.clip,
+                                      style: appCss.dmDenseBold16.textColor(appColor(context).darkText)),
                                   const ServicesStatusTimeline(statusTimeline: [
                                     {"title": "Available", "date": "9:00 AM - 6:00 PM", "status": "active"},
                                     {"title": "Unavailable", "date": "6:00 PM - 9:00 AM", "status": "inactive"},

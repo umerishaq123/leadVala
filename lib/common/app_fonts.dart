@@ -460,8 +460,7 @@ class AppFonts {
   final paymentSummary = "paymentSummary";
   final paymentId = "paymentId";
   final methodType = "methodType";
-  final giveAppreciation =
-      "Give appreciation to servicemen for his great work.";
+  final giveAppreciation = "Give appreciation to servicemen for his great work.";
   final rateNow = "Rate now";
   final downloadBill = "Download Bill";
   final theProviderHas = "The provider has not approved yet.";
@@ -554,6 +553,7 @@ class AppFonts {
   final hurrayChatDelete = "hurrayChatDelete";
   final pressBackAgain = "pressBackAgain";
   final faq = "faq";
+  final timeLine = "TimeLines";
   final paymentMode = "paymentMode";
   final noDataFound = "noDataFound";
   final noDataFoundDesc = "noDataFoundDesc";
@@ -573,9 +573,7 @@ class AppFonts {
   final reviewSubmitted = "reviewSubmitted";
   final writeReview = "writeReview";
   final reviewUs = "reviewUs";
-
 }
-
 
 class CollectionName {
   String users = "users";
