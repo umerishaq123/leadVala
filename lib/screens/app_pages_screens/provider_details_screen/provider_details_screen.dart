@@ -1,4 +1,5 @@
 import 'package:leadvala/common_tap.dart';
+import 'package:leadvala/screens/app_pages_screens/provider_details_screen/layouts/services_status_timeline.dart';
 
 import '../../../config.dart';
 
@@ -63,6 +64,10 @@ class ProviderDetailsScreen extends StatelessWidget {
                               return SingleChildScrollView(
                                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                                   const ProviderTopLayout(),
+                                  const ServicesStatusTimeline(statusTimeline: [
+                                    {"title": "Available", "date": "9:00 AM - 6:00 PM", "status": "active"},
+                                    {"title": "Unavailable", "date": "6:00 PM - 9:00 AM", "status": "inactive"},
+                                  ]),
                                   if (value.categoryList.isNotEmpty)
                                     Text(language(context, appFonts.provideServiceIn),
                                             style: appCss.dmDenseSemiBold16.textColor(appColor(context).darkText))
