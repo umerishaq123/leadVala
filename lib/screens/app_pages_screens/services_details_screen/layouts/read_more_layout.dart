@@ -7,7 +7,7 @@ class ReadMoreLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ReadMoreText(text!,
-        trimLines: 2,
+        trimLines: 3,
         style: TextStyle(
             color: appColor(context).darkText,
             fontFamily: GoogleFonts.dmSans().fontFamily,

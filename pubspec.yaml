@@ -102,6 +102,9 @@ dependencies:
   flutter_downloader: ^1.11.7
   share_plus: ^10.0.0
   rate_my_app: ^2.2.0
+  rename: ^3.0.2
+  just_audio: ^0.9.42
+  audioplayers:
 
 
 dev_dependencies:

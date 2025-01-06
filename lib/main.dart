@@ -12,12 +12,13 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   FlutterNativeSplash.remove();
   await Firebase.initializeApp(
-      name: "Fixit",
       options: const FirebaseOptions(
-          apiKey: "Your ApiKey",
-          appId: "Your AppId",
-          messagingSenderId: "Your MessagingSenderId",
-          projectId: "Your ProjectId"));
+          apiKey: "AIzaSyAWS3qqwI6od6GZ5rjBm1kxapTF8gRYQuA",
+          appId: "1:359221399571:android:ebec341250366b4993efe6",
+          messagingSenderId: "359221399571",
+          projectId: "leadvala",
+          storageBucket: "leadvala.firebasestorage.app"));
+
 
   runApp(const MyApp());
 }
@@ -139,7 +140,7 @@ class _RouteToPageState extends State<RouteToPage> {
       return Consumer<LanguageProvider>(builder: (context, lang, child) {
         return Consumer<CurrencyProvider>(builder: (context, currency, child) {
           return MaterialApp(
-              title: 'Fixit User',
+              title: 'LeadVala User',
               navigatorKey: navigatorKey,
               debugShowCheckedModeBanner: false,
               theme: AppTheme.fromType(ThemeType.light).themeData,

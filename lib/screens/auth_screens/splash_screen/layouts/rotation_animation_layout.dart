@@ -32,7 +32,7 @@ class RotationAnimationLayout extends StatelessWidget {
                     )
                   )
                 ),
-                child: Text("ft",
+                child: Text("LV",
                     style: splash.controller!.isCompleted
                         ? appCss.righteousSemiBold23.textColor(
                         appColor(context)

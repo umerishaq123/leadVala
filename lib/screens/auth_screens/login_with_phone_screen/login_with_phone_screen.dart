@@ -1,7 +1,8 @@
 import '../../../config.dart';
 
 class LoginWithPhoneScreen extends StatelessWidget {
-  const LoginWithPhoneScreen({super.key});
+  final bool fromRoot;
+  const LoginWithPhoneScreen({super.key, required this.fromRoot});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class LoginWithPhoneScreen extends StatelessWidget {
                         children: [
               Stack(
                 children: [
-                  Align(
+                fromRoot ?  SizedBox():  Align(
                     alignment: Alignment.topLeft,
                     child: CommonArrow(
                         arrow: rtl(context)
@@ -71,7 +72,16 @@ class LoginWithPhoneScreen extends StatelessWidget {
                           const VSpace(Sizes.s35),
                           ButtonCommon(
                                   title: appFonts.sendOtp,
-                                  onTap: () => value.onTapOtp(context))
+                                  onTap: () => value.onTapOtp(context)),
+                          const VSpace(Sizes.s35),
+                          ButtonCommon(
+                            title: appFonts.continueAsGuest,
+                            onTap: () async {
+                              SharedPreferences pref = await SharedPreferences.getInstance();
+                              pref.setBool(session.isContinueAsGuest, true);
+                              route.pushReplacementNamed(context, routeName.dashboard);
+                            },
+                          )
                               .paddingSymmetric(horizontal: Insets.i20)
                         ]).paddingSymmetric(vertical: Insets.i20))
               ])

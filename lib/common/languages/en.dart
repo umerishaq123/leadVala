@@ -1,7 +1,7 @@
 dynamic en = {
-  "fixit": "fixit",
+  "fixit": "LeadVala",
   "skip": "SKIP",
-  "welcomeToJust": "WELCOME TO JUST FIXIT",
+  "welcomeToJust": "WELCOME TO JUST LeadVala",
   "findYour": "FIND YOUR SERVICES",
   "bookYourDate": "BOOK YOUR DATE AND TIME",
   "goOnPayment": "GO ON TO THE PAYMENT",

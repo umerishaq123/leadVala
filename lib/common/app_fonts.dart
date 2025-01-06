@@ -1,5 +1,5 @@
 class AppFonts {
-  final fixit = "fixit";
+  final fixit = "LeadVala";
   final skip = "skip";
   final welcomeToJust = "welcomeToJust";
   final findYour = "findYour";
@@ -564,7 +564,7 @@ class AppFonts {
   final areYouSureYouWantToCancelBooking = "areYouSureYouWantToCancelBooking";
   final optionForOrder = "optionForOrder";
   final useCurrentLocation = "useCurrentLocation";
-  final fixitUser = "Fixit User";
+  final fixitUser = "LeadVala User";
   final readMore = "readMore";
   final readLess = "readLess";
   final copyCode = "copyCode";

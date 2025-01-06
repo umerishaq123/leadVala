@@ -36,6 +36,10 @@ class ServicesDetailsScreen extends StatelessWidget {
                                 duration: const Duration(milliseconds: 1200),
                                 opacity: serviceCtrl.widget1Opacity,
                                 child: Stack(alignment: Alignment.bottomCenter, children: [
+
+
+
+
                                   SingleChildScrollView(
                                       controller: serviceCtrl.scrollController,
                                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -43,8 +47,8 @@ class ServicesDetailsScreen extends StatelessWidget {
                                           onBack: () => serviceCtrl.onBack(context, true),
                                           isFav: favCtrl.serviceFavList
                                               .where((element) =>
-                                                  element.serviceId != null &&
-                                                  element.serviceId.toString() == serviceCtrl.service!.id.toString())
+                                          element.serviceId != null &&
+                                              element.serviceId.toString() == serviceCtrl.service!.id.toString())
                                               .isNotEmpty,
                                           title: serviceCtrl.service!.title!,
                                           image: serviceCtrl.service!.media!.isNotEmpty
@@ -68,10 +72,10 @@ class ServicesDetailsScreen extends StatelessWidget {
                                                   .asMap()
                                                   .entries
                                                   .map((e) => ServicesImageLayout(
-                                                      data: e.value,
-                                                      index: e.key,
-                                                      selectIndex: serviceCtrl.selectedIndex,
-                                                      onTap: () => serviceCtrl.onImageChange(e.key)))
+                                                  data: e.value,
+                                                  index: e.key,
+                                                  selectIndex: serviceCtrl.selectedIndex,
+                                                  onTap: () => serviceCtrl.onImageChange(e.key)))
                                                   .toList()),
                                         Column(children: [
                                           Stack(alignment: Alignment.center, children: [
@@ -87,6 +91,10 @@ class ServicesDetailsScreen extends StatelessWidget {
                                           ]).paddingSymmetric(vertical: Insets.i15),
                                           ServiceDescription(services: serviceCtrl.service),
                                         ]).paddingSymmetric(horizontal: Insets.i20),
+
+
+
+
                                         // if (serviceCtrl.serviceFaq.isNotEmpty)
                                         //   Column(
                                         //     crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,6 +151,9 @@ class ServicesDetailsScreen extends StatelessWidget {
                                         //           ))
                                         //     ],
                                         //   ).marginOnly(top: Sizes.s10),
+
+
+
                                         if (serviceCtrl.service!.relatedServices != null &&
                                             serviceCtrl.service!.relatedServices!.isNotEmpty)
                                           HeadingRowCommon(
@@ -154,37 +165,47 @@ class ServicesDetailsScreen extends StatelessWidget {
                                             serviceCtrl.service!.relatedServices!.isNotEmpty)
                                           SingleChildScrollView(
                                               scrollDirection: Axis.horizontal,
-                                              child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  children: serviceCtrl.service!.relatedServices!
-                                                      .asMap()
-                                                      .entries
-                                                      .map((e) => ServiceListLayout(
-                                                            data: e.value,
-                                                            favTap: (p0) {
-                                                              log("FAV : $p0");
-                                                              if (p0) {
-                                                                favCtrl.addToFav(context, e.value.id, 'service');
-                                                              } else {
-                                                                favCtrl.deleteToFav(context, e.value.id, 'service');
-                                                              }
-                                                            },
-                                                            onTap: () =>
-                                                                serviceCtrl.onFeatured(context, e.value, e.key),
-                                                            isFav: favCtrl.serviceFavList
-                                                                .where((element) =>
-                                                                    element.serviceId != null &&
-                                                                    element.serviceId == e.value.id.toString())
-                                                                .isNotEmpty,
-                                                          )
-                                                              .inkWell(
-                                                                  onTap: () => route.pushNamed(
-                                                                      context, routeName.servicesDetailsScreen,
-                                                                      arg: {'services': e.value}))
-                                                              .paddingOnly(left: Insets.i20))
-                                                      .toList())),
+                                              child: SizedBox(
+                                                child: Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    children: serviceCtrl.service!.relatedServices!
+                                                        .asMap()
+                                                        .entries
+                                                        .map((e) => ServiceListLayout(
+                                                      data: e.value,
+                                                      favTap: (p0) {
+                                                        log("FAV : $p0");
+                                                        if (p0) {
+                                                          favCtrl.addToFav(context, e.value.id, 'service');
+                                                        } else {
+                                                          favCtrl.deleteToFav(context, e.value.id, 'service');
+                                                        }
+                                                      },
+                                                      onTap: () =>
+                                                          serviceCtrl.onFeatured(context, e.value, e.key),
+                                                      isFav: favCtrl.serviceFavList
+                                                          .where((element) =>
+                                                      element.serviceId != null &&
+                                                          element.serviceId == e.value.id.toString())
+                                                          .isNotEmpty,
+                                                    )
+                                                        .inkWell(
+                                                        onTap: () => route.pushNamed(
+                                                            context, routeName.servicesDetailsScreen,
+                                                            arg: {'services': e.value}))
+                                                        .paddingOnly(left: Insets.i20))
+                                                        .toList()),
+                                              )),
                                       ]).marginOnly(bottom: Insets.i100)),
+
+
+
+
+
+
+
+
                                   /*                  ButtonCommon(
                                   margin: Insets.i20,
                                   title: appFonts.addToCart,
@@ -200,34 +221,22 @@ class ServicesDetailsScreen extends StatelessWidget {
                                   }),
                                 ).paddingOnly(bottom: Insets.i20).decorated(
                                     color: appColor(context).whiteBg)*/
-                                  AnimatedBuilder(
-                                      animation: serviceCtrl.scrollController,
-                                      builder: (BuildContext context, Widget? child) {
-                                        return AnimatedContainer(
-                                          duration: const Duration(milliseconds: 400),
-                                          height: serviceCtrl.scrollController.position.userScrollDirection ==
-                                                  ScrollDirection.reverse
-                                              ? 0
-                                              : 70,
-                                          child: child,
-                                        );
-                                      },
-                                      child: ButtonCommon(
-                                          margin: Insets.i20,
-                                          title: appFonts.addToCart,
-                                          onTap: () {
-                                            final providerDetail =
-                                                Provider.of<ProviderDetailsProvider>(context, listen: false);
-                                            providerDetail.selectProviderIndex = 0;
-                                            providerDetail.notifyListeners();
-                                            onBook(context, serviceCtrl.service!,
-                                                addTap: () => serviceCtrl.onAdd(),
-                                                minusTap: () => serviceCtrl.onRemoveService(context)).then((e) {
-                                              serviceCtrl.service!.selectedRequiredServiceMan =
-                                                  serviceCtrl.service!.requiredServicemen;
-                                              serviceCtrl.notifyListeners();
-                                            });
-                                          }).marginOnly(bottom: Insets.i20).backgroundColor(appColor(context).whiteBg))
+                                  ButtonCommon(
+                                      margin: Insets.i20,
+                                      title: appFonts.addToCart,
+                                      onTap: () {
+                                        final providerDetail =
+                                            Provider.of<ProviderDetailsProvider>(context, listen: false);
+                                        providerDetail.selectProviderIndex = 0;
+                                        providerDetail.notifyListeners();
+                                        onBook(context, serviceCtrl.service!,
+                                            addTap: () => serviceCtrl.onAdd(),
+                                            minusTap: () => serviceCtrl.onRemoveService(context)).then((e) {
+                                          serviceCtrl.service!.selectedRequiredServiceMan =
+                                              serviceCtrl.service!.requiredServicemen;
+                                          serviceCtrl.notifyListeners();
+                                        });
+                                      }).marginOnly(bottom: Insets.i20).backgroundColor(appColor(context).whiteBg)
                                 ]),
                               )),
                       ),

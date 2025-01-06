@@ -1,6 +1,7 @@
 import 'package:leadvala/common/languages/app_language.dart';
 
 import '../../../../config.dart';
+import 'audio_widget.dart';
 
 class ServiceDescription extends StatelessWidget {
   final Services? services;
@@ -32,28 +33,44 @@ class ServiceDescription extends StatelessWidget {
       ]).paddingSymmetric(horizontal: Insets.i25),
       const DottedLines(),
       const VSpace(Sizes.s17),
-      DescriptionLayout(
-              icon: eSvgAssets.accountTag,
-              title: appFonts.requiredServicemen,
-              subtitle:
-                  "${services!.requiredServicemen ?? '1'} ${capitalizeFirstLetter(language(context, appFonts.serviceman))}")
-          .paddingSymmetric(horizontal: Insets.i25),
+      // DescriptionLayout(
+      //         icon: eSvgAssets.accountTag,
+      //         title: appFonts.requiredServicemen,
+      //         subtitle:
+      //             "${services!.requiredServicemen ?? '1'} ${capitalizeFirstLetter(language(context, appFonts.serviceman))}")
+      //     .paddingSymmetric(horizontal: Insets.i25),
       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(language(context, appFonts.description),
             style: appCss.dmDenseMedium12.textColor(appColor(context).lightText)),
         const VSpace(Sizes.s6),
         if (services!.description != null) ReadMoreLayout(text: services!.description!),
         const VSpace(Sizes.s20),
-        ProviderDetailsLayout(
-            image: services!.user!.media != null && services!.user!.media!.isNotEmpty
-                ? services!.user!.media![0].originalUrl
-                : null,
-            pName: services!.user!.name!,
-            rating: services!.user!.reviewRatings != null ? services!.user!.reviewRatings.toString() : "0.0",
-            experience:
-                "${services!.user!.experienceDuration} ${capitalizeFirstLetter(services!.user!.experienceInterval)} ${language(context, appFonts.of)} ${language(context, appFonts.experience)}",
-            onTap: () => route.pushNamed(context, routeName.providerDetailsScreen, arg: {'provider': services!.user}),
-            service: services!.user!.served ?? "0"),
+
+        // ProviderDetailsLayout(
+        //     image: services!.user!.media != null && services!.user!.media!.isNotEmpty
+        //         ? services!.user!.media![0].originalUrl
+        //         : null,
+        //     pName: services!.user!.name!,
+        //     rating: services!.user!.reviewRatings != null ? services!.user!.reviewRatings.toString() : "0.0",
+        //     experience:
+        //         "${services!.user!.experienceDuration} ${capitalizeFirstLetter(services!.user!.experienceInterval)} ${language(context, appFonts.of)} ${language(context, appFonts.experience)}",
+        //     onTap: () => route.pushNamed(context, routeName.providerDetailsScreen, arg: {'provider': services!.user}),
+        //     service: services!.user!.served ?? "0"),
+
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              language(context, 'audio'),
+              style: appCss.dmDenseMedium12.textColor(appColor(context).lightText),
+            ),
+            const VSpace(Sizes.s6),
+            const AudioPlayerWidget(audioUrl:'https://www2.cs.uic.edu/~i101/SoundFiles/gettysburg10.wav'), // Custom audio player widget
+          ],
+        ),
+
+
+
         if (services!.reviews!.isNotEmpty)
           HeadingRowCommon(
                   title: appFonts.review,
