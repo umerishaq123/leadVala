@@ -8,8 +8,8 @@ class AppRoute {
   Map<String, Widget Function(BuildContext)> route = {
     routeName.splash: (p0) => const SplashScreen(),
     routeName.onBoarding: (p0) => const OnBoardingScreen(),
-    // routeName.login: (p0) => const LoginScreen(),
-    routeName.login: (p0) => const LoginWithPhoneScreen(fromRoot: true,),
+    routeName.login: (p0) => const LoginScreen(),
+    // routeName.login: (p0) => const LoginWithPhoneScreen(fromRoot: true,),
     routeName.loginWithPhone: (p0) => const LoginWithPhoneScreen(fromRoot: false,),
     routeName.verifyOtp: (p0) => const VerifyOtpScreen(),
     routeName.forgetPassword: (p0) => const ForgotPasswordScreen(),
