@@ -1,12 +1,15 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:leadvala/common_tap.dart';
+import 'package:leadvala/models/booking_response_model.dart' as booking_model;
 import 'package:leadvala/widgets/alert_message_common.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../config.dart';
 import '../../models/app_setting_model.dart';
+import 'package:http/http.dart' as http;
 
 class DashboardProvider with ChangeNotifier {
   List<BannerModel> bannerList = [];
@@ -559,80 +562,89 @@ class DashboardProvider with ChangeNotifier {
     final booking = Provider.of<BookingProvider>(context, listen: false);
     dynamic data;
 
-    if (booking.selectedCategory.isNotEmpty && booking.rangeStart != null && booking.statusIndex != null) {
-      data = {
-        "status": bookingStatusList[booking.statusIndex!].slug,
-        "start_date": booking.rangeStart,
-        "end_date": booking.rangeEnd,
-        "category_ids": booking.selectedCategory,
-        "search": search
-      };
-    } else if (booking.selectedCategory.isNotEmpty && booking.rangeStart != null) {
-      data = {
-        "start_date": booking.rangeStart,
-        "end_date": booking.rangeEnd,
-        "category_ids": booking.selectedCategory,
-        "search": search
-      };
-    } else if (booking.selectedCategory.isNotEmpty) {
-      data = {"category_ids": booking.selectedCategory};
-    } else if (booking.selectedCategory.isNotEmpty && booking.statusIndex != null) {
-      data = {
-        "status": bookingStatusList[booking.statusIndex!].slug,
-        "category_ids": booking.selectedCategory,
-        "search": search
-      };
-    } else if (booking.statusIndex != null) {
-      data = {"status": bookingStatusList[booking.statusIndex!].slug, "search": search};
-    } else if (booking.rangeStart != null && booking.statusIndex != null) {
-      data = {
-        "status": bookingStatusList[booking.statusIndex!].slug,
-        "start_date": booking.rangeStart,
-        "end_date": booking.rangeEnd,
-        "search": search
-      };
-    } else if (booking.rangeStart != null) {
-      data = {"start_date": booking.rangeStart, "end_date": booking.rangeEnd, "search": search};
-    } else if (search != null) {
-      data = {"search": search};
-    }
+    // if (booking.selectedCategory.isNotEmpty && booking.rangeStart != null && booking.statusIndex != null) {
+    //   print("Hello");
+    //   data = {
+    //     "status": bookingStatusList[booking.statusIndex!].slug,
+    //     "start_date": booking.rangeStart,
+    //     "end_date": booking.rangeEnd,
+    //     "category_ids": booking.selectedCategory,
+    //     "search": search
+    //   };
+    // } else if (booking.selectedCategory.isNotEmpty && booking.rangeStart != null) {
+    //   print("Hello1");
+    //   data = {
+    //     "start_date": booking.rangeStart,
+    //     "end_date": booking.rangeEnd,
+    //     "category_ids": booking.selectedCategory,
+    //     "search": search
+    //   };
+    // } else if (booking.selectedCategory.isNotEmpty) {
+    //   print("Hello2");
+    //   data = {"category_ids": booking.selectedCategory};
+    // } else if (booking.selectedCategory.isNotEmpty && booking.statusIndex != null) {
+    //   print("Hello3");
+    //   data = {
+    //     "status": bookingStatusList[booking.statusIndex!].slug,
+    //     "category_ids": booking.selectedCategory,
+    //     "search": search
+    //   };
+    // } else if (booking.statusIndex != null) {
+    //   print("Hello4");
+    //   data = {"status": bookingStatusList[booking.statusIndex!].slug, "search": search};
+    // } else if (booking.rangeStart != null && booking.statusIndex != null) {
+    //   print("Hello5");
+    //   data = {
+    //     "status": bookingStatusList[booking.statusIndex!].slug,
+    //     "start_date": booking.rangeStart,
+    //     "end_date": booking.rangeEnd,
+    //     "search": search
+    //   };
+    // } else if (booking.rangeStart != null) {
+    //   print("Hello6");
+    //   data = {"start_date": booking.rangeStart, "end_date": booking.rangeEnd, "search": search};
+    // } else if (search != null) {
+    //   print("Hello7");
+    //   data = {"search": search};
+    // }
 
     debugPrint("BD:: $data");
     try {
-      await apiServices.getApi(api.booking, data ?? [], isToken: true).then((value) {
-        count++;
-        debugPrint("datadata :${value.data}");
-        if (value.isSuccess!) {
-          booking.bookingList = [];
-          for (var data in value.data) {
-            if (!booking.bookingList.contains(BookingModel.fromJson(data))) {
-              booking.bookingList.add(BookingModel.fromJson(data));
-            }
+      String? token = pref?.getString(session.accessToken);
+      final response = await http.get(Uri.parse("https://fix-it.swarnkarsamajudaipur.com/api/booking"), headers: {
+        'Authorization': 'Bearer $token',
+      });
+      count++;
+      if (response.statusCode == 200) {
+        booking.bookingList = [];
+        final responseData = jsonDecode(response.body);
+        print("before for loop $responseData");
+        print("hello data 1 :${data}");
+        booking.bookingList = [];
+        booking.bookingList = booking_model.BookingResponseModel.fromJson(responseData).data ?? [];
+        if (booking.bookingList.isEmpty) {
+          if (search != null) {
+            isSearchData = true;
+            booking.searchText.text = "";
             booking.notifyListeners();
-          }
-          if (booking.bookingList.isEmpty) {
-            if (search != null) {
-              isSearchData = true;
-              booking.searchText.text = "";
-              booking.notifyListeners();
-            } else {
-              isSearchData = false;
-            }
           } else {
             isSearchData = false;
           }
-          booking.notifyListeners();
         } else {
-          booking.bookingList = [];
-          booking.notifyListeners();
+          isSearchData = false;
         }
-        if (booking.bookingList.isEmpty) {
-          clearChat(context);
-        }
-      });
+        booking.notifyListeners();
+      } else {
+        booking.bookingList = [];
+        booking.notifyListeners();
+      }
+      if (booking.bookingList.isEmpty) {
+        clearChat(context);
+      }
+      booking.notifyListeners();
       log("booking.bookingList :${booking.bookingList.length}");
     } catch (e) {
-      debugPrint("EEEE getBookingHistory ::$e");
+      debugPrint("E getBookingHistory ::$e");
       notifyListeners();
     }
   }

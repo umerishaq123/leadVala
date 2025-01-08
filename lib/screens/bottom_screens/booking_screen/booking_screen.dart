@@ -22,10 +22,7 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
           child: LoadingComponent(
             child: (value.widget1Opacity == 0.0)
                 ? const BookingShimmer()
-                :
-
-
-            Scaffold(
+                : Scaffold(
                     appBar: AppBar(
                         leadingWidth: 80,
                         title: Text(language(context, appFonts.bookings),
@@ -60,37 +57,39 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
                           })
                         ]),
                     body: RefreshIndicator(
-                        onRefresh: () async {
-                          value.onRefresh(context);
-                        },
-                        child: dash.isSearchData
-                            ? EmptyLayout(
-                                title: appFonts.noMatching,
-                                subtitle: appFonts.attemptYourSearch,
-                                buttonText: appFonts.refresh,
-                                isBooking: true,
-                                bTap: () async {
-                                  if (value.bookingList.isEmpty) {
-                                    Fluttertoast.showToast(msg: "${language(context, appFonts.refresh)}...");
+                      onRefresh: () async {
+                        value.onRefresh(context);
+                      },
+                      child: dash.isSearchData
+                          ? EmptyLayout(
+                              title: appFonts.noMatching,
+                              subtitle: appFonts.attemptYourSearch,
+                              buttonText: appFonts.refresh,
+                              isBooking: true,
+                              bTap: () async {
+                                if (value.bookingList.isEmpty) {
+                                  Fluttertoast.showToast(msg: "${language(context, appFonts.refresh)}...");
 
-                                    dash.getBookingHistory(context);
-                                  }
-                                },
-                                widget: Stack(children: [
-                                  Image.asset(eImageAssets.noSearch, height: Sizes.s346).paddingOnly(top: Insets.i40),
-                                  if (value.animationController != null)
-                                    Positioned(
-                                        left: 40,
-                                        top: 0,
-                                        child: RotationTransition(
-                                            turns: Tween(begin: 0.01, end: -.01)
-                                                .chain(CurveTween(curve: Curves.easeIn))
-                                                .animate(value.animationController!),
-                                            child: Image.asset(eImageAssets.mGlass,
-                                                height: Sizes.s190, width: Sizes.s178)))
-                                ]))
-                            : value.bookingList.isNotEmpty
-                                ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                  dash.getBookingHistory(context);
+                                }
+                              },
+                              widget: Stack(children: [
+                                Image.asset(eImageAssets.noSearch, height: Sizes.s346).paddingOnly(top: Insets.i40),
+                                if (value.animationController != null)
+                                  Positioned(
+                                      left: 40,
+                                      top: 0,
+                                      child: RotationTransition(
+                                          turns: Tween(begin: 0.01, end: -.01)
+                                              .chain(CurveTween(curve: Curves.easeIn))
+                                              .animate(value.animationController!),
+                                          child:
+                                              Image.asset(eImageAssets.mGlass, height: Sizes.s190, width: Sizes.s178)))
+                              ]))
+                          : value.bookingList.isNotEmpty
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
                                     SearchTextFieldCommon(
                                         focusNode: value.searchFocus,
                                         hinText: language(context, appFonts.searchWithBookingId),
@@ -135,30 +134,42 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
                                     const VSpace(Sizes.s15),
                                     Expanded(
                                       child: ListView.builder(
-                                          controller: value.scrollController,
-                                          itemCount: value.bookingList.length,
-                                          itemBuilder: (context, index) {
-                                            return BookingLayout(
-                                                data: value.bookingList[index],
-                                                index: index,
-                                                editLocationTap: () =>
-                                                    value.editAddress(context, value.bookingList[index]),
-                                                editDateTimeTap: () =>
-                                                    value.editDateTimeTap(context, value.bookingList[index]),
-                                                onTap: () => value.onTapBookings(value.bookingList[index], context));
-                                          }),
+                                        controller: value.scrollController,
+                                        itemCount: value.bookingList.length,
+                                        itemBuilder: (context, index) {
+                                          return BookingLayout(
+                                            data: value.bookingList[index],
+                                            index: index,
+                                            // editLocationTap: () =>
+
+                                            //     value.editAddress(context, value.bookingList[index]),
+                                            // editDateTimeTap: () =>
+                                            //     value.editDateTimeTap(context, value.bookingList[index]),
+
+                                            // onTap: () => value.onTapBookings(value.bookingList[index], context));
+                                          );
+                                        },
+                                      ),
                                     ),
                                     VSpace(dash.isTap ? 0 : Insets.i80)
-                                  ])
-                                : EmptyLayout(
-                                    title: appFonts.ohhNoList,
-                                    subtitle: appFonts.yourBookingList,
-                                    buttonText: appFonts.refresh,
-                                    bTap: () {
-                                      Fluttertoast.showToast(msg: "${language(context, appFonts.refresh)}...");
-                                      dash.getBookingHistory(context);
-                                    },
-                                    widget: Stack(children: [Image.asset(eImageAssets.noList, height: Sizes.s306)])))),
+                                  ],
+                                )
+                              : EmptyLayout(
+                                  title: appFonts.ohhNoList,
+                                  subtitle: appFonts.yourBookingList,
+                                  buttonText: appFonts.refresh,
+                                  bTap: () {
+                                    Fluttertoast.showToast(msg: "${language(context, appFonts.refresh)}...");
+                                    dash.getBookingHistory(context);
+                                  },
+                                  widget: Stack(
+                                    children: [
+                                      Image.asset(eImageAssets.noList, height: Sizes.s306),
+                                    ],
+                                  ),
+                                ),
+                    ),
+                  ),
             // Scaffold(
             //         appBar: AppBar(
             //             leadingWidth: 80,
@@ -293,10 +304,6 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
             //                           dash.getBookingHistory(context);
             //                         },
             //                         widget: Stack(children: [Image.asset(eImageAssets.noList, height: Sizes.s306)])))),
-
-
-
-
           ),
         );
       });

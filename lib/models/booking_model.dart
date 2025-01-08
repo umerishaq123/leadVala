@@ -1,9 +1,4 @@
-
-
-
 import '../config.dart';
-
-
 
 class BookingModel {
   int? id;
@@ -54,127 +49,123 @@ class BookingModel {
   bool? isExpand;
   List<ExtraCharges>? extraCharges;
 
-  BookingModel(
-      {this.id,
-        this.parentId,
-        this.amount,
-        this.bookingNumber,
-        this.consumerId,
-        this.couponId,
-        this.taxTotal,
-        this.walletBalance,
-        this.convertWalletBalance,
-        this.providerId,
-        this.serviceId,
-        this.servicePackageId,
-        this.addressId,
-        this.servicePrice,
-        this.tax,
-        this.perServicemanCharge,
-        this.totalExtraServicemen,
-        this.totalServicemen,
-        this.requiredServicemen,
-        this.totalExtraServicemenCharge,
-        this.couponTotalDiscount,
-        this.subtotal,
-        this.total,
-        this.dateTime,
-        this.bookingStatusId,
-        this.paymentMethod,
-        this.paymentStatus,
-        this.description,
-        this.invoiceUrl,
-        this.createdById,
-        this.createdAt,
-        this.updatedAt,
-        this.deletedAt,
-        this.platformFees,
-        this.platformFeesType,
-        this.role,
-        this.provider,
-        this.service,
-        this.servicemen,
-        this.coupon,
-        this.bookingStatus,
-        this.bookingStatusLogs,
-        this.consumer,
-        this.address,
-        this.bookingReasons,this.isExpand,this.extraCharges});
+  BookingModel({
+    this.id,
+    this.parentId,
+    this.amount,
+    this.bookingNumber,
+    this.consumerId,
+    this.couponId,
+    this.taxTotal,
+    this.walletBalance,
+    this.convertWalletBalance,
+    this.providerId,
+    this.serviceId,
+    this.servicePackageId,
+    this.addressId,
+    this.servicePrice,
+    this.tax,
+    this.perServicemanCharge,
+    this.totalExtraServicemen,
+    this.totalServicemen,
+    this.requiredServicemen,
+    this.totalExtraServicemenCharge,
+    this.couponTotalDiscount,
+    this.subtotal,
+    this.total,
+    this.dateTime,
+    this.bookingStatusId,
+    this.paymentMethod,
+    this.paymentStatus,
+    this.description,
+    this.invoiceUrl,
+    this.createdById,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.platformFees,
+    this.platformFeesType,
+    this.role,
+    this.provider,
+    this.service,
+    this.servicemen,
+    this.coupon,
+    this.bookingStatus,
+    this.bookingStatusLogs,
+    this.consumer,
+    this.address,
+    this.bookingReasons,
+    this.isExpand,
+    this.extraCharges,
+  });
 
   BookingModel.fromJson(Map<String, dynamic> json) {
-
-
     id = json['id'];
     parentId = json['parent_id'];
     amount = json['amount'];
-    bookingNumber = json['booking_number'];
+    bookingNumber = json['booking_number']?.toString();
     consumerId = json['consumer_id'];
     couponId = json['coupon_id'];
-    taxTotal = json['tax_total'] != null ? double.parse(json['tax_total'].toString()) :null;
-    walletBalance = json['wallet_balance'] != null ? double.parse(json['wallet_balance'].toString()) :null;
-    convertWalletBalance = json['convert_wallet_balance'] != null? double.parse(json['convert_wallet_balance'].toString()):null;
+    taxTotal = json['tax_total'] != null ? double.tryParse(json['tax_total'].toString()) : null;
+    walletBalance = json['wallet_balance'] != null ? double.tryParse(json['wallet_balance'].toString()) : null;
+    convertWalletBalance = json['convert_wallet_balance'] != null ? double.tryParse(json['convert_wallet_balance'].toString()) : null;
     providerId = json['provider_id'];
     serviceId = json['service_id'];
     servicePackageId = json['service_package_id'];
     addressId = json['address_id'];
-    servicePrice =  json['service_price'] != null ?double.parse(json['service_price'].toString()):null;
-    tax = json['tax'] !=null?double.parse(json['tax'].toString()):null;
-    perServicemanCharge = json['per_serviceman_charge'] != null? double.parse(json['per_serviceman_charge'].toString()): null;
-    totalExtraServicemen =json['total_extra_servicemen'];
-    totalServicemen =json['total_servicemen'];
-    totalExtraServicemenCharge = json['total_extra_servicemen_charge'] != null? double.parse(json['total_extra_servicemen_charge'].toString()):null;
-    couponTotalDiscount = json['coupon_total_discount'] != null? double.parse(json['coupon_total_discount'].toString()):null;
-    subtotal = json['subtotal'] != null? double.parse(json['subtotal'].toString()):null;
-    platformFees = json['platform_fees'] != null ? double.parse(json['platform_fees'].toString()) :0.0;
-    total = json['total'] != null? double.parse(json['total'].toString()):null;
+    servicePrice = json['service_price'] != null ? double.tryParse(json['service_price'].toString()) : null;
+    tax = json['tax'] != null ? double.tryParse(json['tax'].toString()) : null;
+    perServicemanCharge = json['per_serviceman_charge'] != null ? double.tryParse(json['per_serviceman_charge'].toString()) : null;
+    totalExtraServicemen = json['total_extra_servicemen'];
+    totalServicemen = json['total_servicemen'];
+    requiredServicemen = json['required_servicemen'];
+    totalExtraServicemenCharge = json['total_extra_servicemen_charge'] != null ? double.tryParse(json['total_extra_servicemen_charge'].toString()) : null;
+    couponTotalDiscount = json['coupon_total_discount'] != null ? double.tryParse(json['coupon_total_discount'].toString()) : null;
+    subtotal = json['subtotal'] != null ? double.tryParse(json['subtotal'].toString()) : null;
+    total = json['total'] != null ? double.tryParse(json['total'].toString()) : null;
     dateTime = json['date_time'];
     bookingStatusId = json['booking_status_id'];
-    paymentMethod = json['payment_method'];
-    paymentStatus = json['payment_status'];
-    requiredServicemen = json['required_servicemen'];
+    paymentMethod = json['payment_method']?.toString();
+    paymentStatus = json['payment_status']?.toString();
     description = json['description'];
-    invoiceUrl = json['invoice_url'];
+    invoiceUrl = json['invoice_url']?.toString();
     createdById = json['created_by_id'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    provider = json['provider'] != null
-        ? BookingProviderModel.fromJson(json['provider'])
-        : null;
-    service =
-    json['service'] != null ? Services.fromJson(json['service']) : null;
+    platformFees = json['platform_fees'] != null ? double.tryParse(json['platform_fees'].toString()) : null;
+    platformFeesType = json['platform_fees_type']?.toString();
+    role = json['role']?.toString();
+    provider = json['provider'] != null ? BookingProviderModel.fromJson(json['provider']) : null;
+    service = json['service'] != null ? Services.fromJson(json['service']) : null;
+
     if (json['servicemen'] != null) {
       servicemen = <ServicemanModel>[];
       json['servicemen'].forEach((v) {
         servicemen!.add(ServicemanModel.fromJson(v));
       });
     }
-    coupon = json['coupon']  != null ? CouponModel.fromJson(json['coupon']) : null;
-    bookingStatus = json['booking_status'] != null
-        ? BookingStatus.fromJson(json['booking_status'])
-        : null;
-    isExpand = false;
-    consumer = json['consumer'] != null
-        ? UserModel.fromJson(json['consumer'])
-        : null;
+
+    coupon = json['coupon'] != null ? CouponModel.fromJson(json['coupon']) : null;
+    bookingStatus = json['booking_status'] != null ? BookingStatus.fromJson(json['booking_status']) : null;
+    consumer = json['consumer'] != null ? UserModel.fromJson(json['consumer']) : null;
+
     if (json['booking_status_logs'] != null) {
       bookingStatusLogs = <BookingStatusLogs>[];
       json['booking_status_logs'].forEach((v) {
-        bookingStatusLogs!.add( BookingStatusLogs.fromJson(v));
+        bookingStatusLogs!.add(BookingStatusLogs.fromJson(v));
       });
     }
+
     if (json['extra_charges'] != null) {
       extraCharges = <ExtraCharges>[];
       json['extra_charges'].forEach((v) {
         extraCharges!.add(ExtraCharges.fromJson(v));
       });
     }
-    address = json['address'] != null
-        ?  PrimaryAddress.fromJson(json['address'])
-        : null;
 
-    platformFeesType = json['platform_fees_type'];
-    role = json['role'];
+    address = json['address'] != null ? PrimaryAddress.fromJson(json['address']) : null;
+
     if (json['booking_reasons'] != null) {
       bookingReasons = <BookingReasons>[];
       json['booking_reasons'].forEach((v) {
@@ -221,6 +212,7 @@ class BookingModel {
     data['platform_fees'] = platformFees;
     data['platform_fees_type'] = platformFeesType;
     data['role'] = role;
+
     if (provider != null) {
       data['provider'] = provider!.toJson();
     }
@@ -231,12 +223,12 @@ class BookingModel {
       data['servicemen'] = servicemen!.map((v) => v.toJson()).toList();
     }
     data['coupon'] = coupon;
+
     if (bookingStatus != null) {
       data['booking_status'] = bookingStatus!.toJson();
     }
     if (bookingStatusLogs != null) {
-      data['booking_status_logs'] =
-          bookingStatusLogs!.map((v) => v.toJson()).toList();
+      data['booking_status_logs'] = bookingStatusLogs!.map((v) => v.toJson()).toList();
     }
     if (consumer != null) {
       data['consumer'] = consumer!.toJson();
@@ -245,13 +237,12 @@ class BookingModel {
       data['address'] = address!.toJson();
     }
     if (extraCharges != null) {
-      data['extra_charges'] =
-          extraCharges!.map((v) => v.toJson()).toList();
+      data['extra_charges'] = extraCharges!.map((v) => v.toJson()).toList();
     }
     if (bookingReasons != null) {
-      data['booking_reasons'] =
-          bookingReasons!.map((v) => v.toJson()).toList();
+      data['booking_reasons'] = bookingReasons!.map((v) => v.toJson()).toList();
     }
+
     return data;
   }
 }
@@ -279,7 +270,6 @@ class Status {
   }
 }
 
-
 class BookingReasons {
   int? id;
   int? bookingId;
@@ -292,13 +282,13 @@ class BookingReasons {
 
   BookingReasons(
       {this.id,
-        this.bookingId,
-        this.statusId,
-        this.reason,
-        this.createdAt,
-        this.updatedAt,
-        this.deletedAt,
-        this.status});
+      this.bookingId,
+      this.statusId,
+      this.reason,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.status});
 
   BookingReasons.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -308,8 +298,7 @@ class BookingReasons {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    status =
-    json['status'] != null ? BookingStatusModel.fromJson(json['status']) : null;
+    status = json['status'] != null ? BookingStatusModel.fromJson(json['status']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -328,7 +317,6 @@ class BookingReasons {
   }
 }
 
-
 class UserDetail {
   int? id;
   String? name;
@@ -342,30 +330,27 @@ class UserDetail {
 
   UserDetail(
       {this.id,
-        this.name,
-        this.reviewRatings,
-        this.primaryAddress,
-        this.media,
-        this.wallet,
-        this.knownLanguages,
-        this.expertise,
-        this.reviews});
+      this.name,
+      this.reviewRatings,
+      this.primaryAddress,
+      this.media,
+      this.wallet,
+      this.knownLanguages,
+      this.expertise,
+      this.reviews});
 
   UserDetail.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     reviewRatings = json['review_ratings'];
-    primaryAddress = json['primary_address'] != null
-        ? PrimaryAddress.fromJson(json['primary_address'])
-        : null;
+    primaryAddress = json['primary_address'] != null ? PrimaryAddress.fromJson(json['primary_address']) : null;
     if (json['media'] != null) {
       media = <Media>[];
       json['media'].forEach((v) {
         media!.add(Media.fromJson(v));
       });
     }
-    wallet =
-    json['wallet'] != null ? WalletModel.fromJson(json['wallet']) : null;
+    wallet = json['wallet'] != null ? WalletModel.fromJson(json['wallet']) : null;
     if (json['known_languages'] != null) {
       knownLanguages = <KnownLanguageModel>[];
       json['known_languages'].forEach((v) {
@@ -401,8 +386,7 @@ class UserDetail {
       data['wallet'] = wallet!.toJson();
     }
     if (knownLanguages != null) {
-      data['known_languages'] =
-          knownLanguages!.map((v) => v.toJson()).toList();
+      data['known_languages'] = knownLanguages!.map((v) => v.toJson()).toList();
     }
     if (expertise != null) {
       data['expertise'] = expertise!.map((v) => v.toJson()).toList();
@@ -426,13 +410,13 @@ class BookingStatusLogs {
 
   BookingStatusLogs(
       {this.id,
-        this.bookingId,
-        this.bookingStatusId,
-        this.title,
-        this.description,
-        this.createdAt,
-        this.updatedAt,
-        this.status});
+      this.bookingId,
+      this.bookingStatusId,
+      this.title,
+      this.description,
+      this.createdAt,
+      this.updatedAt,
+      this.status});
 
   BookingStatusLogs.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -442,8 +426,7 @@ class BookingStatusLogs {
     description = json['description'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    status =
-    json['status'] != null ?  BookingStatusModel.fromJson(json['status']) : null;
+    status = json['status'] != null ? BookingStatusModel.fromJson(json['status']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -467,7 +450,7 @@ class BookingStatus {
   String? name;
   String? slug;
 
-  BookingStatus({this.id, this.name,this.slug});
+  BookingStatus({this.id, this.name, this.slug});
 
   BookingStatus.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -501,18 +484,18 @@ class BookingProviderModel {
 
   BookingProviderModel(
       {this.id,
-        this.name,
-        this.experienceInterval,
-        this.experienceDuration,
-        this.email,
-        this.phone,
-        this.reviewRatings,
-        this.primaryAddress,
-        this.media,
-        this.wallet,
-        this.knownLanguages,
-        this.expertise,
-        this.reviews});
+      this.name,
+      this.experienceInterval,
+      this.experienceDuration,
+      this.email,
+      this.phone,
+      this.reviewRatings,
+      this.primaryAddress,
+      this.media,
+      this.wallet,
+      this.knownLanguages,
+      this.expertise,
+      this.reviews});
 
   BookingProviderModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -521,10 +504,8 @@ class BookingProviderModel {
     experienceDuration = json['experience_duration'];
     email = json['email'];
     phone = json['phone']?.toString();
-    reviewRatings = json['review_ratings'] != null ? double.parse(json['review_ratings'].toString()):null;
-    primaryAddress = json['primary_address'] != null
-        ? PrimaryAddress.fromJson(json['primary_address'])
-        : null;
+    reviewRatings = json['review_ratings'] != null ? double.parse(json['review_ratings'].toString()) : null;
+    primaryAddress = json['primary_address'] != null ? PrimaryAddress.fromJson(json['primary_address']) : null;
     if (json['media'] != null) {
       media = <Media>[];
       json['media'].forEach((v) {
@@ -569,8 +550,7 @@ class BookingProviderModel {
     }
     data['wallet'] = wallet;
     if (knownLanguages != null) {
-      data['known_languages'] =
-          knownLanguages!.map((v) => v.toJson()).toList();
+      data['known_languages'] = knownLanguages!.map((v) => v.toJson()).toList();
     }
     if (expertise != null) {
       data['expertise'] = expertise!.map((v) => v.toJson()).toList();

@@ -1,19 +1,24 @@
 import 'dart:developer';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../../../../config.dart';
+import 'package:leadvala/models/booking_response_model.dart' as booking_model;
 
 class BookingLayout extends StatefulWidget {
-  final BookingModel? data;
+  final booking_model.Datum? data;
   final GestureTapCallback? onTap, editLocationTap, editDateTimeTap;
   final int? index;
 
-  const BookingLayout(
-      {super.key,
-      this.data,
-      this.onTap,
-      this.index,
-      this.editLocationTap,
-      this.editDateTimeTap});
+  const BookingLayout({
+    super.key,
+    this.data,
+    this.onTap,
+    this.index,
+    this.editLocationTap,
+    this.editDateTimeTap,
+  });
 
   @override
   State<BookingLayout> createState() => _BookingLayoutState();
@@ -22,229 +27,185 @@ class BookingLayout extends StatefulWidget {
 class _BookingLayoutState extends State<BookingLayout> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<BookingProvider>(builder: (context1, value, child) {
-      return Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Column(children: [
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Expanded(
+    final bookingProvider = Provider.of<BookingProvider>(context, listen: true);
+
+    if (widget.data == null) {
+      return SizedBox.shrink(); // Fallback if no data is provided
+    }
+
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
                   child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                    Row(children: [
-                      Text(widget.data!.bookingNumber!,
-                          style: appCss.dmDenseMedium14
-                              .textColor(appColor(context).primary)),
-                      const HSpace(Sizes.s5),
-                      if (widget.data!.servicePackageId != null)
-                        BookingStatusLayout(title: appFonts.package)
-                    ]),
-                    const VSpace(Sizes.s8),
-                    Text(language(context, widget.data!.service!.title!),
-                        style: appCss.dmDenseMedium16
-                            .textColor(appColor(context).darkText)),
-                    Row(children: [
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            widget.data?.bookingNumber?.toString() ?? "N/A",
+                            style: appCss.dmDenseMedium14.textColor(
+                              appColor(context).primary,
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          if (widget.data?.servicePackageId != null)
+                            BookingStatusLayout(title: appFonts.package),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
                       Text(
-                          language(context,
-                              "${getSymbol(context)}${(currency(context).currencyVal * widget.data!.subtotal!).ceilToDouble().toStringAsFixed(2)}"),
-                          style: appCss.dmDenseBold18
-                              .textColor(appColor(context).darkText)),
-                      const HSpace(Sizes.s8),
-                      if (widget.data!.service!.discount != null)
-                        Text(
-                            language(context,
-                                "(${widget.data!.service!.discount!}% ${language(context, appFonts.off)})"),
-                            style: appCss.dmDenseMedium14
-                                .textColor(appColor(context).red))
-                    ])
-                  ])),
-              widget.data!.service!.media != null &&
-                      widget.data!.service!.media!.isNotEmpty
-                  ? CachedNetworkImage(
-                      imageUrl: widget.data!.service!.media![0].originalUrl!,
-                      imageBuilder: (context, imageProvider) => Container(
-                          height: Sizes.s84,
-                          width: Sizes.s84,
+                        widget.data?.service?.title ?? "Unknown Service",
+                        style: appCss.dmDenseMedium16.textColor(
+                          appColor(context).darkText,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "${getSymbol(context)}${(currency(context).currencyVal * (widget.data?.subtotal ?? 0)).ceilToDouble().toStringAsFixed(2)}",
+                            style: appCss.dmDenseBold18.textColor(
+                              appColor(context).darkText,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          if (widget.data?.service?.discount != null)
+                            Text(
+                              "(${widget.data?.service?.discount}% ${language(context, appFonts.off)})",
+                              style: appCss.dmDenseMedium14.textColor(
+                                appColor(context).red,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                widget.data?.service?.media != null &&
+                        (widget.data?.service?.media?.isNotEmpty ?? false)
+                    ? CachedNetworkImage(
+                        imageUrl: widget.data?.service?.media?[0]?.originalUrl ?? "",
+                        imageBuilder: (context, imageProvider) => Container(
+                          height: 84,
+                          width: 84,
                           decoration: ShapeDecoration(
-                              image: DecorationImage(
-                                  image: imageProvider, fit: BoxFit.cover),
-                              shape: const SmoothRectangleBorder(
-                                  borderRadius: SmoothBorderRadius.all(
-                                      SmoothRadius(
-                                          cornerRadius: AppRadius.r10,
-                                          cornerSmoothing: 1))))),
-                      placeholder: (context, url) => Container(
-                          height: Sizes.s84,
-                          width: Sizes.s84,
-                          decoration: ShapeDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage(eImageAssets.noImageFound1),
-                                  fit: BoxFit.cover),
-                              shape: const SmoothRectangleBorder(
-                                  borderRadius: SmoothBorderRadius.all(
-                                      SmoothRadius(cornerRadius: AppRadius.r10, cornerSmoothing: 1))))),
-                      errorWidget: (context, url, error) => Container(height: Sizes.s84, width: Sizes.s84, decoration: ShapeDecoration(image: DecorationImage(image: AssetImage(eImageAssets.noImageFound1), fit: BoxFit.cover), shape: const SmoothRectangleBorder(borderRadius: SmoothBorderRadius.all(SmoothRadius(cornerRadius: AppRadius.r10, cornerSmoothing: 1))))))
-                  : Container(height: Sizes.s84, width: Sizes.s84, decoration: ShapeDecoration(image: DecorationImage(image: AssetImage(eImageAssets.noImageFound1), fit: BoxFit.cover), shape: const SmoothRectangleBorder(borderRadius: SmoothBorderRadius.all(SmoothRadius(cornerRadius: AppRadius.r10, cornerSmoothing: 1)))))
-            ]),
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.cover,
+                            ),
+                            shape: const SmoothRectangleBorder(
+                              borderRadius: SmoothBorderRadius.all(
+                                SmoothRadius(cornerRadius: 10, cornerSmoothing: 1),
+                              ),
+                            ),
+                          ),
+                        ),
+                        placeholder: (context, url) => _placeholderImage(),
+                        errorWidget: (context, url, error) => _placeholderImage(),
+                      )
+                    : _placeholderImage(),
+              ],
+            ),
             Image.asset(eImageAssets.bulletDotted)
                 .paddingSymmetric(vertical: Insets.i12),
-            StatusRow(
-              title: appFonts.bookingStatus,
-              statusText: widget.data!.bookingStatus!.name,
-              statusId: widget.data!.bookingStatusId,
-            ),
-            if (widget.data!.bookingStatus!.slug != appFonts.cancelled)
-              StatusRow(
-                  statusText: widget.data!.bookingStatus!.name,
-                  statusId: widget.data!.bookingStatusId,
-                  title: appFonts.selectServicemen,
-                  title2:
-                      "${((widget.data!.requiredServicemen != null ? widget.data!.requiredServicemen! :0) + (widget.data!.totalExtraServicemen != null ? (widget.data!.totalExtraServicemen != null ? widget.data!.requiredServicemen! :0) : 0))} ${capitalizeFirstLetter(language(context, appFonts.serviceman))}",
-                  style: appCss.dmDenseMedium12
-                      .textColor(appColor(context).darkText)),
-            StatusRow(
-                statusText: widget.data!.bookingStatus!.name,
-                statusId: widget.data!.bookingStatusId,
-                title: appFonts.dateTime,
-                onTap: widget.editDateTimeTap!,
-                title2: DateFormat("dd-MM-yyyy, hh:mm aa")
-                    .format(DateTime.parse(widget.data!.dateTime!)),
-                isDateLocation:
-                    widget.data!.bookingStatus!.slug == appFonts.pending
-                        ? true
-                        : false,
-                style: appCss.dmDenseMedium12
-                    .textColor(appColor(context).darkText)),
-            StatusRow(
-                statusText: widget.data!.bookingStatus!.name,
-                statusId: widget.data!.bookingStatusId,
-                title: appFonts.location,
-                onTap: widget.editLocationTap,
-                title2: widget.data!.consumer != null
-                    ? widget.data!.address == null
-                        ? getAddress(context, widget.data!.addressId)
-                        : "${widget.data!.address!.address}-${widget.data!.address!.area ?? widget.data!.address!.state!.name}"
-                    : "",
-                isDateLocation:
-                    (widget.data!.bookingStatus!.slug == appFonts.pending &&
-                        widget.data!.bookingStatus!.slug != appFonts.cancelled),
-                style: appCss.dmDenseMedium12
-                    .textColor(appColor(context).darkText)),
-            if (widget.data!.bookingStatus!.slug != appFonts.cancelled)
-              StatusRow(
-                  statusText: widget.data!.bookingStatus!.name,
-                  statusId: widget.data!.bookingStatusId,
-                  title: appFonts.payment,
-                  title2: widget.data!.paymentStatus != null
-                      ? widget.data!.paymentMethod == "cash"
-                          ? widget.data!.paymentStatus!.toLowerCase() ==
-                                  "completed"
-                              ? widget.data!.paymentStatus!
-                              : language(context, appFonts.notPaid)
-                                  .toUpperCase()
-                          : widget.data!.paymentStatus!
-                      : widget.data!.bookingStatus!.slug == appFonts.completed
-                          ? widget.data!.paymentStatus == "COMPLETED"
-                              ? language(context, appFonts.paid)
-                              : language(context, appFonts.notPaid)
-                          : widget.data!.paymentMethod == "cash"
-                              ? language(context, appFonts.notPaid)
-                              : language(context, appFonts.paid),
-                  style: appCss.dmDenseMedium12
-                      .textColor(appColor(context).online)),
-            StatusRow(
-                title: appFonts.paymentMode,
-                title2: widget.data!.paymentMethod == "on_hand" ||
-                        widget.data!.paymentMethod == "cash"
-                    ? language(context, appFonts.cash)
-                    : capitalizeFirstLetter(widget.data!.paymentMethod),
-                style:
-                    appCss.dmDenseMedium12.textColor(appColor(context).online)),
-            const VSpace(Sizes.s15),
-            if (widget.data!.isExpand!)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (widget.data!.provider != null)
-                    ServiceProviderLayout(
-                            title: language(context, appFonts.provider),
-                            image: widget.data!.provider!.media != null &&
-                                    widget.data!.provider!.media!.isNotEmpty
-                                ? widget.data!.provider!.media![0].originalUrl!
-                                : null,
-                            name: widget.data!.provider!.name,
-                            rate:
-                                widget.data!.provider!.reviewRatings != null
-                                    ? widget.data!.provider!.reviewRatings
-                                        .toString()
-                                    : "0",
-                            index: 0,
-                            list: const [])
-                        .paddingSymmetric(horizontal: Insets.i12)
-                        .boxShapeExtension(
-                            color: appColor(context).fieldCardBg,
-                            radius: AppRadius.r15),
-                  if (widget.data!.servicemen != null &&
-                      widget.data!.servicemen!.isNotEmpty)
-                    Image.asset(eImageAssets.bulletDotted)
-                        .paddingSymmetric(vertical: Insets.i12),
-                  Stack(alignment: Alignment.bottomCenter, children: [
-                    Column(children: [
-                      if (widget.data!.servicemen!.isNotEmpty)
-                        Column(
-                            children: widget.data!.servicemen!
-                                .asMap()
-                                .entries
-                                .map((s) {
-                          return ServiceProviderLayout(
-                              isProvider: false,
-                              title: language(context, appFonts.serviceman)
-                                  .capitalizeFirst(),
-                              image: s.value.media != null
-                                  ? s.value.media![0].originalUrl!
-                                  : null,
-                              name: s.value.name,
-                              rate: s.value.reviewRatings ?? "0",
-                              index: s.key,
-                              list: widget.data!.servicemen!);
-                        }).toList())
-                    ])
-                        .paddingSymmetric(horizontal: Insets.i12)
-                        .boxShapeExtension(
-                            color: appColor(context).fieldCardBg,
-                            radius: AppRadius.r15)
-                        .paddingOnly(
-                            bottom: widget.data!.servicemen!.length > 1
-                                ? Insets.i15
-                                : 0),
-                  ])
-                ],
-              ),
-          ])
-              .paddingSymmetric(vertical: Insets.i20, horizontal: Insets.i20)
-              .decorated(
-                  color: appColor(context).whiteBg,
-                  borderRadius: BorderRadius.circular(AppRadius.r8),
-                  boxShadow: [
-                    BoxShadow(
-                        color: appColor(context).darkText.withOpacity(0.06),
-                        blurRadius: 12,
-                        spreadRadius: 0,
-                        offset: const Offset(0, 2)),
-                  ],
-                  border: Border.all(color: appColor(context).stroke))
-              .paddingOnly(bottom: Insets.i15, left: 20, right: 20)
-              .inkWell(onTap: widget.onTap),
-          CommonArrow(
-              arrow: widget.data!.isExpand == true
-                  ? eSvgAssets.upDoubleArrow
-                  : eSvgAssets.downDoubleArrow,
-              isThirteen: true,
-              onTap: () => value.onExpand(widget.data, widget.index!),
-              color: appColor(context).fieldCardBg)
-        ],
-      ).paddingOnly(bottom: Sizes.s15);
-    });
+            _statusRows(),
+            const SizedBox(height: 15),
+          ],
+        )
+            .paddingSymmetric(vertical: Insets.i20, horizontal: Insets.i20)
+            .decorated(
+              color: appColor(context).whiteBg,
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: [
+                BoxShadow(
+                  color: appColor(context).darkText.withOpacity(0.06),
+                  blurRadius: 12,
+                  spreadRadius: 0,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+              border: Border.all(color: appColor(context).stroke),
+            )
+            .paddingOnly(bottom: Insets.i15, left: 20, right: 20)
+            .inkWell(onTap: widget.onTap),
+      ],
+    ).paddingOnly(bottom: 15);
+  }
+
+  Widget _statusRows() {
+    return Column(
+      children: [
+        StatusRow(
+          title: appFonts.bookingStatus,
+          statusText: widget.data?.bookingStatus?.name ?? "",
+          statusId: widget.data?.bookingStatusId,
+        ),
+        if (widget.data?.bookingStatus?.slug != appFonts.cancelled)
+          StatusRow(
+            title: appFonts.dateTime,
+            title2: widget.data?.dateTime != null
+                ? DateFormat("dd-MM-yyyy, hh:mm aa")
+                    .format(widget.data?.dateTime ?? DateTime.now())
+                : "N/A",
+            onTap: widget.editDateTimeTap,
+            style: appCss.dmDenseMedium12.textColor(appColor(context).darkText),
+          ),
+        StatusRow(
+          title: appFonts.location,
+          title2: widget.data?.address != null
+              ? "${widget.data?.address?.address}-${widget.data?.address?.area ?? widget.data?.address?.state?.name}"
+              : getAddress(context, widget.data?.addressId),
+          onTap: widget.editLocationTap,
+          style: appCss.dmDenseMedium12.textColor(appColor(context).darkText),
+        ),
+        StatusRow(
+          title: appFonts.payment,
+          title2: _getPaymentStatus(),
+          style: appCss.dmDenseMedium12.textColor(appColor(context).online),
+        ),
+        StatusRow(
+          title: appFonts.paymentMode,
+          title2: widget.data?.paymentMethod == "on_hand" ||
+                  widget.data?.paymentMethod == "cash"
+              ? language(context, appFonts.cash)
+              : capitalizeFirstLetter(widget.data?.paymentMethod ?? "N/A"),
+          style: appCss.dmDenseMedium12.textColor(appColor(context).online),
+        ),
+      ],
+    );
+  }
+
+  String _getPaymentStatus() {
+    final paymentStatus = widget.data?.paymentStatus ?? "N/A";
+    final isCompleted = paymentStatus.toLowerCase() == "completed";
+    if (widget.data?.paymentMethod == "cash") {
+      return isCompleted
+          ? language(context, appFonts.paid)
+          : language(context, appFonts.notPaid);
+    }
+    return paymentStatus;
+  }
+
+  Widget _placeholderImage() {
+    return Container(
+      height: 84,
+      width: 84,
+      decoration: ShapeDecoration(
+        image: DecorationImage(
+          image: AssetImage(eImageAssets.noImageFound1),
+          fit: BoxFit.cover,
+        ),
+        shape: const SmoothRectangleBorder(
+          borderRadius: SmoothBorderRadius.all(
+            SmoothRadius(cornerRadius: 10, cornerSmoothing: 1),
+          ),
+        ),
+      ),
+    );
   }
 }
