@@ -17,9 +17,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
     return Consumer<CartProvider>(builder: (context1, value, child) {
       final screenHeight = MediaQuery.of(context).size.height;
       final screenWidth = MediaQuery.of(context).size.width;
-      return value.widget1Opacity == 0.0
-          ? const CartShimmer()
-          : PopScope(
+      return  PopScope(
               canPop: true,
               onPopInvoked: (didPop) {
                 value.onBack(context, false);
@@ -128,11 +126,29 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                                         const VSpace(Sizes.s25),
                                         Consumer<CommonApiProvider>(builder: (context1, api, child) {
                                           return BillSummaryLayout(
-                                              balance: userModel!.wallet != null
-                                                  ? "${getSymbol(context)}${(currency(context).currencyVal * double.parse(userModel!.wallet!.balance.toString())).toStringAsFixed(2)}"
-                                                  : "0");
+                                            balance: userModel?.wallet != null
+                                                ? "${getSymbol(context)}${(currency(context).currencyVal * double.parse(userModel!.wallet!.balance.toString())).toStringAsFixed(2)}"
+                                                : "0",
+                                          );
                                         }),
+
                                         const VSpace(Sizes.s10),
+                                        ElevatedButton(onPressed: (){
+                                          print(value);
+                                          route.pushNamed(context, routeName.paymentScreen, arg: {
+                                          "checkoutBody": value.checkoutBody,
+                                          "checkoutModel": value.checkoutModel
+                                          });
+                                        }, child: Text("Proceed to Payment")),
+
+                                        // CartBottomLayout(
+                                        //   amount:
+                                        //   "${getSymbol(context)}${(currency(context).currencyVal * value.checkoutModel!.total!.total!).toStringAsFixed(2)}",
+                                        //   onTap: () => route.pushNamed(context, routeName.paymentScreen, arg: {
+                                        //     "checkoutBody": value.checkoutBody,
+                                        //     "checkoutModel": value.checkoutModel
+                                        //   }),
+                                        // ),
                                         if (value.checkoutModel != null) const BillLayout(),
                                         const VSpace(Sizes.s10),
                                         const DottedLines().paddingSymmetric(vertical: Insets.i15),

@@ -12,24 +12,80 @@ class ServiceDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+
+
         Expanded(
             child: DescriptionLayout(
-                icon: eSvgAssets.clock,
-                title: appFonts.time,
-                subtitle: "${services!.duration} ${services!.durationUnit}")),
+                icon: eSvgAssets.location,
+                title: 'Area',
+                subtitle: "Shyamal")),
+
+
+
         Container(
           color: appColor(context).stroke,
           width: 2,
           height: Sizes.s78,
         ),
-        if (services!.categories!.isNotEmpty)
-          Expanded(
+
+        SizedBox( width: 20,),
+
+        Expanded(
             child: DescriptionLayout(
-                    icon: eSvgAssets.categories, title: appFonts.category, subtitle: services!.categories![0].title!)
-                .paddingOnly(
-                    left: AppLocalizations.of(context)?.locale.languageCode == "ar" ? 0 : Insets.i20,
-                    right: AppLocalizations.of(context)?.locale.languageCode == "ar" ? 0 : Insets.i20),
-          )
+                icon: eSvgAssets.homeFill,
+                title: 'Accommodation',
+                // subtitle: "${services!.duration} ${services!.durationUnit}"
+                subtitle: "Rent"
+
+            )),
+
+
+        // if (services!.categories!.isNotEmpty)
+        //   Expanded(
+        //     child: DescriptionLayout(
+        //             icon: eSvgAssets.categories, title: appFonts.category, subtitle: services!.categories![0].title!)
+        //         .paddingOnly(
+        //             left: AppLocalizations.of(context)?.locale.languageCode == "ar" ? 0 : Insets.i20,
+        //             right: AppLocalizations.of(context)?.locale.languageCode == "ar" ? 0 : Insets.i20),
+        //   )
+      ]).paddingSymmetric(horizontal: Insets.i25),
+      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+
+
+        Expanded(
+            child: DescriptionLayout(
+                icon: eSvgAssets.amount,
+                title: "Amount",
+                subtitle: "₹ 40,000")),
+
+
+
+        Container(
+          color: appColor(context).stroke,
+          width: 2,
+          height: Sizes.s78,
+        ),
+
+        SizedBox( width: 20,),
+
+        Expanded(
+            child: DescriptionLayout(
+                icon: eSvgAssets.homeOut,
+                title: 'Type of Tenant',
+                // subtitle: "${services!.duration} ${services!.durationUnit}"
+                subtitle: "Family"
+
+            )),
+
+
+        // if (services!.categories!.isNotEmpty)
+        //   Expanded(
+        //     child: DescriptionLayout(
+        //             icon: eSvgAssets.categories, title: appFonts.category, subtitle: services!.categories![0].title!)
+        //         .paddingOnly(
+        //             left: AppLocalizations.of(context)?.locale.languageCode == "ar" ? 0 : Insets.i20,
+        //             right: AppLocalizations.of(context)?.locale.languageCode == "ar" ? 0 : Insets.i20),
+        //   )
       ]).paddingSymmetric(horizontal: Insets.i25),
       const DottedLines(),
       const VSpace(Sizes.s17),
@@ -40,7 +96,7 @@ class ServiceDescription extends StatelessWidget {
       //             "${services!.requiredServicemen ?? '1'} ${capitalizeFirstLetter(language(context, appFonts.serviceman))}")
       //     .paddingSymmetric(horizontal: Insets.i25),
       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(language(context, appFonts.description),
+        Text(language(context, 'Client Requirement'),
             style: appCss.dmDenseMedium12.textColor(appColor(context).lightText)),
         const VSpace(Sizes.s6),
         if (services!.description != null) ReadMoreLayout(text: services!.description!),
@@ -61,7 +117,7 @@ class ServiceDescription extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              language(context, 'audio'),
+              language(context, 'Audio Recoding of Client'),
               style: appCss.dmDenseMedium12.textColor(appColor(context).lightText),
             ),
             const VSpace(Sizes.s6),

@@ -34,6 +34,31 @@ class CartProvider with ChangeNotifier {
   Animation<Offset>? offsetAnimation;
   CheckoutModel? checkoutModel;
 
+  void addToCart(CartModel cartItem) {
+    cartList.add(cartItem);
+    updateCheckoutModel(); // Update the checkout model after adding an item
+    notifyListeners();
+  }
+
+  void updateCheckoutModel() {
+    double total = 0.0;
+    // Calculate the total price of cart items
+    for (var item in cartList) {
+      if (item.serviceList != null) {
+        total += double.parse(item.serviceList!.price!.toString());
+      } else if (item.servicePackageList != null) {
+        total += item.servicePackageList!.services!.fold(
+          0.0,
+              (previousValue, element) => previousValue + double.parse(element.price!.toString()),
+        );
+      }
+    }
+
+    // Update the checkout model with the calculated total
+    checkoutModel = CheckoutModel(total: FinalTotal(total: total));
+  }
+
+
   onCode(context, values)async {
     if (values != null) {
       isLoading = true;

@@ -105,7 +105,10 @@ class BookYourServiceLayout extends StatelessWidget {
                                 isPackage: isPackage,
                                 index: packageServiceId,
                                 //providerModel: providerModel,
-                                selectProviderIndex: value.selectProviderIndex))
+                                selectProviderIndex: value.selectProviderIndex)
+
+
+                    )
                         .paddingSymmetric(horizontal: Insets.i20)
                   ]).paddingSymmetric(vertical: Insets.i20))
             ])).bottomSheetExtension(context);

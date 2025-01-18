@@ -140,11 +140,11 @@ class _BookingLayoutState extends State<BookingLayout> {
   Widget _statusRows() {
     return Column(
       children: [
-        StatusRow(
-          title: appFonts.bookingStatus,
-          statusText: widget.data?.bookingStatus?.name ?? "",
-          statusId: widget.data?.bookingStatusId,
-        ),
+        // StatusRow(
+        //   title: appFonts.bookingStatus,
+        //   statusText: widget.data?.bookingStatus?.name ?? "",
+        //   statusId: widget.data?.bookingStatusId,
+        // ),
         if (widget.data?.bookingStatus?.slug != appFonts.cancelled)
           StatusRow(
             title: appFonts.dateTime,

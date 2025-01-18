@@ -1,5 +1,6 @@
 class SvgAssets {
   final arrowLeft = "assets/svg/arrowLeft.svg";
+  // final location = "assets/svg/arrowLeft.svg";
   final arrowLeft1 = "assets/svg/arrowLeft1.svg";
   final arrowRight = "assets/svg/arrowRight.svg";
   final arrowRight1 = "assets/svg/arrowRight1.svg";

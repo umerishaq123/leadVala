@@ -66,17 +66,8 @@ class ServicesDetailsScreen extends StatelessWidget {
                                         ),
                                         if (serviceCtrl.service!.media!.length > 1) const VSpace(Sizes.s12),
                                         if (serviceCtrl.service!.media!.length > 1)
-                                          Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: serviceCtrl.service!.media!
-                                                  .asMap()
-                                                  .entries
-                                                  .map((e) => ServicesImageLayout(
-                                                  data: e.value,
-                                                  index: e.key,
-                                                  selectIndex: serviceCtrl.selectedIndex,
-                                                  onTap: () => serviceCtrl.onImageChange(e.key)))
-                                                  .toList()),
+
+
                                         Column(children: [
                                           Stack(alignment: Alignment.center, children: [
                                             Image.asset(eImageAssets.servicesBg,

@@ -20,59 +20,50 @@ const googleMapLink = 'https://www.google.com/maps/search/?api=1&query=';
 const wpLink = 'whatsapp://send?phone=';
 bool isOpen = false;
 
-onBook(context, Services service,
-    {GestureTapCallback? addTap,
-    minusTap,
-    ProviderModel? provider,
-    isPackage = false,
-    packageServiceId}) async {
+onBook(BuildContext context, Services service, {
+  GestureTapCallback? addTap,
+  GestureTapCallback? minusTap,
+  ProviderModel? provider,
+  bool isPackage = false,
+  dynamic packageServiceId,
+}) async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   bool isGuest = preferences.getBool(session.isContinueAsGuest) ?? false;
 
-  if (isGuest == false) {
-    log("ISOPEN :$isOpen");
-   if(isOpen == false){
-     showModalBottomSheet(
-         isScrollControlled: true,
-         context: context,
-         builder: (context1) {
-           return StatefulBuilder(builder: (context2, setState) {
-             isOpen =true;
-             setState;
-             log("ISOPEN 1:$isOpen");
-             return Consumer6<
-                 ServicesDetailsProvider,
-                 DashboardProvider,
-                 CategoriesDetailsProvider,
-                 CartProvider,
-                 ProviderDetailsProvider,
-                 SelectServicemanProvider>(
-                 builder: (context3, value, dash, category, cart, providerDetail,
-                     selectServiceMan, child) {
+  if (!isGuest) {
+    // Access CartProvider
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
 
-                   return BookYourServiceLayout(
-                       price: service.serviceRate,
-                       style: appCss.dmDenseSemiBold18
-                           .textColor(appColor(context).primary),
-                       //providerModel: provider ?? service.user,
-                       requiredServiceMan:
-                       (service.selectedRequiredServiceMan ??1),
-                       addTap: addTap,
-                       minusTap: minusTap,
-                       packageServiceId: packageServiceId,
-                       isPackage: isPackage,
-                       services: service);
-                 });
-           });
-         }).then((value) {
-       isOpen = false;
-       log("IHS L$isOpen");
-     });
-   }
+    // Add service to the cart
+    CartModel newCartItem = CartModel(
+      isPackage: isPackage,
+      serviceList: isPackage ? null : service,
+      servicePackageList: isPackage
+          ? ServicePackageModel(
+        id: packageServiceId,
+        services: [service],
+      )
+          : null,
+    );
+
+    // Add the new item to the cart
+    cartProvider.cartList.add(newCartItem);
+
+    // Log the addition of the service to the cart
+    log("Service added to cart: ${service.id}");
+
+    // Navigate to Cart Screen
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => CartScreen(),
+    ));
   } else {
+    // Navigate to guest-specific flow if user is a guest
     route.pushAndRemoveUntil(context);
   }
 }
+
+
+
 
 mailTap(context, String url) {
   if (url.isNotEmpty) {

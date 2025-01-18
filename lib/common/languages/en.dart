@@ -306,7 +306,7 @@ dynamic en = {
   'servicesDelivered': "Services Delivered :",
   'services': "Service",
   'alsoProvided': "Related Services",
-  'addToCart': "Add to Cart",
+  'addToCart': "Buy Lead",
   'more': "More",
   'providerDetails': "Provider Details",
   'averageRate': "Average Rate :",

@@ -66,7 +66,26 @@ class FeaturedServicesLayout extends StatelessWidget {
                                 borderRadius:
                                     BorderRadius.circular(AppRadius.r30))
                       ]).paddingSymmetric(
-                      horizontal: Insets.i20, vertical: Insets.i10)
+                      horizontal: Insets.i20, vertical: Insets.i10),
+                Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                              child: Text("New",
+                                      style: appCss.dmDenseMedium12.textColor(
+                                          appColor(context).whiteColor))
+                                  .padding(
+                                      horizontal: Insets.i9,
+                                      top: Insets.i3,
+                                      bottom: Insets.i3))
+                          .decorated(
+                              color: appColor(context).red,
+                              borderRadius:
+                                  BorderRadius.circular(AppRadius.r30)),
+                      Container(),
+                    ]).paddingSymmetric(
+                    horizontal: Insets.i20, vertical: Insets.i10)
               ]),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Row(
@@ -96,18 +115,25 @@ class FeaturedServicesLayout extends StatelessWidget {
                                       width: 1,
                                       color: appColor(context).lightText)
                                   .paddingSymmetric(horizontal: Insets.i5),
-                              SvgPicture.asset(eSvgAssets.user,
+                              SvgPicture.asset(eSvgAssets.homeOut,
                                   height: Sizes.s16,
                                   colorFilter: ColorFilter.mode(
                                       appColor(context).darkText,
                                       BlendMode.srcIn)),
                               const HSpace(Sizes.s5),
-                              Expanded(
-                                child: Text(
-                                    "${data!.requiredServicemen} ${capitalizeFirstLetter(language(context, appFonts.serviceman))}",
-                                    style: appCss.dmDenseRegular13
-                                        .textColor(appColor(context).darkText)),
-                              )
+                              // Expanded(
+                              //   child: Text(
+                              //       "${data!.requiredServicemen} ${capitalizeFirstLetter(language(context, appFonts.serviceman))}",
+                              //       style: appCss.dmDenseRegular13
+                              //           .textColor(appColor(context).darkText)),
+                              // )
+
+                                  Expanded(
+                                    child: Text(
+                                        "Family",
+                                        style: appCss.dmDenseRegular13
+                                            .textColor(appColor(context).darkText)),
+                                  )
                             ]))
                           ])),
                       Column(
@@ -141,17 +167,16 @@ class FeaturedServicesLayout extends StatelessWidget {
                           ? AddedButtonCommon(onTap: addTap)
                           : AddButtonCommon(onTap: addTap)
                     ]),
-                if (data!.description != null)
-                  SizedBox(),
-                  // Text(capitalizeFirstLetter(data!.description!),
-                  //         maxLines: 2,
-                  //         overflow: TextOverflow.ellipsis,
-                  //         style: appCss.dmDenseMedium13
-                  //             .textColor(appColor(context).lightText))
-                  //     .marginOnly(
-                  //         right: rtl(context) ? 0 : Insets.i70,
-                  //         left: rtl(context) ? Insets.i70 : 0,
-                  //         bottom: Sizes.s6)
+                if (data!.description != null) SizedBox(),
+                // Text(capitalizeFirstLetter(data!.description!),
+                //         maxLines: 2,
+                //         overflow: TextOverflow.ellipsis,
+                //         style: appCss.dmDenseMedium13
+                //             .textColor(appColor(context).lightText))
+                //     .marginOnly(
+                //         right: rtl(context) ? 0 : Insets.i70,
+                //         left: rtl(context) ? Insets.i70 : 0,
+                //         bottom: Sizes.s6)
               ]).padding(horizontal: Insets.i14, vertical: Insets.i13)
             ]))
         .decorated(

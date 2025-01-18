@@ -24,18 +24,14 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
   bool get _isPlaying => _playerState == PlayerState.playing;
   bool get _isPaused => _playerState == PlayerState.paused;
 
-  String get _durationText => _duration?.toString().split('.').first ?? '';
-  String get _positionText => _position?.toString().split('.').first ?? '';
+  String get _durationText => _duration?.toString().split('.').first ?? '00:00';
+  String get _positionText => _position?.toString().split('.').first ?? '00:00';
 
   @override
   void initState() {
     super.initState();
     _audioPlayer = AudioPlayer();
-
-    // Set up initial player settings
     _audioPlayer.setReleaseMode(ReleaseMode.stop);
-
-    // Initialize streams to track player state and position
     _initStreams();
   }
 
@@ -75,88 +71,118 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // Get the current theme brightness
-    final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
-
-    // Set colors based on theme
-    final buttonColor = isDarkTheme ? Colors.white : Colors.black;
-    final sliderActiveColor = isDarkTheme ? Colors.white : Colors.black;
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        // Play, Pause, Stop buttons
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              onPressed: _isPlaying ? null : _play,
-              iconSize: 48.0,
-              icon: const Icon(Icons.play_arrow),
-              color: buttonColor,
-            ),
-            IconButton(
-              onPressed: _isPlaying ? _pause : null,
-              iconSize: 48.0,
-              icon: const Icon(Icons.pause),
-              color: buttonColor,
-            ),
-            IconButton(
-              onPressed: _isPlaying || _isPaused ? _stop : null,
-              iconSize: 48.0,
-              icon: const Icon(Icons.stop),
-              color: buttonColor,
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          gradient: LinearGradient(
+            colors: [Colors.blueAccent, Colors.purpleAccent],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 8,
+              offset: Offset(0, 4),
             ),
           ],
         ),
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              // Audio Slider
+              Slider(
+                value: (_position != null &&
+                    _duration != null &&
+                    _position!.inMilliseconds > 0 &&
+                    _position!.inMilliseconds < _duration!.inMilliseconds)
+                    ? _position!.inMilliseconds / _duration!.inMilliseconds
+                    : 0.0,
+                onChanged: (value) {
+                  final duration = _duration;
+                  if (duration == null) return;
+                  final position = value * duration.inMilliseconds;
+                  _audioPlayer.seek(Duration(milliseconds: position.round()));
+                },
+                activeColor: Colors.white,
+                inactiveColor: Colors.white.withOpacity(0.5),
+              ),
 
-        // Slider for controlling position
-        Slider(
-          onChanged: (value) {
-            final duration = _duration;
-            if (duration == null) {
-              return;
-            }
-            final position = value * duration.inMilliseconds;
-            _audioPlayer.seek(Duration(milliseconds: position.round()));
-          },
-          value: (_position != null &&
-              _duration != null &&
-              _position!.inMilliseconds > 0 &&
-              _position!.inMilliseconds < _duration!.inMilliseconds)
-              ? _position!.inMilliseconds / _duration!.inMilliseconds
-              : 0.0,
-          activeColor: sliderActiveColor,
-          inactiveColor: sliderActiveColor.withOpacity(0.5),
-        ),
+              // Position and Duration Text
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    _positionText,
+                    style: TextStyle(fontSize: 14, color: Colors.white),
+                  ),
+                  Text(
+                    _durationText,
+                    style: TextStyle(fontSize: 14, color: Colors.white),
+                  ),
+                ],
+              ),
 
-        // Display current position and total duration
-        Text(
-          _position != null
-              ? '$_positionText / $_durationText'
-              : _duration != null
-              ? _durationText
-              : '',
-          style: TextStyle(fontSize: 16.0, color: buttonColor),
+              const SizedBox(height: 24),
+
+              // Play, Pause, Stop Buttons
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _controlButton(
+                    icon: Icons.play_arrow_rounded,
+                    onPressed: _isPlaying ? null : _play,
+                    isActive: !_isPlaying,
+                  ),
+                  _controlButton(
+                    icon: Icons.pause_rounded,
+                    onPressed: _isPlaying ? _pause : null,
+                    isActive: _isPlaying,
+                  ),
+                  _controlButton(
+                    icon: Icons.stop_rounded,
+                    onPressed: _isPlaying || _isPaused ? _stop : null,
+                    isActive: _isPlaying || _isPaused,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
-      ],
+      ),
     );
   }
 
-  // Play the audio
+  Widget _controlButton({
+    required IconData icon,
+    required VoidCallback? onPressed,
+    required bool isActive,
+  }) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        foregroundColor: Colors.blueAccent, backgroundColor: isActive ? Colors.white : Colors.white.withOpacity(0.5), shape: CircleBorder(),
+        padding: EdgeInsets.all(16),
+      ),
+      child: Icon(icon, size: 36, color: isActive ? Colors.blueAccent : Colors.grey),
+    );
+  }
+
   Future<void> _play() async {
-    await _audioPlayer.setSourceUrl(widget.audioUrl); // Set the URL on play
+    await _audioPlayer.setSourceUrl(widget.audioUrl);
     await _audioPlayer.resume();
     setState(() => _playerState = PlayerState.playing);
   }
 
-  // Pause the audio
   Future<void> _pause() async {
     await _audioPlayer.pause();
     setState(() => _playerState = PlayerState.paused);
   }
 
-  // Stop the audio
   Future<void> _stop() async {
     await _audioPlayer.stop();
     setState(() {
