@@ -16,7 +16,7 @@ class ServicesStatusTimeline extends StatelessWidget {
           indicatorStyle: IndicatorStyle(
             width: 20,
             color: Colors.green,
-            padding: EdgeInsets.all(6),
+            padding: const EdgeInsets.all(6),
           ),
           beforeLineStyle: LineStyle(
             color: Colors.green,
@@ -27,14 +27,14 @@ class ServicesStatusTimeline extends StatelessWidget {
             thickness: 2,
           ),
           endChild: Container(
-            constraints: BoxConstraints(
+            constraints: const BoxConstraints(
               minHeight: 80,
             ),
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(8),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                   color: Colors.black12,
                   blurRadius: 4,
@@ -47,15 +47,15 @@ class ServicesStatusTimeline extends StatelessWidget {
               children: [
                 Text(
                   status['status']!,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Text(
                   status['date']!,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 14,
                     color: Colors.grey,
                   ),
@@ -75,7 +75,7 @@ class TimelineTile extends StatelessWidget {
   final LineStyle afterLineStyle;
   final Widget endChild;
 
-  const TimelineTile({
+  TimelineTile({
     required this.indicatorStyle,
     required this.beforeLineStyle,
     required this.afterLineStyle,
@@ -109,7 +109,7 @@ class TimelineTile extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(width: 16),
+        const SizedBox(width: 16),
         Expanded(child: endChild),
       ],
     );

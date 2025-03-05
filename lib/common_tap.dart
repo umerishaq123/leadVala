@@ -20,7 +20,9 @@ const googleMapLink = 'https://www.google.com/maps/search/?api=1&query=';
 const wpLink = 'whatsapp://send?phone=';
 bool isOpen = false;
 
-onBook(BuildContext context, Services service, {
+onBook(
+  BuildContext context,
+  Services service, {
   GestureTapCallback? addTap,
   GestureTapCallback? minusTap,
   ProviderModel? provider,
@@ -31,39 +33,86 @@ onBook(BuildContext context, Services service, {
   bool isGuest = preferences.getBool(session.isContinueAsGuest) ?? false;
 
   if (!isGuest) {
-    // Access CartProvider
+    print('call to card 1');
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
 
-    // Add service to the cart
+    // Create a new cart item based on whether it's a package or a single service
     CartModel newCartItem = CartModel(
       isPackage: isPackage,
       serviceList: isPackage ? null : service,
       servicePackageList: isPackage
-          ? ServicePackageModel(
-        id: packageServiceId,
-        services: [service],
-      )
+          ? ServicePackageModel(id: packageServiceId, services: [service])
           : null,
     );
 
-    // Add the new item to the cart
-    cartProvider.cartList.add(newCartItem);
+    // Add the new cart item
+    cartProvider.addToCart(newCartItem);
 
-    // Log the addition of the service to the cart
-    log("Service added to cart: ${service.id}");
+    // Explicitly update checkoutModel after adding an item
+    cartProvider.updateCheckoutModel();
 
-    // Navigate to Cart Screen
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => CartScreen(),
-    ));
+    log("Added to cart: ${newCartItem.serviceList ?? newCartItem.servicePackageList}");
+    log("Checkout Model Updated: ${cartProvider.checkoutModel}");
+
+    // Add the service to CheckoutModel's services list (checking for null or missing values)
+    if (isPackage) {
+      print('call to card 2');
+
+      if (cartProvider.checkoutModel?.servicesPackage == null) {
+        cartProvider.checkoutModel?.servicesPackage = [];
+        print('call to card 3');
+      }
+      print('call to card 4');
+
+      cartProvider.checkoutModel?.servicesPackage?.add(ServicesPackage(
+          servicePackageId: packageServiceId,
+          services: [
+            PackageServices(
+                servicePackageId: packageServiceId, serviceId: service.id)
+          ]));
+    } else {
+      print('call to card 4');
+
+      if (cartProvider.checkoutModel?.services == null) {
+        print('call to card 4--');
+
+        cartProvider.checkoutModel?.services = [];
+      }
+
+      // old code
+
+      cartProvider.checkoutModel?.services?.add(
+        SingleServices(
+          providerId: provider?.id ?? -1, // Default to -1 if provider is null
+          serviceId: service.id,
+          servicePrice: service.price,
+          addressId: provider?.addresses?.first.id ??
+              -1, // Default to -1 if address is missing
+          perServicemanCharge: 0.0,
+          dateTime: DateTime.now().toString(),
+          total: Total(total: service.price), // Set total here if needed
+        ),
+      );
+      List<SingleServices>? services = cartProvider.checkoutModel?.services;
+    }
+
+//
+
+    // Log to verify services have been added
+    log("Services after addition: ${cartProvider.checkoutModel?.services ?? 'No services'}");
+    log("ServicesPackage after addition: ${cartProvider.checkoutModel?.servicesPackage ?? 'No service packages'}");
+
+    // Ensure checkoutModel is not null before navigating
+    if (cartProvider.checkoutModel != null) {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => CartScreen()));
+    } else {
+      log("checkoutModel is still null after update!");
+    }
   } else {
-    // Navigate to guest-specific flow if user is a guest
     route.pushAndRemoveUntil(context);
   }
 }
-
-
-
 
 mailTap(context, String url) {
   if (url.isNotEmpty) {
@@ -80,7 +129,7 @@ commonUrlTap(context, String address,
 }
 
 launchCall(context, String? url) {
-  if(url != null) {
+  if (url != null) {
     if (Platform.isIOS) {
       commonUrlTap(context, '$call//$url',
           launchMode: LaunchMode.externalApplication);
@@ -102,6 +151,7 @@ wpTap(context, String? url) {
 }
 
 showBookingStatus(context, BookingModel? bookingModel) {
+  print('call to showingbooking status');
   showModalBottomSheet(
       isScrollControlled: true,
       context: context,

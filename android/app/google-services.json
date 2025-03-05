@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "359221399571",
-    "project_id": "leadvala",
-    "storage_bucket": "leadvala.firebasestorage.app"
+    "project_number": "924265223964",
+    "project_id": "leadvala-b47d2",
+    "storage_bucket": "leadvala-b47d2.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:359221399571:android:ebec341250366b4993efe6",
+        "mobilesdk_app_id": "1:924265223964:android:4fe8ac5037164596c90cd9",
         "android_client_info": {
           "package_name": "com.cloudtechnico.leadvala"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAWS3qqwI6od6GZ5rjBm1kxapTF8gRYQuA"
+          "current_key": "AIzaSyAfyD0--hbTJvB038snS0Mh6F4plsyRPRQ"
         }
       ],
       "services": {

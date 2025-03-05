@@ -12,6 +12,7 @@ class ServiceSelectProvider with ChangeNotifier {
   bool isStep2 = false, isPackage = false, isBottom = true;
   Services? servicesCart;
   PrimaryAddress? address;
+
   int selectProviderIndex = 0;
   UserModel? userModel;
   final FocusNode noteFocus = FocusNode();
@@ -59,7 +60,9 @@ class ServiceSelectProvider with ChangeNotifier {
     final cartCtrl = Provider.of<CartProvider>(context, listen: false);
 
     int index = cartCtrl.cartList.indexWhere((element) =>
-        element.isPackage == false && element.serviceList != null && element.serviceList!.id == servicesCart!.id);
+        element.isPackage == false &&
+        element.serviceList != null &&
+        element.serviceList!.id == servicesCart!.id);
     log("ADDD :${servicesCart!.primaryAddress}");
     if (index >= 0) {
       //snackBarMessengers(context, message: "Package Already Added");
@@ -67,7 +70,8 @@ class ServiceSelectProvider with ChangeNotifier {
 
       cartCtrl.notifyListeners();
     } else {
-      CartModel cartModel = CartModel(isPackage: false, serviceList: servicesCart);
+      CartModel cartModel =
+          CartModel(isPackage: false, serviceList: servicesCart);
       cartCtrl.cartList.add(cartModel);
       cartCtrl.notifyListeners();
     }
@@ -75,7 +79,8 @@ class ServiceSelectProvider with ChangeNotifier {
     log("CART: ${cartCtrl.cartList}");
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.remove(session.cart);
-    List<String> personsEncoded = cartCtrl.cartList.map((person) => jsonEncode(person.toJson())).toList();
+    List<String> personsEncoded =
+        cartCtrl.cartList.map((person) => jsonEncode(person.toJson())).toList();
     await preferences.setString(session.cart, json.encode(personsEncoded));
 
     cartCtrl.notifyListeners();
@@ -87,15 +92,19 @@ class ServiceSelectProvider with ChangeNotifier {
 
   onNext(context) {
     if ((servicesCart!.selectedRequiredServiceMan!) ==
-        (servicesCart!.selectedServiceMan != null ? servicesCart!.selectedServiceMan!.length : 1)) {
+        (servicesCart!.selectedServiceMan != null
+            ? servicesCart!.selectedServiceMan!.length
+            : 1)) {
       servicesCart!.selectServiceManType = "as_per_my_choice";
       if (address != null) {
         if (servicesCart!.serviceDate != null) {
-          if (servicesCart!.selectedServiceMan != null && servicesCart!.selectedServiceMan!.isNotEmpty) {
+          if (servicesCart!.selectedServiceMan != null &&
+              servicesCart!.selectedServiceMan!.isNotEmpty) {
             if (isPackage) {
               isStep2 = false;
               notifyListeners();
-              final packageCtrl = Provider.of<SelectServicemanProvider>(context, listen: false);
+              final packageCtrl =
+                  Provider.of<SelectServicemanProvider>(context, listen: false);
               servicePackageList[selectProviderIndex] = servicesCart!;
 
               route.pop(context, arg: servicesCart);
@@ -103,13 +112,19 @@ class ServiceSelectProvider with ChangeNotifier {
               isStep2 = true;
             }
           } else {
-            snackBarMessengers(context, message: "Please select Any 1 serviceman", color: appColor(context).red);
+            snackBarMessengers(context,
+                message: "Please select Any 1 serviceman",
+                color: appColor(context).red);
           }
         } else {
-          snackBarMessengers(context, message: "Please select Date/Time slot", color: appColor(context).red);
+          snackBarMessengers(context,
+              message: "Please select Date/Time slot",
+              color: appColor(context).red);
         }
       } else {
-        snackBarMessengers(context, message: "Please select Date/Time slot", color: appColor(context).red);
+        snackBarMessengers(context,
+            message: "Please select Date/Time slot",
+            color: appColor(context).red);
       }
     } else {
       Fluttertoast.showToast(msg: "Please Select 1 more required serviceman");
@@ -136,13 +151,15 @@ class ServiceSelectProvider with ChangeNotifier {
 
     servicesCart = data['selectServicesCart'];
     log("data : ${servicesCart!.selectServiceManType}");
-    servicesCart!.selectedRequiredServiceMan = servicesCart!.selectedRequiredServiceMan ?? 1;
+    servicesCart!.selectedRequiredServiceMan =
+        servicesCart!.selectedRequiredServiceMan ?? 1;
     isPackage = data['isPackage'] ?? false;
     selectProviderIndex = data['selectProviderIndex'] ?? 0;
     notifyListeners();
     final locationCtrl = Provider.of<LocationProvider>(context, listen: false);
     if (locationCtrl.addressList.isNotEmpty) {
-      int index = locationCtrl.addressList.indexWhere((element) => element.isPrimary == 1);
+      int index = locationCtrl.addressList
+          .indexWhere((element) => element.isPrimary == 1);
       if (index > 0) {
         address = locationCtrl.addressList[index];
       } else {
@@ -151,7 +168,8 @@ class ServiceSelectProvider with ChangeNotifier {
     }
 
     if (isPackage) {
-      final packageCtrl = Provider.of<SelectServicemanProvider>(context, listen: false);
+      final packageCtrl =
+          Provider.of<SelectServicemanProvider>(context, listen: false);
       servicePackageList[selectProviderIndex].primaryAddress = address;
       packageCtrl.notifyListeners();
     } else {
@@ -160,14 +178,16 @@ class ServiceSelectProvider with ChangeNotifier {
     log("CHECK : #$isPackage");
     hideLoading(context);
 
-    userModel = UserModel.fromJson(json.decode(preferences.getString(session.user)!));
+    userModel =
+        UserModel.fromJson(json.decode(preferences.getString(session.user)!));
     notifyListeners();
   }
 
   onChangeLocation(context, PrimaryAddress primaryAddress) {
     address = primaryAddress;
     if (isPackage) {
-      final packageCtrl = Provider.of<SelectServicemanProvider>(context, listen: false);
+      final packageCtrl =
+          Provider.of<SelectServicemanProvider>(context, listen: false);
       servicePackageList[selectProviderIndex].primaryAddress = address;
       packageCtrl.notifyListeners();
     } else {
@@ -187,7 +207,9 @@ class ServiceSelectProvider with ChangeNotifier {
         };
 
         log("data : $data");
-        await apiServices.getApi(api.isValidTimeSlot, data, isData: true, isToken: true).then((value) async {
+        await apiServices
+            .getApi(api.isValidTimeSlot, data, isData: true, isToken: true)
+            .then((value) async {
           if (value.isSuccess!) {
             log("DDAA `:${value.data}");
             if (value.data['isValidTimeSlot'] == true) {
@@ -232,12 +254,16 @@ class ServiceSelectProvider with ChangeNotifier {
         log("SSSS:$value");
         notifyListeners();
         if (isPackage) {
-          final packageCtrl = Provider.of<SelectServicemanProvider>(context, listen: false);
+          final packageCtrl =
+              Provider.of<SelectServicemanProvider>(context, listen: false);
           servicesCart = value;
           servicePackageList[selectProviderIndex] = servicesCart!;
-          servicePackageList[selectProviderIndex].serviceDate = servicesCart!.serviceDate;
-          servicePackageList[selectProviderIndex].selectDateTimeOption = "custom";
-          servicePackageList[selectProviderIndex].selectedDateTimeFormat = servicesCart!.selectedDateTimeFormat;
+          servicePackageList[selectProviderIndex].serviceDate =
+              servicesCart!.serviceDate;
+          servicePackageList[selectProviderIndex].selectDateTimeOption =
+              "custom";
+          servicePackageList[selectProviderIndex].selectedDateTimeFormat =
+              servicesCart!.selectedDateTimeFormat;
           notifyListeners();
           packageCtrl.notifyListeners();
         } else {
@@ -252,7 +278,8 @@ class ServiceSelectProvider with ChangeNotifier {
     String name = appFonts.next;
     log("isPackage ::$isPackage");
     if (isPackage) {
-      final packageCtrl = Provider.of<SelectServicemanProvider>(context, listen: false);
+      final packageCtrl =
+          Provider.of<SelectServicemanProvider>(context, listen: false);
       if (servicePackageList.length == 1) {
         name = appFonts.submit;
         return name;

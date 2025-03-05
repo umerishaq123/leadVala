@@ -51,27 +51,32 @@ class ProfileDetailProvider with ChangeNotifier {
         return AlertDialog(
           insetPadding: const EdgeInsets.symmetric(horizontal: Insets.i20),
           shape: const SmoothRectangleBorder(
-              borderRadius: SmoothBorderRadius.all(SmoothRadius(cornerRadius: AppRadius.r14, cornerSmoothing: 1))),
+              borderRadius: SmoothBorderRadius.all(SmoothRadius(
+                  cornerRadius: AppRadius.r14, cornerSmoothing: 1))),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text(language(context, appFonts.selectOne),
-                    style: appCss.dmDenseBold18.textColor(appColor(context).darkText)),
+                    style: appCss.dmDenseBold18
+                        .textColor(appColor(context).darkText)),
                 const Icon(CupertinoIcons.multiply)
               ]),
               const VSpace(Sizes.s20),
-              ...appArray.selectList.asMap().entries.map((e) => SelectOptionLayout(
-                  data: e.value,
-                  index: e.key,
-                  list: appArray.selectList,
-                  onTap: () {
-                    if (e.key == 0) {
-                      getImage(context, ImageSource.gallery);
-                    } else {
-                      getImage(context, ImageSource.camera);
-                    }
-                  }))
+              ...appArray.selectList
+                  .asMap()
+                  .entries
+                  .map((e) => SelectOptionLayout(
+                      data: e.value,
+                      index: e.key,
+                      list: appArray.selectList,
+                      onTap: () {
+                        if (e.key == 0) {
+                          getImage(context, ImageSource.gallery);
+                        } else {
+                          getImage(context, ImageSource.camera);
+                        }
+                      }))
             ],
           ),
         );
@@ -87,7 +92,8 @@ class ProfileDetailProvider with ChangeNotifier {
     notifyListeners();
     dynamic mimeTypeData;
     if (imageFile != null) {
-      mimeTypeData = lookupMimeType(imageFile!.path, headerBytes: [0xFF, 0xD8])!.split('/');
+      mimeTypeData = lookupMimeType(imageFile!.path, headerBytes: [0xFF, 0xD8])!
+          .split('/');
     }
 
     var body = {
@@ -97,25 +103,31 @@ class ProfileDetailProvider with ChangeNotifier {
       "phone": txtPhone.text,
       "_method": "PUT",
       if (imageFile != null)
-        'profile_image': await dio.MultipartFile.fromFile(imageFile!.path.toString(),
-            filename: imageFile!.name.toString(), contentType: MediaType(mimeTypeData[0], mimeTypeData[1])),
+        'profile_image': await dio.MultipartFile.fromFile(
+            imageFile!.path.toString(),
+            filename: imageFile!.name.toString(),
+            contentType: MediaType(mimeTypeData[0], mimeTypeData[1])),
     };
 
     dio.FormData formData = dio.FormData.fromMap(body);
 
     try {
-      await apiServices.postApi(api.updateProfile, formData, isToken: true).then((value) async {
+      await apiServices
+          .postApi(api.updateProfile, formData, isToken: true)
+          .then((value) async {
         hideLoading(context);
 
         notifyListeners();
         if (value.isSuccess!) {
           route.pop(context);
 
-          final commonApi = Provider.of<CommonApiProvider>(context, listen: false);
+          final commonApi =
+              Provider.of<CommonApiProvider>(context, listen: false);
           await commonApi.selfApi(context);
         } else {
           log("value.message :${value.message}");
-          snackBarMessengers(context, message: value.message, color: appColor(context).red);
+          snackBarMessengers(context,
+              message: value.message, color: appColor(context).red);
         }
       });
     } catch (e) {
@@ -126,6 +138,7 @@ class ProfileDetailProvider with ChangeNotifier {
   }
 
   onInitData(context) async {
+    print('oniniti data');
     preferences = await SharedPreferences.getInstance();
     bool isGuest = preferences!.getBool(session.isContinueAsGuest) ?? false;
 
@@ -133,15 +146,17 @@ class ProfileDetailProvider with ChangeNotifier {
     if (!isGuest) {
       showLoading(context);
       notifyListeners();
-      userModel = UserModel.fromJson(json.decode(preferences!.getString(session.user)!));
+      userModel = UserModel.fromJson(
+          json.decode(preferences!.getString(session.user)!));
       log("userModel :${userModel}");
       txtName.text = userModel!.name ?? "";
       txtEmail.text = userModel!.email ?? "";
       txtPhone.text = userModel!.phone ?? "";
       //dialCode = userModel!.code ?? "+91";
       if (userModel!.code != null) {
-        int index = countriesEnglish.indexWhere(
-            (element) => element['dial_code'] == "${userModel!.code!.contains("+") ? "" : "+s"}${userModel!.code!}");
+        int index = countriesEnglish.indexWhere((element) =>
+            element['dial_code'] ==
+            "${userModel!.code!.contains("+") ? "" : "+s"}${userModel!.code!}");
         log("index :$index");
         if (index >= 0) {
           dialCode = countriesEnglish[index]['dial_code'];
@@ -159,3 +174,69 @@ class ProfileDetailProvider with ChangeNotifier {
     notifyListeners();
   }
 }
+
+
+//  "service_id": service.serviceId ?? 0, // Ensure this is not null
+//         "service_name": "Selected Service", // Placeholder name
+//         "required_servicemen": service.total?.totalServicemen ?? 1,
+//         "select_serviceman": "as_per_my_choice",
+//         "address_id": service.addressId ?? 0, // Ensure address ID is present
+//         "date_time": "2025-02-25, 10:30 AM", // Default value
+//         "serviceman_id": service.providerId ?? 0 // E
+//          var selectedServices = checkoutModel!.services!.map((service) {
+//       return {
+//         "service_id": service.serviceId ?? 0, // Ensure this is not null
+//         "service_name": "Selected Service", // Placeholder name
+//         "required_servicemen": service.total?.totalServicemen ?? 1,
+//         "select_serviceman": "as_per_my_choice",
+//         "address_id": service.addressId ?? 0, // Ensure address ID is present
+//         "date_time": "2025-02-25, 10:30 AM", // Default value
+//         "serviceman_id": service.providerId ?? 0 // Ensure this is valid
+//       };
+//     }).toList();
+// if (checkoutModel == null ||
+//         checkoutModel!.services == null ||
+//         checkoutModel!.services!.isEmpty) {
+//       print("❌ Error: No services selected!");
+//       return;
+//     }
+
+//     // ✅ Extract the selected service details dynamically
+//     var selectedServices = checkoutModel!.services!.map((service) {
+//       return {
+//         "service_id": service.serviceId ?? 0, // Ensure this is not null
+//         "service_name": "Selected Service", // Placeholder name
+//         "required_servicemen": service.total?.totalServicemen ?? 1,
+//         "select_serviceman": "as_per_my_choice",
+//         "address_id": service.addressId ?? 0, // Ensure address ID is present
+//         "date_time": "2025-02-25, 10:30 AM", // Default value
+//         "serviceman_id": service.providerId ?? 0 // Ensure this is valid
+//       };
+//     }).toList();
+
+//     // ✅ Ensure payment method is set
+//     String selectedPaymentMethod =
+//         checkoutModel!.services!.isNotEmpty ? "cash" : "razorpay";
+
+//     var headers = {
+//       'Content-Type': 'application/json',
+//       'Authorization': 'Bearer $token',
+//     };
+
+//     var requestData = {
+//       "services": selectedServices,
+//       "payment_method": selectedPaymentMethod
+//     };
+
+//     print("📌 Request Headers: $headers");
+//     print("📌 Request Body: ${jsonEncode(requestData)}");
+
+//     try {
+//       var response = await dio.request(
+//         api.booking, // ✅ Ensure this API URL is correct
+//         options: Options(
+//           method: 'POST',
+//           headers: headers,
+//         ),
+//         data: json.encode(requestData),
+//       );

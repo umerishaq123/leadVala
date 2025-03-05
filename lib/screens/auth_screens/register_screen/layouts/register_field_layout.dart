@@ -1,3 +1,4 @@
+import 'dart:math';
 
 import '../../../../config.dart';
 
@@ -23,7 +24,8 @@ class RegisterFieldLayout extends StatelessWidget {
                     onFieldSubmitted: (value) => validation.fieldFocusChange(
                         context, register.nameFocus, register.emailFocus),
                     prefixIcon: eSvgAssets.user,
-                    validator: (value) => validation.nameValidation(context,value))
+                    validator: (value) =>
+                        validation.nameValidation(context, value))
                 .paddingSymmetric(horizontal: Insets.i20),
             const VSpace(Sizes.s15),
             ContainerWithTextLayout(title: language(context, appFonts.email)),
@@ -34,19 +36,23 @@ class RegisterFieldLayout extends StatelessWidget {
                     focusNode: register.emailFocus,
                     onFieldSubmitted: (value) => validation.fieldFocusChange(
                         context, register.emailFocus, register.phoneFocus),
-                    prefixIcon:eSvgAssets.email,
-                    validator: (value) => validation.emailValidation(context,value))
+                    prefixIcon: eSvgAssets.email,
+                    validator: (value) =>
+                        validation.emailValidation(context, value))
                 .paddingSymmetric(horizontal: Insets.i20),
             const VSpace(Sizes.s15),
             ContainerWithTextLayout(title: language(context, appFonts.phoneNo)),
             const VSpace(Sizes.s10),
-            RegisterWidgetClass().phoneTextBox(context,
-                register.txtPhone, register.phoneFocus,dialCode: "+91",
-                onChanged: (CountryCodeCustom? code)=> register.changeDialCode(code!),
+            RegisterWidgetClass().phoneTextBox(
+                context, register.txtPhone, register.phoneFocus,
+                dialCode: "+91",
+                onChanged: (CountryCodeCustom? code) =>
+                    register.changeDialCode(code!),
                 onFieldSubmitted: (value) => validation.fieldFocusChange(
                     context, register.phoneFocus, register.passwordFocus)),
             const VSpace(Sizes.s15),
-            ContainerWithTextLayout(title: language(context, appFonts.password)),
+            ContainerWithTextLayout(
+                title: language(context, appFonts.password)),
             const VSpace(Sizes.s8),
             TextFieldCommon(
                     obscureText: register.isNewPassword,
@@ -60,7 +66,8 @@ class RegisterFieldLayout extends StatelessWidget {
                                 : eSvgAssets.eye,
                             fit: BoxFit.scaleDown)
                         .inkWell(onTap: () => register.newPasswordSeenTap()),
-                    validator: (value) => validation.passValidation(context,value))
+                    validator: (value) =>
+                        validation.passValidation(context, value))
                 .paddingSymmetric(horizontal: Insets.i20),
             const VSpace(Sizes.s15),
             ContainerWithTextLayout(title: appFonts.confirmPassword),
@@ -76,17 +83,19 @@ class RegisterFieldLayout extends StatelessWidget {
                             : eSvgAssets.eye,
                         fit: BoxFit.scaleDown)
                     .inkWell(onTap: () => register.confirmPasswordSeenTap()),
-                prefixIcon:eSvgAssets.lock,
-                validator: (value) => validation.confirmPassValidation(context,
-                    value, register.txtPass.text)).paddingSymmetric(
+                prefixIcon: eSvgAssets.lock,
+                validator: (value) => validation.confirmPassValidation(
+                    context, value, register.txtPass.text)).paddingSymmetric(
                 horizontal: Insets.i20),
             const VSpace(Sizes.s15),
             const TermsLayout(),
             const VSpace(Sizes.s35),
             ButtonCommon(
-                    title: appFonts.signUp,
-                    onTap: () => register.signUp(buildContext!))
-                .paddingSymmetric(horizontal: Insets.i20),
+                title: appFonts.signUp,
+                onTap: () {
+                  print('check out to tap on screen');
+                  register.signUp(buildContext!);
+                }).paddingSymmetric(horizontal: Insets.i20),
             const VSpace(Sizes.s15),
             RegisterWidgetClass().notMember(context)
           ]).paddingSymmetric(vertical: Insets.i20);

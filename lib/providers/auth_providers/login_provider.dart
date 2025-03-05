@@ -42,8 +42,10 @@ class LoginProvider with ChangeNotifier {
       final FirebaseAuth auth = FirebaseAuth.instance;
       final GoogleSignIn googleSignIn = GoogleSignIn();
 
-      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
-      final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount!.authentication;
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignIn.signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount!.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuthentication.accessToken,
         idToken: googleSignInAuthentication.idToken,
@@ -65,6 +67,7 @@ class LoginProvider with ChangeNotifier {
     showLoading(context);
     notifyListeners();
     String token = await getFcmToken();
+    print('print to $token');
     var body = {
       "login_type": "google",
       "user": {"email": user.email, "name": user.displayName},
@@ -72,35 +75,42 @@ class LoginProvider with ChangeNotifier {
     };
 
     try {
-      await apiServices.postApi(api.socialLogin, jsonEncode(body)).then((value) async {
+      await apiServices
+          .postApi(api.socialLogin, jsonEncode(body))
+          .then((value) async {
         notifyListeners();
         if (value.isSuccess!) {
           pref = await SharedPreferences.getInstance();
           pref!.setBool(session.isContinueAsGuest, false);
           String? token = pref?.getString(session.accessToken);
           log("TOKEN :%sss$token");
-          final commonApi = Provider.of<CommonApiProvider>(context, listen: false);
+          final commonApi =
+              Provider.of<CommonApiProvider>(context, listen: false);
           await commonApi.selfApi(context);
           await Future.delayed(DurationClass.ms150);
 
           hideLoading(context);
-          final locationCtrl = Provider.of<LocationProvider>(context, listen: false);
+          final locationCtrl =
+              Provider.of<LocationProvider>(context, listen: false);
 
           locationCtrl.getUserCurrentLocation(context);
           locationCtrl.getLocationList(context);
           locationCtrl.getCountryState();
           pref!.remove(session.isContinueAsGuest);
-          final favCtrl = Provider.of<FavouriteListProvider>(context, listen: false);
+          final favCtrl =
+              Provider.of<FavouriteListProvider>(context, listen: false);
           favCtrl.getFavourite();
           final cartCtrl = Provider.of<CartProvider>(context, listen: false);
           cartCtrl.onReady(context);
-          final notifyCtrl = Provider.of<NotificationProvider>(context, listen: false);
+          final notifyCtrl =
+              Provider.of<NotificationProvider>(context, listen: false);
           notifyCtrl.getNotificationList(context);
           route.pushReplacementNamed(context, routeName.dashboard);
         } else {
           hideLoading(context);
           notifyListeners();
-          snackBarMessengers(context, message: value.message, color: appColor(context).red);
+          snackBarMessengers(context,
+              message: value.message, color: appColor(context).red);
         }
       });
     } catch (e) {
@@ -115,34 +125,61 @@ class LoginProvider with ChangeNotifier {
     try {
       pref = await SharedPreferences.getInstance();
       String token = await getFcmToken();
-
+      print('print to  login fcm token ? $token ');
       showLoading(context);
 
-      var body = {"email": emailController.text, "password": passwordController.text, "fcm_token": token};
+      var body = {
+        "email": emailController.text,
+        "password": passwordController.text,
+        "fcm_token": token
+      };
+      print('tokem check to screen:::>>>>${token}');
+      print('body ....>>>>${body}');
 
+      log('fcm_token:$token');
       log("body : $body");
 
-      await apiServices.postApi(api.login, jsonEncode(body)).then((value) async {
+      await apiServices
+          .postApi(api.login, jsonEncode(body))
+          .then((value) async {
         if (value.isSuccess!) {
           pref!.setBool(session.isContinueAsGuest, false);
+          pref!.setBool("isLoggedIn", true);
+
           String? token = pref?.getString(session.accessToken);
+          print('not set to the data$token');
           log("TOKEN :%sss$token");
-          final commonApi = Provider.of<CommonApiProvider>(context, listen: false);
-          await commonApi.selfApi(context);
+          final commonApi =
+              Provider.of<CommonApiProvider>(context, listen: false);
+          print('call to this add');
+          if (value.isSuccess!) {
+            print("✅ Login successful, calling selfApi...");
+            await commonApi.selfApi(context);
+          } else {
+            print("❌ Login failed, NOT calling selfApi!");
+          }
+          // await commonApi.selfApi(context);
 
           dynamic userData = pref!.getString(session.user);
+          print('userdata showing???//${userData}');
           if (userData != null) {
-            final locationCtrl = Provider.of<LocationProvider>(context, listen: false);
+            print('nextscreen');
+            final locationCtrl =
+                Provider.of<LocationProvider>(context, listen: false);
             /*locationCtrl.getUserCurrentLocation(context);*/
             await locationCtrl.getLocationList(context);
             await locationCtrl.getCountryState();
-            final favCtrl = Provider.of<FavouriteListProvider>(context, listen: false);
+            final favCtrl =
+                Provider.of<FavouriteListProvider>(context, listen: false);
             favCtrl.getFavourite();
             final cartCtrl = Provider.of<CartProvider>(context, listen: false);
             cartCtrl.onReady(context);
-            final notifyCtrl = Provider.of<NotificationProvider>(context, listen: false);
+            final notifyCtrl =
+                Provider.of<NotificationProvider>(context, listen: false);
             notifyCtrl.getNotificationList(context);
             pref!.remove(session.isContinueAsGuest);
+            // add to this line
+            route.pushReplacementNamed(context, routeName.dashboard);
           }
           snackBarMessengers(
             context,
@@ -152,11 +189,12 @@ class LoginProvider with ChangeNotifier {
           hideLoading(context);
           emailController.text = "";
           passwordController.text = "";
+          // route.pushReplacementNamed(context, routeName.dashboard);
           notifyListeners();
-          route.pushReplacementNamed(context, routeName.dashboard);
         } else {
           hideLoading(context);
-          snackBarMessengers(context, message: value.message, color: appColor(context).red);
+          snackBarMessengers(context,
+              message: value.message, color: appColor(context).red);
         }
       });
     } catch (e) {

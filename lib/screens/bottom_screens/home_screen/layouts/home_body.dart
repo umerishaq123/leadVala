@@ -19,7 +19,8 @@ class HomeBody extends StatelessWidget {
                 HeadingRowCommon(
                         title: appFonts.topCategories,
                         isTextSize: true,
-                        onTap: () => route.pushNamed(context, routeName.categoriesListScreen))
+                        onTap: () => route.pushNamed(
+                            context, routeName.categoriesListScreen))
                     .paddingSymmetric(horizontal: Insets.i20),
               if (dash.categoryList.isNotEmpty) const VSpace(Sizes.s15),
               /* Wrap(
@@ -42,6 +43,7 @@ class HomeBody extends StatelessWidget {
               ).width(MediaQuery.of(context).size.width).paddingOnly(
                   left: rtl(context) ? 0 : Insets.i27,
                   right: rtl(context) ? Insets.i27 : 0),*/
+
               GridView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
@@ -58,14 +60,16 @@ class HomeBody extends StatelessWidget {
                         index: index,
                         selectedIndex: dash.topSelected,
                         data: dash.categoryList.toList()[index],
-                        onTap: () => route.pushNamed(context, routeName.categoriesDetailsScreen,
+                        onTap: () => route.pushNamed(
+                            context, routeName.categoriesDetailsScreen,
                             arg: dash.categoryList.toList()[index]));
                   }),
               if (dash.servicePackagesList.isNotEmpty)
                 HeadingRowCommon(
                         title: appFonts.servicePackage,
                         isTextSize: true,
-                        onTap: () => route.pushNamed(context, routeName.servicePackagesScreen))
+                        onTap: () => route.pushNamed(
+                            context, routeName.servicePackagesScreen))
                     .paddingSymmetric(horizontal: Insets.i20),
               if (dash.servicePackagesList.isNotEmpty) const VSpace(Sizes.s15),
               SingleChildScrollView(
@@ -76,9 +80,11 @@ class HomeBody extends StatelessWidget {
                                   .asMap()
                                   .entries
                                   .map((e) => ServicePackageList(
-                                        rotationAnimation: value.rotationAnimation,
+                                        rotationAnimation:
+                                            value.rotationAnimation,
                                         data: e.value,
-                                        onTap: () => route.pushNamed(context, routeName.packageDetailsScreen,
+                                        onTap: () => route.pushNamed(context,
+                                            routeName.packageDetailsScreen,
                                             arg: {"services": e.value}),
                                       ))
                                   .toList())
@@ -88,9 +94,11 @@ class HomeBody extends StatelessWidget {
                                   .asMap()
                                   .entries
                                   .map((e) => ServicePackageList(
-                                      rotationAnimation: value.rotationAnimation,
+                                      rotationAnimation:
+                                          value.rotationAnimation,
                                       data: e.value,
-                                      onTap: () => route.pushNamed(context, routeName.packageDetailsScreen,
+                                      onTap: () => route.pushNamed(context,
+                                          routeName.packageDetailsScreen,
                                           arg: {"services": e.value})))
                                   .toList())
                           .paddingSymmetric(horizontal: Insets.i20)),
@@ -99,47 +107,63 @@ class HomeBody extends StatelessWidget {
                 HeadingRowCommon(
                         title: appFonts.featuredService,
                         isTextSize: true,
-                        onTap: () => route.pushNamed(context, routeName.featuredServiceScreen))
+                        onTap: () => route.pushNamed(
+                            context, routeName.featuredServiceScreen))
                     .paddingSymmetric(horizontal: Insets.i20),
               const VSpace(Sizes.s15),
               if (dash.firstTwoFeaturedServiceList.isNotEmpty)
-                ...dash.firstTwoFeaturedServiceList.asMap().entries.map((e) => FeaturedServicesLayout(
-                    data: e.value,
-                    addTap: () => dash.onFeatured(context, e.value, e.key, inCart: isInCart(context, e.value.id)),
-                    inCart: isInCart(context, e.value.id),
-                    onTap: () =>
-                        route.pushNamed(context, routeName.servicesDetailsScreen, arg: {'services': e.value}).then((e) {
-                          dash.getFeaturedPackage(1);
-                        })).paddingSymmetric(horizontal: Insets.i20)),
+                ...dash.firstTwoFeaturedServiceList.asMap().entries.map((e) =>
+                    FeaturedServicesLayout(
+                        data: e.value,
+                        addTap: () => dash.onFeatured(context, e.value, e.key,
+                            inCart: isInCart(context, e.value.id)),
+                        inCart: isInCart(context, e.value.id),
+                        onTap: () => route.pushNamed(
+                                context, routeName.servicesDetailsScreen,
+                                arg: {'services': e.value}).then((e) {
+                              dash.getFeaturedPackage(1);
+                            })).paddingSymmetric(horizontal: Insets.i20)),
               if (dash.firstTwoFeaturedServiceList.isEmpty)
-                ...dash.featuredServiceList.asMap().entries.map((e) => FeaturedServicesLayout(
+                ...dash.featuredServiceList.asMap().entries.map((e) =>
+                    FeaturedServicesLayout(
                         data: e.value,
                         inCart: isInCart(context, e.value.id),
-                        addTap: () => dash.onFeatured(context, e.value, e.key, inCart: isInCart(context, e.value.id)),
-                        onTap: () =>
-                            route.pushNamed(context, routeName.servicesDetailsScreen, arg: {'services': e.value}))
-                    .paddingSymmetric(horizontal: Insets.i20))
+                        addTap: () => dash.onFeatured(context, e.value, e.key,
+                            inCart: isInCart(context, e.value.id)),
+                        onTap: () => route.pushNamed(
+                                context, routeName.servicesDetailsScreen, arg: {
+                              'services': e.value
+                            })).paddingSymmetric(horizontal: Insets.i20))
             ]).padding(bottom: Insets.i10),
-            if (dash.firstTwoHighRateList.isNotEmpty || dash.highestRateList.isNotEmpty)
+            if (dash.firstTwoHighRateList.isNotEmpty ||
+                dash.highestRateList.isNotEmpty)
               Column(children: [
                 HeadingRowCommon(
                     title: appFonts.expertService,
                     isTextSize: true,
-                    onTap: () => route.pushNamed(context, routeName.expertServiceScreen)),
+                    onTap: () => route.pushNamed(
+                        context, routeName.expertServiceScreen)),
                 const VSpace(Sizes.s15),
                 if (dash.firstTwoHighRateList.isNotEmpty)
-                  ...dash.firstTwoHighRateList.asMap().entries.map((e) => ExpertServiceLayout(
-                        data: e.value,
-                        onTap: () =>
-                            route.pushNamed(context, routeName.providerDetailsScreen, arg: {'provider': e.value}),
-                      )),
+                  ...dash.firstTwoHighRateList
+                      .asMap()
+                      .entries
+                      .map((e) => ExpertServiceLayout(
+                            data: e.value,
+                            onTap: () => route.pushNamed(
+                                context, routeName.providerDetailsScreen,
+                                arg: {'provider': e.value}),
+                          )),
                 if (dash.firstTwoHighRateList.isEmpty)
-                  ...dash.highestRateList.asMap().entries.map((e) => ExpertServiceLayout(
-                      data: e.value,
-                      onTap: () =>
-                          route.pushNamed(context, routeName.providerDetailsScreen, arg: {'provider': e.value})))
+                  ...dash.highestRateList.asMap().entries.map((e) =>
+                      ExpertServiceLayout(
+                          data: e.value,
+                          onTap: () => route.pushNamed(
+                              context, routeName.providerDetailsScreen,
+                              arg: {'provider': e.value})))
               ])
-                  .paddingSymmetric(horizontal: Insets.i20, vertical: Insets.i25)
+                  .paddingSymmetric(
+                      horizontal: Insets.i20, vertical: Insets.i25)
                   .backgroundColor(appColor(context).fieldCardBg)
           ]);
         });

@@ -1,4 +1,3 @@
-
 class CheckoutModel {
   List<SingleServices>? services;
   List<ServicesPackage>? servicesPackage;
@@ -38,6 +37,7 @@ class CheckoutModel {
   }
 }
 
+//
 class SingleServices {
   int? providerId;
   int? serviceId;
@@ -49,19 +49,20 @@ class SingleServices {
 
   SingleServices(
       {this.providerId,
-        this.serviceId,
-        this.servicePrice,
-        this.addressId,
-        this.perServicemanCharge,
-        this.dateTime,
-        this.total});
+      this.serviceId,
+      this.servicePrice,
+      this.addressId,
+      this.perServicemanCharge,
+      this.dateTime,
+      this.total});
 
   SingleServices.fromJson(Map<String, dynamic> json) {
     providerId = json['provider_id'];
     serviceId = json['service_id'];
-    servicePrice =double.parse(json['service_price'].toString());
+    servicePrice = double.parse(json['service_price'].toString());
     addressId = json['address_id'];
-    perServicemanCharge = double.parse(json['per_serviceman_charge'].toString());
+    perServicemanCharge =
+        double.parse(json['per_serviceman_charge'].toString());
     dateTime = json['date_time'];
     total = json['total'] != null ? Total.fromJson(json['total']) : null;
   }
@@ -81,6 +82,7 @@ class SingleServices {
   }
 }
 
+//
 class ServicesPackage {
   int? servicePackageId;
   List<PackageServices>? services;
@@ -89,12 +91,10 @@ class ServicesPackage {
 
   ServicesPackage.fromJson(Map<String, dynamic> json) {
     servicePackageId = json['service_package_id'];
-    if (json['services'] != null) {
-      services = <PackageServices>[];
-      json['services'].forEach((v) {
-        services!.add(PackageServices.fromJson(v));
-      });
-    }
+    services = (json['services'] as List?)
+            ?.map((v) => PackageServices.fromJson(v))
+            .toList() ??
+        [];
   }
 
   Map<String, dynamic> toJson() {
@@ -121,27 +121,29 @@ class PackageServices {
 
   PackageServices(
       {this.servicePackageId,
-        this.providerId,
-        this.serviceId,
-        this.servicePackagePrice,
-        this.addressId,
-        this.tax,
-        this.servicePrice,
-        this.perServicemanCharge,
-        this.dateTime,
-        this.total});
+      this.providerId,
+      this.serviceId,
+      this.servicePackagePrice,
+      this.addressId,
+      this.tax,
+      this.servicePrice,
+      this.perServicemanCharge,
+      this.dateTime,
+      this.total});
 
   PackageServices.fromJson(Map<String, dynamic> json) {
     servicePackageId = json['service_package_id'];
     providerId = json['provider_id'];
     serviceId = json['service_id'];
-    servicePackagePrice = double.parse(json['service_package_price'].toString());
+    servicePackagePrice =
+        double.parse(json['service_package_price'].toString());
     addressId = json['address_id'];
-    tax =  double.parse(json['tax'].toString());
+    tax = double.parse(json['tax'].toString());
     servicePrice = double.parse(json['service_price'].toString());
-    perServicemanCharge = double.parse(json['per_serviceman_charge'].toString());
+    perServicemanCharge =
+        double.parse(json['per_serviceman_charge'].toString());
     dateTime = json['date_time'];
-    total = json['total'] != null ? Total.fromJson(json['total']) : null;
+    total = json['total'] != null ? Total.fromJson(json['total']) : Total();
   }
 
   Map<String, dynamic> toJson() {
@@ -162,6 +164,7 @@ class PackageServices {
   }
 }
 
+//
 class Total {
   int? requiredServicemen;
   int? totalExtraServicemen;
@@ -176,27 +179,32 @@ class Total {
 
   Total(
       {this.requiredServicemen,
-        this.totalExtraServicemen,
-        this.totalServicemen,
-        this.totalServicemanCharge,
-        this.couponTotalDiscount,
-        this.platformFees,
-        this.platformFeesType,
-        this.tax,
-        this.subtotal,
-        this.total});
+      this.totalExtraServicemen,
+      this.totalServicemen,
+      this.totalServicemanCharge,
+      this.couponTotalDiscount,
+      this.platformFees,
+      this.platformFeesType,
+      this.tax,
+      this.subtotal,
+      this.total});
 
   Total.fromJson(Map<String, dynamic> json) {
-    requiredServicemen = json['required_servicemen'];
-    totalExtraServicemen = json['total_extra_servicemen'];
-    totalServicemen = int.parse(json['total_servicemen'].toString());
-    totalServicemanCharge =  double.parse(json['total_serviceman_charge'].toString());
-    couponTotalDiscount = double.parse(json['coupon_total_discount'].toString());
-    platformFees = double.parse(json['platform_fees'].toString());
-    platformFeesType = json['platform_fees_type'];
-    tax = double.parse(json['tax'].toString());
-    subtotal =double.parse(json['subtotal'].toString());
-    total = double.parse(json['total'].toString());
+    requiredServicemen = json['required_servicemen'] ?? 0;
+    totalExtraServicemen = json['total_extra_servicemen'] ?? 0;
+    totalServicemen =
+        int.tryParse(json['total_servicemen']?.toString() ?? '0') ?? 0;
+    totalServicemanCharge =
+        double.tryParse(json['total_serviceman_charge']?.toString() ?? '0') ??
+            0;
+    couponTotalDiscount =
+        double.tryParse(json['coupon_total_discount']?.toString() ?? '0') ?? 0;
+    platformFees =
+        double.tryParse(json['platform_fees']?.toString() ?? '0') ?? 0;
+    platformFeesType = json['platform_fees_type'] ?? '';
+    tax = double.tryParse(json['tax']?.toString() ?? '0') ?? 0;
+    subtotal = double.tryParse(json['subtotal']?.toString() ?? '0') ?? 0;
+    total = double.tryParse(json['total']?.toString() ?? '0') ?? 0;
   }
 
   Map<String, dynamic> toJson() {
@@ -215,6 +223,7 @@ class Total {
   }
 }
 
+//
 class FinalTotal {
   int? requiredServicemen;
   int? totalExtraServicemen;
@@ -229,26 +238,28 @@ class FinalTotal {
 
   FinalTotal(
       {this.requiredServicemen,
-        this.totalExtraServicemen,
-        this.totalServicemen,
-        this.totalServicemanCharge,
-        this.couponTotalDiscount,
-        this.tax,
-        this.platformFees,
-        this.platformFeesType,
-        this.subtotal,
-        this.total});
+      this.totalExtraServicemen,
+      this.totalServicemen,
+      this.totalServicemanCharge,
+      this.couponTotalDiscount,
+      this.tax,
+      this.platformFees,
+      this.platformFeesType,
+      this.subtotal,
+      this.total});
 
   FinalTotal.fromJson(Map<String, dynamic> json) {
     requiredServicemen = json['required_servicemen'];
     totalExtraServicemen = json['total_extra_servicemen'];
     totalServicemen = json['total_servicemen'];
-    totalServicemanCharge = double.parse(json['total_serviceman_charge'].toString());
-    couponTotalDiscount =  double.parse(json['coupon_total_discount'].toString());
+    totalServicemanCharge =
+        double.parse(json['total_serviceman_charge'].toString());
+    couponTotalDiscount =
+        double.parse(json['coupon_total_discount'].toString());
     tax = double.parse(json['tax'].toString());
     platformFees = double.parse(json['platform_fees'].toString());
     platformFeesType = json['platform_fees_type'];
-    subtotal =  double.parse(json['subtotal'].toString());
+    subtotal = double.parse(json['subtotal'].toString());
     total = double.parse(json['total'].toString());
   }
 

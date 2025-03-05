@@ -63,14 +63,17 @@ class ChatProvider with ChangeNotifier {
   //booking detail by id
   Future getBookingDetailBy(context) async {
     try {
-      await apiServices.getApi("${api.booking}/$bookingId", [], isToken: true, isData: true).then((value) {
+      await apiServices
+          .getApi("${api.booking}/$bookingId", [], isToken: true, isData: true)
+          .then((value) {
         debugPrint("BOOKING DATA : ${value.data}");
         hideLoading(context);
         if (value.isSuccess!) {
           booking = BookingModel.fromJson(value.data);
           notifyListeners();
         }
-        int index = booking!.servicemen!.indexWhere((element) => element.id.toString() == userId.toString());
+        int index = booking!.servicemen!.indexWhere(
+            (element) => element.id.toString() == userId.toString());
         if (index >= 0) {
           phone = booking!.servicemen![index].phone.toString();
           token = booking!.servicemen![index].fcmToken;
@@ -111,25 +114,34 @@ class ChatProvider with ChangeNotifier {
         context: context,
         builder: (context1) {
           return AlertDialog(
-              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppRadius.r12))),
+              shape: const RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.all(Radius.circular(AppRadius.r12))),
               content: Column(mainAxisSize: MainAxisSize.min, children: [
-                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                  Text(language(context, appFonts.selectOne),
-                      style: appCss.dmDenseBold18.textColor(appColor(context).darkText)),
-                  const Icon(CupertinoIcons.multiply).inkWell(onTap: () => route.pop(context))
-                ]),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(language(context, appFonts.selectOne),
+                          style: appCss.dmDenseBold18
+                              .textColor(appColor(context).darkText)),
+                      const Icon(CupertinoIcons.multiply)
+                          .inkWell(onTap: () => route.pop(context))
+                    ]),
                 const VSpace(Sizes.s20),
-                ...appArray.selectList.asMap().entries.map((e) => SelectOptionLayout(
-                    data: e.value,
-                    index: e.key,
-                    list: appArray.selectList,
-                    onTap: () {
-                      if (e.key == 0) {
-                        getImage(context, ImageSource.gallery);
-                      } else {
-                        getImage(context, ImageSource.camera);
-                      }
-                    }))
+                ...appArray.selectList
+                    .asMap()
+                    .entries
+                    .map((e) => SelectOptionLayout(
+                        data: e.value,
+                        index: e.key,
+                        list: appArray.selectList,
+                        onTap: () {
+                          if (e.key == 0) {
+                            getImage(context, ImageSource.gallery);
+                          } else {
+                            getImage(context, ImageSource.camera);
+                          }
+                        }))
               ]));
         });
   }
@@ -367,12 +379,21 @@ class ChatProvider with ChangeNotifier {
       List<MessageModel> newMessageList = a.value.message!.toList();
 
       return Column(children: [
-        Text(a.value.time!.contains("-other") ? a.value.time!.split("-other")[0] : a.value.time!,
-                style: appCss.dmDenseMedium14.textColor(appColor(context).lightText))
+        Text(
+                a.value.time!.contains("-other")
+                    ? a.value.time!.split("-other")[0]
+                    : a.value.time!,
+                style: appCss.dmDenseMedium14
+                    .textColor(appColor(context).lightText))
             .marginSymmetric(vertical: Insets.i5),
         ...newMessageList.reversed.toList().asMap().entries.map((e) {
-          return buildItem(e.key, e.value, e.value.docId,
-              a.value.time!.contains("-other") ? a.value.time!.split("-other")[0] : a.value.time!);
+          return buildItem(
+              e.key,
+              e.value,
+              e.value.docId,
+              a.value.time!.contains("-other")
+                  ? a.value.time!.split("-other")[0]
+                  : a.value.time!);
         })
       ]);
     }).toList());
@@ -398,6 +419,27 @@ class ChatProvider with ChangeNotifier {
     // isLoading = true;
     if (content.trim() != '') {
       String time = DateTime.now().millisecondsSinceEpoch.toString();
+      // change 13-02
+      // MessageModel messageModel = MessageModel(
+      //   chatId: chatId,
+      //   content: content,
+      //   docId: time,
+      //   messageType: "sender",
+      //   receiverId: userId!.toString(),
+      //   senderId: userModel!.id!.toString(),
+      //   timestamp: time,
+      //   type: type.name,
+      //   receiverImage: image,
+      //   bookingId: chatId.toString(),
+      //   receiverName: name,
+      //   senderImage:
+      //       userModel!.mediaList != null && userModel!.mediaList!.isNotEmpty
+      //           ? userModel!.mediaList![0].originalUrl!
+      //           : null,
+      //   senderName: userModel!.name,
+      //   role: "user",
+      // );
+
       MessageModel messageModel = MessageModel(
         chatId: chatId,
         content: content,
@@ -410,13 +452,15 @@ class ChatProvider with ChangeNotifier {
         receiverImage: image,
         bookingId: chatId.toString(),
         receiverName: name,
-        senderImage:
-            userModel!.media != null && userModel!.media!.isNotEmpty ? userModel!.media![0].originalUrl! : null,
+        senderImage: userModel!.media != null && userModel!.media!.isNotEmpty
+            ? userModel!.media![0].originalUrl!
+            : null,
         senderName: userModel!.name,
         role: "user",
       );
       controller.text = "";
-      bool isEmpty = localMessage.where((element) => element.time == "Today").isEmpty;
+      bool isEmpty =
+          localMessage.where((element) => element.time == "Today").isEmpty;
       if (isEmpty) {
         List<MessageModel>? message = [];
         if (message.isNotEmpty) {
@@ -426,10 +470,12 @@ class ChatProvider with ChangeNotifier {
           message = [messageModel];
           message[0].docId = time;
         }
-        DateTimeChip dateTimeChip = DateTimeChip(time: getDate(time), message: message);
+        DateTimeChip dateTimeChip =
+            DateTimeChip(time: getDate(time), message: message);
         localMessage.add(dateTimeChip);
       } else {
-        int index = localMessage.indexWhere((element) => element.time == "Today");
+        int index =
+            localMessage.indexWhere((element) => element.time == "Today");
 
         if (!localMessage[index].message!.contains(messageModel)) {
           localMessage[index].message!.add(messageModel);
@@ -524,11 +570,12 @@ class ChatProvider with ChangeNotifier {
   onClearChat(context, sync) {
     final value = Provider.of<DeleteDialogProvider>(context, listen: false);
 
-    value.onDeleteDialog(sync, context, eImageAssets.clearChat, appFonts.clearChat, appFonts.areYouClearChat, () async {
+    value.onDeleteDialog(sync, context, eImageAssets.clearChat,
+        appFonts.clearChat, appFonts.areYouClearChat, () async {
       route.pop(context);
       await FirebaseApi().clearChat(context);
-      value.onResetPass(context, language(context, appFonts.hurrayChatDelete), language(context, appFonts.okay),
-          () => Navigator.pop(context));
+      value.onResetPass(context, language(context, appFonts.hurrayChatDelete),
+          language(context, appFonts.okay), () => Navigator.pop(context));
     });
     value.notifyListeners();
   }

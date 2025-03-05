@@ -16,12 +16,13 @@ class ProfileLayout extends StatelessWidget {
         SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Column(children: [
-                  ProfilePicCommon(
-                      imageUrl: userModel != null &&
-                              userModel!.media != null &&
-                              userModel!.media!.isNotEmpty
-                          ? userModel!.media![0].originalUrl!
-                          : null),
+                  // 13-02
+                  // ProfilePicCommon(
+                  //     imageUrl: userModel != null &&
+                  //             userModel!.media != null &&
+                  //             userModel!.media!.isNotEmpty
+                  //         ? userModel!.media![0].originalUrl!
+                  //         : null),
                   const VSpace(Sizes.s5),
                   if (profile.isGuest)
                     Text("Guest",

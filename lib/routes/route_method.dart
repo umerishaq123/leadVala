@@ -6,11 +6,15 @@ import '../config.dart';
 
 class AppRoute {
   Map<String, Widget Function(BuildContext)> route = {
+    //  test route
+    //  routeName.splash: (p0) => const SplashScreen(),
+
     routeName.splash: (p0) => const SplashScreen(),
     routeName.onBoarding: (p0) => const OnBoardingScreen(),
     routeName.login: (p0) => const LoginScreen(),
-    // routeName.login: (p0) => const LoginWithPhoneScreen(fromRoot: true,),
-    routeName.loginWithPhone: (p0) => const LoginWithPhoneScreen(fromRoot: false,),
+    routeName.loginWithPhone: (p0) => const LoginWithPhoneScreen(
+          fromRoot: false,
+        ),
     routeName.verifyOtp: (p0) => const VerifyOtpScreen(),
     routeName.forgetPassword: (p0) => const ForgotPasswordScreen(),
     routeName.resetPass: (p0) => const ResetPasswordScreen(),
@@ -36,7 +40,7 @@ class AppRoute {
     routeName.search: (p0) => const SearchScreen(),
     routeName.latestBlogViewAll: (p0) => const LatestBlogViewAll(),
     routeName.latestBlogDetails: (p0) => const LatestBlogDetailsScreen(),
-    routeName.noInternet: (p0) => NoInternetScreen(),
+    routeName.noInternet: (p0) => const NoInternetScreen(),
     routeName.bookingList: (p0) => const BookingScreen(),
     routeName.categoriesListScreen: (p0) => const CategoriesListScreen(),
     routeName.categoriesDetailsScreen: (p0) => const CategoryDetailScreen(),
@@ -44,10 +48,13 @@ class AppRoute {
     routeName.servicesReviewScreen: (p0) => const ServiceReviewScreen(),
     routeName.providerDetailsScreen: (p0) => const ProviderDetailsScreen(),
     routeName.slotBookingScreen: (p0) => const SlotBookingScreen(),
+
     routeName.cartScreen: (p0) => const CartScreen(),
+
     routeName.couponListScreen: (p0) => const CouponListScreen(),
     routeName.paymentScreen: (p0) => const PaymentScreen(),
-    routeName.serviceSelectedUserScreen: (p0) => const ServiceSelectedUserScreen(),
+    routeName.serviceSelectedUserScreen: (p0) =>
+        const ServiceSelectedUserScreen(),
     routeName.servicemanListScreen: (p0) => const ServicemanListScreen(),
     routeName.servicemanDetailScreen: (p0) => const ServicemanDetailScreen(),
     routeName.featuredServiceScreen: (p0) => const FeaturedServiceScreen(),

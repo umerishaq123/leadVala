@@ -24,7 +24,6 @@ class AppArray {
     },
   ];
 
-
   var chatHistoryOptionList = [appFonts.refresh, appFonts.clearChat];
 
   var localList = <Locale>[
@@ -61,7 +60,6 @@ class AppArray {
       "code": "es"
     },
   ];
-
 
   var dashboardList = [
     {
@@ -146,7 +144,7 @@ class AppArray {
       "title": appFonts.carpenterPackage,
       "icon": eImageAssets.carpenter,
       "price": "\$15.52",
-      "color": Color(0XFFFDB448)
+      "color": const Color(0XFFFDB448)
     },
   ];
 
@@ -268,7 +266,7 @@ class AppArray {
           "description": appFonts.aboutUs,
           "isArrow": true
         },
-       /* {"icon": eSvgAssets.rate, "title": appFonts.rateUs, "isArrow": false},*/
+        /* {"icon": eSvgAssets.rate, "title": appFonts.rateUs, "isArrow": false},*/
         {
           "icon": eSvgAssets.share,
           "title": appFonts.shareApp,
@@ -292,9 +290,7 @@ class AppArray {
     },
   ];
 
-
   var guestProfileList = [
-
     {
       "title": appFonts.aboutApp,
       "data": [
@@ -315,7 +311,6 @@ class AppArray {
     {
       "title": appFonts.becomeProvider,
     }
-
   ];
 
   //app setting
@@ -337,7 +332,7 @@ class AppArray {
       "code": "USD",
       "symbol": "\$",
       'USD': 1,
-      'INR': 83.24,
+      'INR': 1.00,
       'POU': 0.83,
       'EUR': 0.96,
     },
@@ -347,7 +342,7 @@ class AppArray {
       "code": "EUR",
       "symbol": '€',
       'USD': 1.05,
-      'INR': 87.10,
+      'INR': 1.00,
       'POU': 0.87,
       'EUR': 1,
     },
@@ -357,7 +352,7 @@ class AppArray {
       "code": "INR",
       "symbol": '₹',
       'USD': 0.012,
-      'INR': 1,
+      'INR': 1.00,
       'POU': 0.010,
       'EUR': 0.011,
     },
@@ -367,7 +362,7 @@ class AppArray {
       "code": "POU",
       "symbol": "£",
       'USD': 1.22,
-      'INR': 101.74,
+      'INR': 1.00,
       'POU': 1,
       'EUR': 1.15,
     }
@@ -590,15 +585,23 @@ class AppArray {
   ];
 
   var editReviewList = [
-    {"icon": eSvgAssets.bad, "title": appFonts.bad,"gif":eGifAssets.bad},
-    {"icon": eSvgAssets.okay, "title": appFonts.okay,"gif":eGifAssets.okay},
-    {"icon": eSvgAssets.good, "title": appFonts.good,"gif":eGifAssets.good},
-    {"icon": eSvgAssets.amazing, "title": appFonts.amazing,"gif":eGifAssets.amazing},
-    {"icon": eSvgAssets.excellent, "title": appFonts.excellent,"gif":eGifAssets.excellent},
+    {"icon": eSvgAssets.bad, "title": appFonts.bad, "gif": eGifAssets.bad},
+    {"icon": eSvgAssets.okay, "title": appFonts.okay, "gif": eGifAssets.okay},
+    {"icon": eSvgAssets.good, "title": appFonts.good, "gif": eGifAssets.good},
+    {
+      "icon": eSvgAssets.amazing,
+      "title": appFonts.amazing,
+      "gif": eGifAssets.amazing
+    },
+    {
+      "icon": eSvgAssets.excellent,
+      "title": appFonts.excellent,
+      "gif": eGifAssets.excellent
+    },
   ];
 
   var appDetailsList = [
-   /* {
+    /* {
       "title": appFonts.aboutUs,
       "icon": eSvgAssets.about,
     },

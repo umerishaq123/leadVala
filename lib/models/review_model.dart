@@ -51,10 +51,16 @@ class Reviews {
         media!.add(Media.fromJson(v));
       });
     }
-    consumer = json['consumer'] != null ? UserModel.fromJson(json['consumer']) : null;
-    service = json['service'] != null ? Services.fromJson(json['service']) : null;
-    serviceman = json['serviceman'] != null ? ServicemanModel.fromJson(json['serviceman']) : null;
-    provider = json['provider'] != null ? ProviderModel.fromJson(json['provider']) : null;
+    consumer =
+        json['consumer'] != null ? UserModel.fromJson(json['consumer']) : null;
+    service =
+        json['service'] != null ? Services.fromJson(json['service']) : null;
+    serviceman = json['serviceman'] != null
+        ? ServicemanModel.fromJson(json['serviceman'])
+        : null;
+    provider = json['provider'] != null
+        ? ProviderModel.fromJson(json['provider'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {

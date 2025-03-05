@@ -12,6 +12,7 @@ class BannerLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('???????????////?????${bannerList!.first.media!.first.originalUrl}');
     return CarouselSlider(
             options: CarouselOptions(
                 height: Sizes.s240,

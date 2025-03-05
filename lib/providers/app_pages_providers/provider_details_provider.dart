@@ -51,24 +51,33 @@ class ProviderDetailsProvider with ChangeNotifier {
   }
 
   onReady(context, {id}) async {
+    print('showing to the id$id');
     notifyListeners();
+    id = id;
     dynamic data;
     if (id != null) {
       data = id;
+      print('showing data if1 $data');
     } else {
       data = ModalRoute.of(context)!.settings.arguments;
+      print('showing data if2 $data');
+
       notifyListeners();
       if (data['providerId'] != null) {
         data = data['providerId'];
+        print('showing data if3 $data');
       } else {
         provider = data['provider'];
+        print('showing data if4 $provider');
+
         data = provider!.id;
+        print('showing data if5 $data');
       }
     }
     notifyListeners();
 
-    await getProviderById(context, data);
-    await getCategory(context, data);
+    await getProviderById(context, 47.toString());
+    // await getCategory(context, data);
     widget1Opacity = 1;
     notifyListeners();
   }
@@ -79,7 +88,8 @@ class ProviderDetailsProvider with ChangeNotifier {
       isAlert = false;
       notifyListeners();
     } else {
-      if ((serviceList[index].requiredServicemen!) == (serviceList[index].selectedRequiredServiceMan!)) {
+      if ((serviceList[index].requiredServicemen!) ==
+          (serviceList[index].selectedRequiredServiceMan!)) {
         isAlert = true;
         notifyListeners();
         await Future.delayed(DurationClass.s3);
@@ -88,7 +98,8 @@ class ProviderDetailsProvider with ChangeNotifier {
       } else {
         isAlert = false;
         notifyListeners();
-        serviceList[index].selectedRequiredServiceMan = ((serviceList[index].selectedRequiredServiceMan!) - 1);
+        serviceList[index].selectedRequiredServiceMan =
+            ((serviceList[index].selectedRequiredServiceMan!) - 1);
       }
     }
     notifyListeners();
@@ -105,23 +116,30 @@ class ProviderDetailsProvider with ChangeNotifier {
   }
 
   getProviderById(context, id) async {
+    print('showing tot the providerby is$id');
     try {
-      await apiServices.getApi("${api.provider}/$id", [], isData: true).then((value) {
+      await apiServices
+          .getApi("${api.provider}/$id", [], isData: true)
+          .then((value) {
+        print('check out to the value of datas${value.data}');
         if (value.isSuccess!) {
           provider = ProviderModel.fromJson(value.data);
           notifyListeners();
         }
       });
     } catch (e) {
+      print('showing error $e');
       log("ERRROEEE getProviderById orovider: $e");
       notifyListeners();
     }
   }
 
   getCategory(context, id) async {
+    print('get categorysd$id');
     // notifyListeners();
     try {
       String apiURL = "${api.category}?providerId=$id";
+      print('api url checl it${apiURL}');
       if (zoneIds.isNotEmpty) {
         apiURL = "${api.category}?providerId=$id&zone_ids=$zoneIds";
       } else {
@@ -155,7 +173,8 @@ class ProviderDetailsProvider with ChangeNotifier {
   }
 
   getServiceByCategoryId(context, id) async {
-    final locationProvider = Provider.of<LocationProvider>(context, listen: false);
+    final locationProvider =
+        Provider.of<LocationProvider>(context, listen: false);
 
     notifyListeners();
 

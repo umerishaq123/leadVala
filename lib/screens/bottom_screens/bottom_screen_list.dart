@@ -1,4 +1,3 @@
-
 export '../../screens/bottom_screens/dashboard/dashboard.dart';
 export 'booking_screen/booking_screen.dart';
 export '../../screens/bottom_screens/offer_screen/offer_screen.dart';
@@ -25,4 +24,5 @@ export '../../screens/bottom_screens/cart_screen/layouts/cart_layout.dart';
 export '../../screens/bottom_screens/cart_screen/layouts/discount_coupon_layout.dart';
 export '../../screens/bottom_screens/booking_screen/layouts/service_provider_layout.dart';
 export '../../screens/bottom_screens/booking_screen/layouts/status_row.dart';
+
 export '../../screens/bottom_screens/booking_screen/layouts/booking_layout.dart';

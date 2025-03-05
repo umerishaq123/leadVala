@@ -1,4 +1,6 @@
-String apiUrl = "https://fix-it.swarnkarsamajudaipur.com/api";
+// String apiUrl = "https://fix-it.swarnkarsamajudaipur.com/api";
+String apiUrl = "https://leadvala.com/api";
+
 String paymentUrl = "Your PaymentUrl";
 String playstoreUrl = "Your playStoreUrl";
 

@@ -13,7 +13,9 @@ Color colorCondition(String? text, context) {
     return appColor(context).pending;
   } else if (text == appFonts.accepted || text == appFonts.assigned) {
     return appColor(context).accepted;
-  } else if (text == appFonts.onGoing || text == appFonts.onHold || text == appFonts.startAgain) {
+  } else if (text == appFonts.onGoing ||
+      text == appFonts.onHold ||
+      text == appFonts.startAgain) {
     return appColor(context).ongoing;
   } else if (text == appFonts.cancel) {
     return appColor(context).red;
@@ -26,21 +28,28 @@ Color colorCondition(String? text, context) {
 
 Color colorConditionById(String? text, context) {
   final dash = Provider.of<DashboardProvider>(context, listen: false);
-  int index = dash.bookingStatusList.indexWhere((element) => element.id.toString() == text);
+  int index = dash.bookingStatusList
+      .indexWhere((element) => element.id.toString() == text);
   if (index > 0) {
     if (dash.bookingStatusList[index].slug == appFonts.pending) {
-      return Color(int.parse("0xFF${dash.bookingStatusList[index].hexaCode!.split("#")[1]}"));
+      return Color(int.parse(
+          "0xFF${dash.bookingStatusList[index].hexaCode!.split("#")[1]}"));
     } else if (dash.bookingStatusList[index].slug == appFonts.accepted ||
         dash.bookingStatusList[index].slug == appFonts.assigned) {
-      return Color(int.parse("0xFF${dash.bookingStatusList[index].hexaCode!.split("#")[1]}"));
+      return Color(int.parse(
+          "0xFF${dash.bookingStatusList[index].hexaCode!.split("#")[1]}"));
     } else if (dash.bookingStatusList[index].slug == appFonts.onGoing) {
-      return Color(int.parse("0xFF${dash.bookingStatusList[index].hexaCode!.split("#")[1]}"));
+      return Color(int.parse(
+          "0xFF${dash.bookingStatusList[index].hexaCode!.split("#")[1]}"));
     } else if (dash.bookingStatusList[index].slug == appFonts.cancel) {
-      return Color(int.parse("0xFF${dash.bookingStatusList[index].hexaCode!.split("#")[1]}"));
+      return Color(int.parse(
+          "0xFF${dash.bookingStatusList[index].hexaCode!.split("#")[1]}"));
     } else if (dash.bookingStatusList[index].slug == appFonts.assigned) {
-      return Color(int.parse("0xFF${dash.bookingStatusList[index].hexaCode!.split("#")[1]}"));
+      return Color(int.parse(
+          "0xFF${dash.bookingStatusList[index].hexaCode!.split("#")[1]}"));
     } else if (dash.bookingStatusList[index].slug == appFonts.onHold) {
-      return Color(int.parse("0xFF${dash.bookingStatusList[index].hexaCode!.split("#")[1]}"));
+      return Color(int.parse(
+          "0xFF${dash.bookingStatusList[index].hexaCode!.split("#")[1]}"));
     } else {
       return appColor(context).primary;
     }
@@ -86,11 +95,13 @@ extension StringExtension on String {
 }
 
 Future<bool> isNetworkConnection() async {
-  var connectivityResult = await Connectivity().checkConnectivity(); //Check For Wifi or Mobile data is ON/OFF
+  var connectivityResult = await Connectivity()
+      .checkConnectivity(); //Check For Wifi or Mobile data is ON/OFF
   if (connectivityResult == ConnectivityResult.none) {
     return false;
   } else {
-    final result = await InternetAddress.lookup('google.com'); //Check For Internet Connection
+    final result = await InternetAddress.lookup(
+        'google.com'); //Check For Internet Connection
     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
       return true;
     } else {
@@ -116,14 +127,51 @@ Color fromHex(String hexString) {
 
   /// String v = hexString.replaceAll("#", "0xFF");
   //buffer.write(hexString.replaceFirst('#', ''));
-  return Color(int.parse(hexString.substring(1, hexString.length), radix: 16) + 0xFF000000);
+  return Color(int.parse(hexString.substring(1, hexString.length), radix: 16) +
+      0xFF000000);
 }
 
-getFcmToken() async {
-  String? token;
-  token = await FirebaseMessaging.instance.getToken();
+// getFcmToken() async {
+//   print('fasttimecall');
+//   String? token;
+//   token = await FirebaseMessaging.instance.getToken();
+//   print('fcm token t0 firebase chacek ++ $token');
+//   print('fcm token t0 firebase chacek ++ $token');
+//   return token;
+// }
 
-  return token;
+getFcmToken() async {
+  try {
+    print('🔄 Fetching FCM Token...');
+
+    // Ensure Firebase Messaging is initialized
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    // Request permission (for iOS & Web)
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.denied) {
+      print('❌ FCM Permission Denied');
+      return null;
+    }
+
+    // Get the FCM Token
+    String? token = await messaging.getToken();
+    if (token != null) {
+      print('✅ FCM Token Retrieved: $token');
+    } else {
+      print('⚠️ Failed to retrieve FCM Token.');
+    }
+
+    return token;
+  } catch (e) {
+    print('🚨 Error retrieving FCM Token: $e');
+    return null;
+  }
 }
 
 getTime(time) {
@@ -149,12 +197,16 @@ slots(start, end, gap) {
   int? closeTimeInMinutes = _getTimeInMinutesSinceMidnight(closeTime, false);
   int? spaceInMinutes = _getTimeInMinutesSinceMidnight(space, true);
 
-  if (startTimeInMinutes == null || closeTimeInMinutes == null || spaceInMinutes == null) {
+  if (startTimeInMinutes == null ||
+      closeTimeInMinutes == null ||
+      spaceInMinutes == null) {
     return;
   }
 
   List<String> slotsList = [];
-  for (int i = startTimeInMinutes; i <= closeTimeInMinutes; i += spaceInMinutes) {
+  for (int i = startTimeInMinutes;
+      i <= closeTimeInMinutes;
+      i += spaceInMinutes) {
     slotsList.add(_getTimeInStringForMinutesSinceMidnight(i));
   }
 
@@ -207,7 +259,8 @@ isServiceManEmpty(List<Services> list) {
   List<ProviderModel> provider = [];
 
   for (var data in list) {
-    if (data.selectedServiceMan != null && data.selectedServiceMan!.isNotEmpty) {
+    if (data.selectedServiceMan != null &&
+        data.selectedServiceMan!.isNotEmpty) {
       data.selectedServiceMan!.asMap().entries.forEach((element) {
         provider.add(element.value);
       });
@@ -237,7 +290,14 @@ getName(List<CartModel> cart, id, isPackage) {
   return name;
 }
 
-getTotalRequiredServiceMan(List<CartModel> cart, id, isPackage) {
+getTotalRequiredServiceMan(
+  List<CartModel> cart,
+  id,
+  isPackage,
+) {
+  print('gettotalRequiredservieman');
+  print('gettotalRequiredservieman${id}');
+
   int count = 0;
   for (var list in cart) {
     if (list.isPackage == false) {
@@ -259,13 +319,17 @@ getTotalRequiredServiceMan(List<CartModel> cart, id, isPackage) {
 
 bool isInCart(context, id) {
   final cart = Provider.of<CartProvider>(context, listen: false);
-  return cart.cartList.where((element) => element.isPackage == false && element.serviceList!.id == id).isNotEmpty;
+  return cart.cartList
+      .where((element) =>
+          element.isPackage == false && element.serviceList!.id == id)
+      .isNotEmpty;
 }
 
 bookingReasons(List<BookingReasons> bookingReasons) {
   String reason = "";
   bookingReasons.asMap().entries.forEach((e) {
-    if (e.value.status!.name == appFonts.cancelled || e.value.status!.name == appFonts.cancel) {
+    if (e.value.status!.name == appFonts.cancelled ||
+        e.value.status!.name == appFonts.cancel) {
       reason = e.value.reason!;
     }
   });
@@ -276,7 +340,8 @@ bool isServiceRate(List<Reviews> review) {
   print("LENG :${review.length} ");
   bool isNotComplete = false;
 
-  int index = review.indexWhere((element) => element.consumerId == userModel!.id);
+  int index =
+      review.indexWhere((element) => element.consumerId == userModel!.id);
   if (index >= 0) {
     isNotComplete = true;
   } else {
@@ -316,7 +381,8 @@ bool isPaymentComplete(BookingModel value) {
         isPayment = false;
       }*/
       for (var d in value.extraCharges!) {
-        if (d.paymentStatus == null || d.paymentStatus!.toLowerCase() == "pending") {
+        if (d.paymentStatus == null ||
+            d.paymentStatus!.toLowerCase() == "pending") {
           isPayment = true;
         }
       }
@@ -359,7 +425,9 @@ double totalServicesChargesAndTotalBooking(BookingModel bookingModel) {
 
 /// Capitalize given String
 String capitalizeFirstLetter(val) {
-  return (val != null) ? (val![0].toString().toUpperCase() + val!.substring(1)) : validate(value: val);
+  return (val != null)
+      ? (val![0].toString().toUpperCase() + val!.substring(1))
+      : validate(value: val);
 }
 
 // Check null string, return given value if null
@@ -372,17 +440,22 @@ String validate({String? value}) {
 }
 
 /// Returns true if given String is null or isEmpty
-bool isEmptyOrNull(val) => val == null || (val != null && val!.isEmpty) || (val != null && val! == 'null');
+bool isEmptyOrNull(val) =>
+    val == null ||
+    (val != null && val!.isEmpty) ||
+    (val != null && val! == 'null');
 
 //get address data
 String getAddress(context, addressId) {
   String address = "";
   final loc = Provider.of<LocationProvider>(context, listen: false);
 
-  int index = loc.addressList.indexWhere((element) => element.id.toString() == addressId.toString());
+  int index = loc.addressList
+      .indexWhere((element) => element.id.toString() == addressId.toString());
   print("loc.addressList :${index}");
   if (index >= 0) {
-    address = "${loc.addressList[index].address}-${loc.addressList[index].area ?? loc.addressList[index].state!.name}";
+    address =
+        "${loc.addressList[index].address}-${loc.addressList[index].area ?? loc.addressList[index].state!.name}";
   }
   return address;
 }

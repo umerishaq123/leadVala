@@ -1,1 +1,9 @@
 flutter/ephemeral
+# Flutter/Dart/Pub specific ignores
+#.dart_tool/
+#.packages
+# build/
+# pubspec.lock
+# .idea/
+# ios/Pods/
+# android/.gradle/

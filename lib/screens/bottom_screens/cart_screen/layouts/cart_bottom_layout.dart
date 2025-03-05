@@ -3,7 +3,7 @@ import '../../../../config.dart';
 class CartBottomLayout extends StatelessWidget {
   final String? amount;
   final GestureTapCallback? onTap;
-  const CartBottomLayout({super.key,this.amount,this.onTap});
+  const CartBottomLayout({super.key, this.amount, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +24,11 @@ class CartBottomLayout extends StatelessWidget {
               ButtonCommon(
                   title: appFonts.proceedCheckout,
                   icon: SvgPicture.asset(eSvgAssets.doubleRight),
-                  onTap:onTap)
+                  onTap: onTap)
             ]).paddingSymmetric(horizontal: Insets.i20))
-        .decorated(color: isDark(context)?appColor(context).whiteBg: appColor(context).cartBottomBg);
+        .decorated(
+            color: isDark(context)
+                ? appColor(context).whiteBg
+                : appColor(context).cartBottomBg);
   }
 }

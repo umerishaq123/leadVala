@@ -28,12 +28,15 @@ class _OfferScreenState extends State<OfferScreen> {
   Widget build(BuildContext context) {
     return Consumer<DashboardProvider>(builder: (context3, dash, child) {
       log("dash.offerList.isEmpty:3${dash.offerList.isEmpty}");
+      log("dash.$dash");
+
       return dash.offerList.isEmpty && widget1Opacity == 0.0
           ? const OfferShimmer()
           : Scaffold(
               appBar: AppBar(
                   title: Text(language(context, appFonts.dealsZone),
-                      style: appCss.dmDenseBold18.textColor(appColor(context).darkText))),
+                      style: appCss.dmDenseBold18
+                          .textColor(appColor(context).darkText))),
               body: RefreshIndicator(
                   onRefresh: () async {
                     dash.getOffer();
@@ -44,28 +47,67 @@ class _OfferScreenState extends State<OfferScreen> {
                           const VSpace(Sizes.s20),
                           if (dash.offerList.isNotEmpty)
                             ...dash.offerList.asMap().entries.map((e) {
-                              return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                Text(e.value.title!, style: appCss.dmDenseBold16.textColor(appColor(context).darkText)),
-                                const VSpace(Sizes.s15),
-                                ...e.value.media!.reversed.toList().asMap().entries.map((m) => CommonImageLayout(
-                                            image: m.value.originalUrl!,
-                                            radius: AppRadius.r12,
-                                            width: MediaQuery.of(context).size.width,
-                                            height: Sizes.s137,
-                                            assetImage: eImageAssets.noImageFound2,
-                                            isAllBorderRadius: true)
-                                        .inkWell(onTap: () {
-                                      if (e.value.type == "service") {
-                                        route.pushNamed(context, routeName.servicesDetailsScreen,
-                                            arg: {"serviceId": e.value.relatedId});
-                                      } else if (e.value.type == "category") {
-                                        dash.onBannerTap(context, e.value.relatedId);
-                                      } else {
-                                        route.pushNamed(context, routeName.providerDetailsScreen,
-                                            arg: {'providerId': e.value.relatedId});
-                                      }
-                                    }).marginOnly(bottom: m.key != e.value.media!.length - 1 ? Insets.i15 : Insets.i30))
-                              ]);
+                              return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(e.value.title!,
+                                        style: appCss.dmDenseBold16.textColor(
+                                            appColor(context).darkText)),
+                                    const VSpace(Sizes.s15),
+                                    ...e.value.media!.reversed
+                                        .toList()
+                                        .asMap()
+                                        .entries
+                                        .map((m) => CommonImageLayout(
+                                                    image: m.value.originalUrl!,
+                                                    radius: AppRadius.r12,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    height: Sizes.s137,
+                                                    assetImage: eImageAssets
+                                                        .noImageFound2,
+                                                    isAllBorderRadius: true)
+                                                .inkWell(onTap: () {
+                                              if (e.value.type == "service") {
+                                                print('route service');
+                                                // route.pushNamed(
+                                                //     context,
+                                                //     routeName
+                                                //         .servicesDetailsScreen,
+                                                //     arg: {
+                                                //       "serviceId":
+                                                //           e.value.relatedId
+                                                //     });
+                                              } else if (e.value.type ==
+                                                  "category") {
+                                                print('route category');
+                                                print(
+                                                    'category value id ${e.value.relatedId}');
+
+                                                dash.onBannerTap(
+                                                    context, e.value.relatedId);
+                                              } else {
+                                                print('route else');
+
+                                                // route.pushNamed(
+                                                //     context,
+                                                //     routeName
+                                                //         .providerDetailsScreen,
+                                                //     arg: {
+                                                //       'providerId':
+                                                //           e.value.relatedId
+                                                //     });
+                                              }
+                                            }).marginOnly(
+                                                    bottom: m.key !=
+                                                            e.value.media!
+                                                                    .length -
+                                                                1
+                                                        ? Insets.i15
+                                                        : Insets.i30))
+                                  ]);
                             }),
                           const VSpace(Sizes.s50)
                         ]).paddingOnly(right: Insets.i20, left: Insets.i20)));
