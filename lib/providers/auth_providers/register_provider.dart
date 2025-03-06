@@ -36,14 +36,21 @@ class RegisterProvider extends ChangeNotifier {
   }
 
   signUp(context) async {
+    print('check to print signup');
+    log('check to print login');
     FocusManager.instance.primaryFocus?.unfocus();
     if (isCheck == false) {
+      log('user sinup false');
       Fluttertoast.showToast(msg: language(context, appFonts.pleaseCheckTerms));
       /*snackBarMessengers(context, message: appFonts.pleaseCheckTerms);*/
     } else if (registerFormKey.currentState!.validate() && isCheck == true) {
+      log('user sinup  using to else if ');
+
       showLoading(context);
       notifyListeners();
       String token = await getFcmToken();
+      print('print to fcmtoken : ? $token');
+
       var body = {
         "name": txtName.text,
         "email": txtEmail.text,
@@ -53,11 +60,18 @@ class RegisterProvider extends ChangeNotifier {
         "password_confirmation": txtPass.text,
         "fcm_token": token
       };
+      print('print token: $token');
+
+      print('print body: $body');
 
       log("body : $body");
 
       try {
-        await apiServices.postApi(api.register, jsonEncode(body)).then((value) async {
+        log('check to user sign up print');
+
+        await apiServices
+            .postApi(api.register, jsonEncode(body))
+            .then((value) async {
           hideLoading(context);
           notifyListeners();
           if (value.isSuccess!) {
@@ -70,7 +84,8 @@ class RegisterProvider extends ChangeNotifier {
             notifyListeners();
             route.pop(context);
           } else {
-            snackBarMessengers(context, message: value.message, color: appColor(context).red);
+            snackBarMessengers(context,
+                message: value.message, color: appColor(context).red);
           }
         });
       } catch (e) {

@@ -10,12 +10,14 @@ class PaymentMethodLayout extends StatelessWidget {
   final int? index, selectIndex;
   final GestureTapCallback? onTap;
 
-  const PaymentMethodLayout({super.key, this.data, this.onTap, this.index, this.selectIndex});
+  const PaymentMethodLayout(
+      {super.key, this.data, this.onTap, this.index, this.selectIndex});
 
   @override
   Widget build(BuildContext context) {
     final value = Provider.of<PaymentProvider>(context, listen: true);
-
+    print('chec slug ${data!.slug}');
+    print('check value of payment method :: ${value.booking}');
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Row(children: [
         if (data!.slug != "cash")
@@ -33,15 +35,18 @@ class PaymentMethodLayout extends StatelessWidget {
         const HSpace(Sizes.s12),
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(language(context, data!.name!).capitalizeFirst(),
-              style: appCss.dmDenseSemiBold16
-                  .textColor(selectIndex == index ? appColor(context).primary : appColor(context).darkText)),
+              style: appCss.dmDenseSemiBold16.textColor(selectIndex == index
+                  ? appColor(context).primary
+                  : appColor(context).darkText)),
         ])
       ]),
       CommonRadio(index: index, selectedIndex: selectIndex, onTap: onTap)
     ])
         .paddingSymmetric(vertical: Insets.i12, horizontal: Insets.i15)
         .boxBorderExtension(context,
-            bColor: selectIndex == index ? appColor(context).stroke : appColor(context).fieldCardBg,
+            bColor: selectIndex == index
+                ? appColor(context).stroke
+                : appColor(context).fieldCardBg,
             isShadow: selectIndex == index ? false : true)
         .paddingSymmetric(vertical: Insets.i10, horizontal: Sizes.s20)
         .inkWell(onTap: onTap);

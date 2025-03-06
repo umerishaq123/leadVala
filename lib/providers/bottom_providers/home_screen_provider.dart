@@ -8,27 +8,25 @@ class HomeScreenProvider with ChangeNotifier {
   int? cIndex;
   AnimationController? controller;
   Animation? animation;
-  bool isSkeleton =true;
+  bool isSkeleton = true;
 
   HomeScreenProvider() {
-
-    animationController =
-    AnimationController(vsync: _TickerProvider(this), duration: const Duration(seconds: 10))
+    animationController = AnimationController(
+        vsync: _TickerProvider(this), duration: const Duration(seconds: 10))
       ..repeat();
     rotationAnimation =
         Tween<double>(begin: 1, end: 0).animate(animationController!);
   }
 
-  onAnimate(TickerProvider sync) async{
-
-    animationController =
-    AnimationController(vsync: _TickerProvider(this), duration: const Duration(seconds: 10))
+  onAnimate(TickerProvider sync) async {
+    animationController = AnimationController(
+        vsync: _TickerProvider(this), duration: const Duration(seconds: 10))
       ..repeat();
     rotationAnimation =
         Tween<double>(begin: 1, end: 0).animate(animationController!);
 
     await Future.delayed(Duration(milliseconds: 2500));
-    isSkeleton =false;
+    isSkeleton = false;
     notifyListeners();
     //notifyListeners();
   }
@@ -39,29 +37,27 @@ class HomeScreenProvider with ChangeNotifier {
   Animation<double>? rotationAnimation;
   AnimationController? animationController;
 
-
-  isEmptyLayout(context){
-    final dash = Provider.of<DashboardProvider>(context,listen: false);
-    log("dash.bannerList.isNotEmpty : ${dash.bannerList.length } && ${dash.categoryList.length} && ${dash.servicePackagesList.length} && ${dash.featuredServiceList.length}");
-    return dash.bannerList.isNotEmpty || dash.categoryList.isNotEmpty || dash.servicePackagesList.isNotEmpty && dash.featuredServiceList.isNotEmpty;
+  isEmptyLayout(context) {
+    final dash = Provider.of<DashboardProvider>(context, listen: false);
+    log("dash.bannerList.isNotEmpty : ${dash.bannerList.length} && ${dash.categoryList.length} && ${dash.servicePackagesList.length} && ${dash.featuredServiceList.length}");
+    return dash.bannerList.isNotEmpty ||
+        dash.categoryList.isNotEmpty ||
+        dash.servicePackagesList.isNotEmpty &&
+            dash.featuredServiceList.isNotEmpty;
   }
 
   //on banner tap
-  onBannerTap(context,type, id) {
-
+  onBannerTap(context, type, id) {
     log("TYPE : $type / ID : $id");
     if (type == "service") {
-      route.pushNamed(
-          context, routeName.servicesDetailsScreen,
-          arg:  {"serviceId" : id});
+      route.pushNamed(context, routeName.servicesDetailsScreen,
+          arg: {"serviceId": id});
     } else if (type == "category") {
       final commonApi = Provider.of<CommonApiProvider>(context, listen: false);
       commonApi.getCategoryById(context, id);
-
     } else {
-      route.pushNamed(
-          context, routeName.providerDetailsScreen,
-          arg: {'providerId':id});
+      route.pushNamed(context, routeName.providerDetailsScreen,
+          arg: {'providerId': id});
     }
   }
 
@@ -77,21 +73,20 @@ class HomeScreenProvider with ChangeNotifier {
     pref = await SharedPreferences.getInstance();
     bool isGuest = pref.getBool(session.isContinueAsGuest) ?? false;
     if (isGuest == false) {
-
       final location = Provider.of<LocationProvider>(context, listen: false);
       if (location.addressList.isEmpty) {
         route.pushNamed(context, routeName.location).then((e) {
           animationController!.reset();
           notifyListeners();
-        }).then((e){
+        }).then((e) {
           location.getLocationList(context);
         });
       } else {
         route.pushNamed(context, routeName.myLocation).then((e) {
           animationController!.reset();
           notifyListeners();
-        }).then((e){
-location.getLocationList(context);
+        }).then((e) {
+          location.getLocationList(context);
         });
       }
       animationController!.stop();
@@ -108,7 +103,6 @@ location.getLocationList(context);
     bool isGuest = pref.getBool(session.isContinueAsGuest) ?? false;
     if (isGuest == false) {
       route.pushNamed(context, routeName.notifications);
-
     } else {
       route.pushAndRemoveUntil(context);
     }
@@ -121,8 +115,8 @@ location.getLocationList(context);
     notifyListeners();
     super.dispose();
   }
-
 }
+
 class _TickerProvider extends TickerProvider {
   final HomeScreenProvider _notifier;
 

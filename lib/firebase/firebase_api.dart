@@ -61,8 +61,8 @@ class FirebaseApi {
       senderId,
       receiverName,
       receiverImage,
-        sToken,
-        rToken,
+      sToken,
+      rToken,
       MessageType? type,
       bookingId,
       role}) async {
@@ -94,12 +94,10 @@ class FirebaseApi {
                   : null,
           "receiverName": receiverName,
           "receiverImage": receiverImage,
-
           "receiverToken": rToken,
           "senderToken": sToken,
           "receiverId": receiverId,
           "type": type.name,
-
           "role": role
         }).then((value) {});
       } else {
@@ -241,7 +239,8 @@ class FirebaseApi {
     String url = 'https://www.googleapis.com/auth/firebase.messaging';
 
     final client = await clientViaServiceAccount(
-        ServiceAccountCredentials.fromJson(appSettingModel!.firebase!.serviceJson!.toJson()),
+        ServiceAccountCredentials.fromJson(
+            appSettingModel!.firebase!.serviceJson!.toJson()),
         [url]);
     log("client.credentials.accessToken.data:${client.credentials.accessToken.data}");
     final accessToken = client.credentials.accessToken.data;
@@ -343,7 +342,7 @@ class FirebaseApi {
       phone,
       code,
       bookingId}) async {
-      log("pIdpId:$pId");
+    log("pIdpId:$pId");
 
     try {
       final access = await getAccessToken();
@@ -366,7 +365,7 @@ class FirebaseApi {
             "phone": phone,
             "code": code,
             "token": token,
-            "role":"user",
+            "role": "user",
             "bookingId": bookingId.toString()
           },
         }
@@ -389,8 +388,9 @@ class FirebaseApi {
       FirebaseApp? app = Firebase.app();
       String k98 = app.options.projectId;
 
-      final response = await Dio(options)
-          .post( 'https://fcm.googleapis.com/v1/projects/$k98/messages:send', data: data);
+      final response = await Dio(options).post(
+          'https://fcm.googleapis.com/v1/projects/$k98/messages:send',
+          data: data);
       debugPrint('NOTIFICATION RES $response');
       if (response.statusCode == 200) {
         debugPrint('Alert push notification send');
@@ -413,7 +413,9 @@ class FirebaseApi {
 
   //active status change
   onlineActiveStatusChange(isOffline) async {
+    print('onlineactivestatuschnage ::>>value showing ::${isOffline}');
     if (userModel != null) {
+      print('online activty status change //??${userModel}');
       await FirebaseFirestore.instance
           .collection(collectionName.users)
           .doc(userModel!.id.toString())

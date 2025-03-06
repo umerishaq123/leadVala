@@ -27,66 +27,72 @@ class FeaturedServicesLayout extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             child: Column(children: [
               Stack(alignment: Alignment.topRight, children: [
-                data!.media != null && data!.media!.isNotEmpty
-                    ? CommonImageLayout(
-                        tlRadius: 8,
-                        tRRadius: 8,
-                        blRadius: 0,
-                        bRRadius: 0,
-                        isAllBorderRadius: false,
-                        image: data!.media![0].originalUrl!,
-                        boxFit: BoxFit.cover,
-                        height: Sizes.s230,
-                        assetImage: eImageAssets.noImageFound2)
-                    : CommonCachedImage(
-                        tlRadius: 8,
-                        tRRadius: 8,
-                        blRadius: 0,
-                        bRRadius: 0,
-                        isAllBorderRadius: false,
-                        height: Sizes.s230,
-                        image: eImageAssets.noImageFound2),
-                if (data!.discount != "")
-                  Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(),
-                        SizedBox(
-                                child: Text(
-                                        "${data!.discount!}% ${language(context, appFonts.off)}",
-                                        style: appCss.dmDenseMedium12.textColor(
-                                            appColor(context).whiteColor))
-                                    .padding(
-                                        horizontal: Insets.i9,
-                                        top: Insets.i3,
-                                        bottom: Insets.i3))
-                            .decorated(
-                                color: appColor(context).red,
-                                borderRadius:
-                                    BorderRadius.circular(AppRadius.r30))
-                      ]).paddingSymmetric(
-                      horizontal: Insets.i20, vertical: Insets.i10),
-                Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                              child: Text("New",
-                                      style: appCss.dmDenseMedium12.textColor(
-                                          appColor(context).whiteColor))
-                                  .padding(
-                                      horizontal: Insets.i9,
-                                      top: Insets.i3,
-                                      bottom: Insets.i3))
-                          .decorated(
-                              color: appColor(context).red,
-                              borderRadius:
-                                  BorderRadius.circular(AppRadius.r30)),
-                      Container(),
-                    ]).paddingSymmetric(
-                    horizontal: Insets.i20, vertical: Insets.i10)
+                // if (data!.discount != "")
+                //   Row(
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //       children: [
+                //         Container(),
+                //         SizedBox(
+                //                 child: Text(
+                //                         "${data!.discount!}% ${language(context, appFonts.off)}",
+                //                         style: appCss.dmDenseMedium12.textColor(
+                //                             appColor(context).whiteColor))
+                //                     .padding(
+                //                         horizontal: Insets.i9,
+                //                         top: Insets.i3,
+                //                         bottom: Insets.i3))
+                //             .decorated(
+                //                 color: appColor(context).red,
+                //                 borderRadius:
+                //                     BorderRadius.circular(AppRadius.r30))
+                //       ]).paddingSymmetric(
+                //       horizontal: Insets.i20, vertical: Insets.i10),
+                // Row(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       SizedBox(
+                //               child: Text("New",
+                //                       style: appCss.dmDenseMedium12.textColor(
+                //                           appColor(context).whiteColor))
+                //                   .padding(
+                //                       horizontal: Insets.i9,
+                //                       top: Insets.i3,
+                //                       bottom: Insets.i3))
+                //           .decorated(
+                //               color: appColor(context).red,
+                //               borderRadius:
+                //                   BorderRadius.circular(AppRadius.r30)),
+                //       Container(),
+                //     ]).paddingSymmetric(
+                //     horizontal: Insets.i20, vertical: Insets.i10)
               ]),
+
+              // Row(
+              //   children: [
+              //     data!.media != null && data!.media!.isNotEmpty
+              //         ? CommonImageLayout(
+              //         tlRadius: 8,
+              //         tRRadius: 8,
+              //         blRadius: 0,
+              //         bRRadius: 0,
+              //         isAllBorderRadius: false,
+              //         image: data!.media![0].originalUrl!,
+              //         boxFit: BoxFit.cover,
+              //         height: Sizes.s23,
+              //         width: Sizes.s23,
+              //         assetImage: eImageAssets.noImageFound2)
+              //         : CommonCachedImage(
+              //         tlRadius: 8,
+              //         tRRadius: 8,
+              //         blRadius: 0,
+              //         bRRadius: 0,
+              //         isAllBorderRadius: false,
+              //         height: Sizes.s23,
+              //         image: eImageAssets.noImageFound2),
+              //   ],
+              // ),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -126,30 +132,49 @@ class FeaturedServicesLayout extends StatelessWidget {
                               //       "${data!.requiredServicemen} ${capitalizeFirstLetter(language(context, appFonts.serviceman))}",
                               //       style: appCss.dmDenseRegular13
                               //           .textColor(appColor(context).darkText)),
-                              // )
-
-                                  Expanded(
-                                    child: Text(
-                                        "Family",
-                                        style: appCss.dmDenseRegular13
-                                            .textColor(appColor(context).darkText)),
-                                  )
+                              // ),
+                              Expanded(
+                                child: Text(data?.typeOfTenant ?? 'N/A',
+                                    style: appCss.dmDenseRegular13
+                                        .textColor(appColor(context).darkText)),
+                              )
                             ]))
                           ])),
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                                "${getSymbol(context)}${(currency(context).currencyVal * data!.price!).toStringAsFixed(2)}",
-                                style: appCss.dmDenseRegular14
-                                    .textColor(appColor(context).lightText)
-                                    .lineThrough),
-                            const HSpace(Sizes.s8),
-                            Text(
-                                "${getSymbol(context)}${((currency(context).currencyVal * data!.serviceRate!).toStringAsFixed(2))}",
-                                style: appCss.dmDenseBold16
-                                    .textColor(appColor(context).darkText))
-                          ])
+                      // Column(
+                      //     crossAxisAlignment: CrossAxisAlignment.end,
+                      //     children: [
+                      //       Text(
+                      //           "${getSymbol(context)}${(currency(context).currencyVal * data!.price!).toStringAsFixed(2)}",
+                      //           style: appCss.dmDenseRegular14
+                      //               .textColor(appColor(context).lightText)
+                      //               .lineThrough),
+                      //       const HSpace(Sizes.s8),
+                      //       Text(
+                      //           "${getSymbol(context)}${((currency(context).currencyVal * data!.serviceRate!).toStringAsFixed(2))}",
+                      //           style: appCss.dmDenseBold16
+                      //               .textColor(appColor(context).darkText))
+                      //     ]),
+                      data!.media != null && data!.media!.isNotEmpty
+                          ? CommonImageLayout(
+                              tlRadius: 8,
+                              tRRadius: 8,
+                              blRadius: 0,
+                              bRRadius: 0,
+                              isAllBorderRadius: false,
+                              image: data!.media![0].originalUrl!,
+                              boxFit: BoxFit.cover,
+                              height: Sizes.s100,
+                              width: Sizes.s100,
+                              assetImage: eImageAssets.noImageFound2)
+                          : CommonCachedImage(
+                              tlRadius: 8,
+                              tRRadius: 8,
+                              blRadius: 0,
+                              bRRadius: 0,
+                              isAllBorderRadius: false,
+                              height: Sizes.s100,
+                              width: Sizes.s100,
+                              image: eImageAssets.noImageFound2),
                     ]),
                 const HSpace(Sizes.s10),
                 Row(
@@ -163,10 +188,30 @@ class FeaturedServicesLayout extends StatelessWidget {
                                 appColor(context).stroke, BlendMode.srcIn))
                       ]),
                       const HSpace(Sizes.s10),
-                      (inCart!)
-                          ? AddedButtonCommon(onTap: addTap)
-                          : AddButtonCommon(onTap: addTap)
                     ]),
+                Row(
+                  children: [
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                              "${getSymbol(context)}${(currency(context).currencyVal * data!.price!).toStringAsFixed(2)}",
+                              style: appCss.dmDenseRegular14
+                                  .textColor(appColor(context).lightText)
+                                  .lineThrough),
+                          const HSpace(Sizes.s8),
+                          Text(
+                              "${getSymbol(context)}${((currency(context).currencyVal * data!.serviceRate!).toStringAsFixed(2))}",
+                              style: appCss.dmDenseBold16
+                                  .textColor(appColor(context).darkText))
+                        ]),
+                    Spacer(),
+                    (inCart!)
+                        ? AddedButtonCommon(onTap: addTap)
+                        : AddButtonCommon(onTap: addTap)
+                  ],
+                ),
+
                 if (data!.description != null) SizedBox(),
                 // Text(capitalizeFirstLetter(data!.description!),
                 //         maxLines: 2,

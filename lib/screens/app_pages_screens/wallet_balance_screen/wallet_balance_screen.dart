@@ -30,10 +30,14 @@ class _WalletBalanceScreenState extends State<WalletBalanceScreen>
 
   @override
   Widget build(BuildContext context) {
+    print('WalletBalanceScreen');
     return Consumer<WalletProvider>(builder: (context1, value, child) {
       return StatefulWrapper(
-        onInit: () => Future.delayed(DurationClass.ms50)
-            .then((_) => value.getUserDetail(context)),
+        onInit: () {
+          print('WalletProvider+++++++----');
+          Future.delayed(DurationClass.ms50)
+              .then((_) => value.getUserDetaild(context));
+        },
         child: LoadingComponent(
           child: Scaffold(
               appBar: AppBar(
@@ -62,9 +66,9 @@ class _WalletBalanceScreenState extends State<WalletBalanceScreen>
                 child: ListView(children: [
                   const VSpace(Sizes.s20),
                   BalanceLayout(
-                    isGuest: value.isGuest,
+                          isGuest: value.isGuest,
                           offsetAnimation: _offsetAnimation,
-                          totalBalance : value.balance.toString(),
+                          totalBalance: value.balance.toString(),
                           isTap: false)
                       .paddingSymmetric(horizontal: Insets.i20),
                   const VSpace(Sizes.s30),

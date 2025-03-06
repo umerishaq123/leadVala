@@ -63,18 +63,20 @@ class CategoriesDetailsProvider with ChangeNotifier {
 
   fetchProviderByFilter() async {
     try {
-      String val =
-          selectedExp.toString().contains("highestExperience") || selectedExp.toString().contains("highestServed")
-              ? "high"
-              : "low";
+      String val = selectedExp.toString().contains("highestExperience") ||
+              selectedExp.toString().contains("highestServed")
+          ? "high"
+          : "low";
       String apiUrl = "";
 
       if (filterSearchCtrl.text.isEmpty) {
         if (selectedExp.toString().contains("highestExperience") ||
             selectedExp.toString().contains("lowestExperience")) {
-          apiUrl = "${api.provider}?experience=$val&search=${filterSearchCtrl.text}";
+          apiUrl =
+              "${api.provider}?experience=$val&search=${filterSearchCtrl.text}";
         } else {
-          apiUrl = "${api.provider}?served=$val&search=${filterSearchCtrl.text}";
+          apiUrl =
+              "${api.provider}?served=$val&search=${filterSearchCtrl.text}";
         }
       } else {
         apiUrl = "${api.provider}?search=${filterSearchCtrl.text}";
@@ -167,7 +169,8 @@ class CategoriesDetailsProvider with ChangeNotifier {
 
   Future<ui.FrameInfo> loadImage(String assetPath) async {
     ByteData data = await rootBundle.load(assetPath);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetHeight: 30, targetWidth: 30);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetHeight: 30, targetWidth: 30);
     ui.FrameInfo fi = await codec.getNextFrame();
     notifyListeners();
     return fi;
@@ -193,8 +196,10 @@ class CategoriesDetailsProvider with ChangeNotifier {
   onRefresh(context) async {
     showLoading(context);
     notifyListeners();
-    if (categoryModel!.hasSubCategories != null && categoryModel!.hasSubCategories!.isNotEmpty) {
-      await getServiceByCategoryId(context, categoryModel!.hasSubCategories![0].id);
+    if (categoryModel!.hasSubCategories != null &&
+        categoryModel!.hasSubCategories!.isNotEmpty) {
+      await getServiceByCategoryId(
+          context, categoryModel!.hasSubCategories![0].id);
     } else {
       await getServiceByCategoryId(context, categoryModel!.id);
     }
@@ -206,8 +211,10 @@ class CategoriesDetailsProvider with ChangeNotifier {
     dynamic data = ModalRoute.of(context)!.settings.arguments;
     categoryModel = data;
     notifyListeners();
-    if (categoryModel!.hasSubCategories != null && categoryModel!.hasSubCategories!.isNotEmpty) {
-      await getServiceByCategoryId(context, categoryModel!.hasSubCategories![0].id);
+    if (categoryModel!.hasSubCategories != null &&
+        categoryModel!.hasSubCategories!.isNotEmpty) {
+      await getServiceByCategoryId(
+          context, categoryModel!.hasSubCategories![0].id);
     } else {
       await getServiceByCategoryId(context, categoryModel!.id);
     }
@@ -236,6 +243,7 @@ class CategoriesDetailsProvider with ChangeNotifier {
   }
 
   getServiceByCategoryId(context, id) async {
+    print('get servicebycategoryid${id}');
     notifyListeners();
 
     try {
@@ -250,7 +258,8 @@ class CategoriesDetailsProvider with ChangeNotifier {
         apiUrl = "${api.service}?categoryIds=$id&zone_ids=$zoneIds";
       } else if (selectedRates.isNotEmpty) {
         log("LOG 2");
-        apiUrl = "${api.service}?categoryIds=$id&zone_ids=$zoneIds&rating=$selectedRates&search=${searchCtrl.text}";
+        apiUrl =
+            "${api.service}?categoryIds=$id&zone_ids=$zoneIds&rating=$selectedRates&search=${searchCtrl.text}";
       } else if (selectedProvider.isNotEmpty) {
         log("LOG 3");
         apiUrl =
@@ -261,11 +270,15 @@ class CategoriesDetailsProvider with ChangeNotifier {
             "${api.service}?categoryIds=$id&zone_ids=$zoneIds&providerIds=$selectedProvider&rating=$selectedRates&search=${searchCtrl.text}";
       } else if (lowerVal != 0 || upperVal != 100) {
         log("LOG 5");
-        apiUrl = "${api.service}?categoryIds=$id&min=${lowerVal.round()}&max${upperVal.round()}&zone_ids=$zoneIds";
+        apiUrl =
+            "${api.service}?categoryIds=$id&min=${lowerVal.round()}&max${upperVal.round()}&zone_ids=$zoneIds";
       } else if (isSelect != null && !isSelect!) {
         log("LOG 6");
-        apiUrl = "${api.service}?categoryIds=$id&zone_ids=$zoneIds&distance=$slider&search=${searchCtrl.text}";
-      } else if (lowerVal != 0 && upperVal != 100 && selectedProvider.isNotEmpty) {
+        apiUrl =
+            "${api.service}?categoryIds=$id&zone_ids=$zoneIds&distance=$slider&search=${searchCtrl.text}";
+      } else if (lowerVal != 0 &&
+          upperVal != 100 &&
+          selectedProvider.isNotEmpty) {
         log("LOG 7");
         apiUrl =
             "${api.service}?categoryIds=$id&min=$lowerVal&max$upperVal&zone_ids=$zoneIds&providerIds=$selectedProvider&search=${searchCtrl.text}";
@@ -273,19 +286,33 @@ class CategoriesDetailsProvider with ChangeNotifier {
         log("LOG 8");
         apiUrl =
             "${api.service}?categoryIds=$id&min=$lowerVal&max$upperVal&zone_ids=$zoneIds&rating=$selectedRates&search=${searchCtrl.text}";
-      } else if (lowerVal != 0 && upperVal != 100 && selectedRates.isNotEmpty && selectedProvider.isNotEmpty) {
+      } else if (lowerVal != 0 &&
+          upperVal != 100 &&
+          selectedRates.isNotEmpty &&
+          selectedProvider.isNotEmpty) {
         log("LOG 9");
         apiUrl =
             "${api.service}?categoryIds=$id&min=$lowerVal&max$upperVal&zone_ids=$zoneIds&rating=$selectedRates&providerIds=$selectedProvider&search=${searchCtrl.text}";
-      } else if (lowerVal != 0 && upperVal != 100 && isSelect != null && isSelect!) {
+      } else if (lowerVal != 0 &&
+          upperVal != 100 &&
+          isSelect != null &&
+          isSelect!) {
         log("LOG 10");
         apiUrl =
             "${api.service}?categoryIds=$id&min=$lowerVal&max$upperVal&zone_ids=$zoneIds&distance=$slider&search=${searchCtrl.text}";
-      } else if (lowerVal != 0 && upperVal != 100 && isSelect != null && isSelect! && selectedRates.isNotEmpty) {
+      } else if (lowerVal != 0 &&
+          upperVal != 100 &&
+          isSelect != null &&
+          isSelect! &&
+          selectedRates.isNotEmpty) {
         log("LOG 11");
         apiUrl =
             "${api.service}?categoryIds=$id&min=$lowerVal&max$upperVal&zone_ids=$zoneIds&distance=$slider&rating=$selectedRates&search=${searchCtrl.text}";
-      } else if (lowerVal != 0 && upperVal != 100 && isSelect != null && isSelect! && selectedProvider.isNotEmpty) {
+      } else if (lowerVal != 0 &&
+          upperVal != 100 &&
+          isSelect != null &&
+          isSelect! &&
+          selectedProvider.isNotEmpty) {
         log("LOG 12");
         apiUrl =
             "${api.service}?categoryIds=$id&min=$lowerVal&max$upperVal&zone_ids=$zoneIds&distance=$slider&providerIds=$selectedProvider&search=${searchCtrl.text}";
@@ -300,10 +327,12 @@ class CategoriesDetailsProvider with ChangeNotifier {
             "${api.service}?categoryIds=$id&min=$lowerVal&max$upperVal&zone_ids=$zoneIds&distance=$slider&providerIds=$selectedProvider&rating=$selectedRates&search=${searchCtrl.text}";
       } else {
         log("LOG 14");
-        apiUrl = "${api.service}?categoryIds=$id&zone_ids=$zoneIds&search=${searchCtrl.text}";
+        apiUrl =
+            "${api.service}?categoryIds=$id&zone_ids=$zoneIds&search=${searchCtrl.text}";
       }
       log("URRR L: $apiUrl");
       await apiServices.getApi(apiUrl, []).then((value) {
+        print('value data categoriesdetails ${value.data}');
         if (value.isSuccess!) {
           List dataList = value.data;
           serviceList = [];
@@ -349,12 +378,14 @@ class CategoriesDetailsProvider with ChangeNotifier {
 
   getServiceById(context, serviceId) async {
     try {
-      await apiServices.getApi("${api.service}?serviceId=$serviceId", []).then((value) {
+      await apiServices
+          .getApi("${api.service}?serviceId=$serviceId", []).then((value) {
         if (value.isSuccess!) {
           services = Services.fromJson(value.data[0]);
           notifyListeners();
         }
-        route.pushNamed(context, routeName.servicesDetailsScreen, arg: {'services': services!});
+        route.pushNamed(context, routeName.servicesDetailsScreen,
+            arg: {'services': services!});
       });
     } catch (e) {
       log("ERRROEEE getServiceById : $e");
@@ -365,23 +396,29 @@ class CategoriesDetailsProvider with ChangeNotifier {
   getProviderById(context, id, index, Services service) async {
     final cartCtrl = Provider.of<CartProvider>(context, listen: false);
     if (cartCtrl.cartList
-        .where((element) => element.serviceList != null && element.serviceList!.id == service.id)
+        .where((element) =>
+            element.serviceList != null &&
+            element.serviceList!.id == service.id)
         .isNotEmpty) {
       cartCtrl.checkout(context);
       route.pushNamed(context, routeName.cartScreen);
     } else {
       try {
-        await apiServices.getApi("${api.provider}/$id", [], isData: true).then((value) {
+        await apiServices
+            .getApi("${api.provider}/$id", [], isData: true)
+            .then((value) {
           if (value.isSuccess!) {
             ProviderModel providerModel = ProviderModel.fromJson(value.data);
-            final providerDetail = Provider.of<ProviderDetailsProvider>(context, listen: false);
+            final providerDetail =
+                Provider.of<ProviderDetailsProvider>(context, listen: false);
             providerDetail.selectProviderIndex = 0;
             providerDetail.notifyListeners();
             onBook(context, service,
                 provider: providerModel,
                 addTap: () => onAdd(index),
                 minusTap: () => onRemoveService(context, index)).then((e) {
-              serviceList[index].selectedRequiredServiceMan = serviceList[index].requiredServicemen;
+              serviceList[index].selectedRequiredServiceMan =
+                  serviceList[index].requiredServicemen;
               notifyListeners();
             });
             notifyListeners();
@@ -400,7 +437,8 @@ class CategoriesDetailsProvider with ChangeNotifier {
       isAlert = false;
       notifyListeners();
     } else {
-      if ((serviceList[index].requiredServicemen!) == (serviceList[index].selectedRequiredServiceMan!)) {
+      if ((serviceList[index].requiredServicemen!) ==
+          (serviceList[index].selectedRequiredServiceMan!)) {
         isAlert = true;
         notifyListeners();
         await Future.delayed(DurationClass.s3);
@@ -409,7 +447,8 @@ class CategoriesDetailsProvider with ChangeNotifier {
       } else {
         isAlert = false;
         notifyListeners();
-        serviceList[index].selectedRequiredServiceMan = ((serviceList[index].selectedRequiredServiceMan!) - 1);
+        serviceList[index].selectedRequiredServiceMan =
+            ((serviceList[index].selectedRequiredServiceMan!) - 1);
       }
     }
     notifyListeners();

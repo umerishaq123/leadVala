@@ -12,5 +12,4 @@ class GifAssets {
   final good = "assets/gif/good.gif";
   final amazing = "assets/gif/amazing.gif";
   final excellent = "assets/gif/excellent.gif";
-
 }

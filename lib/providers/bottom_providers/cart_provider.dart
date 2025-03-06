@@ -10,6 +10,7 @@ import 'package:leadvala/models/coupon_model.dart';
 import 'package:leadvala/models/service_model.dart';
 import 'package:leadvala/models/service_package_model.dart';
 import 'package:leadvala/models/user_model.dart';
+import 'package:leadvala/providers/app_pages_providers/pending_booking_provider.dart';
 import 'package:leadvala/widgets/alert_message_common.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -35,31 +36,81 @@ class CartProvider with ChangeNotifier {
   CheckoutModel? checkoutModel;
 
   void addToCart(CartModel cartItem) {
+    print('carrrr--${cartItem.serviceList}');
+
+    updateCheckoutModel();
     cartList.add(cartItem);
-    updateCheckoutModel(); // Update the checkout model after adding an item
+    print('add to cart ${cartList.first.serviceList}');
+    // Ensure checkoutModel updates on every cart change
     notifyListeners();
   }
 
   void updateCheckoutModel() {
+    print('updateCheckotmodel---?');
+    if (cartList.isEmpty) {
+      print('updateCheckotmodel---is emty???');
+      checkoutModel = null;
+      notifyListeners();
+      return;
+    }
+
     double total = 0.0;
-    // Calculate the total price of cart items
+    List<SingleServices> services = [];
+    List<ServicesPackage> servicesPackages = [];
+
     for (var item in cartList) {
+      print('cartlist iteams 2');
+
       if (item.serviceList != null) {
+        print('cartlist iteams 3');
+
         total += double.parse(item.serviceList!.price!.toString());
+        services.add(SingleServices(
+          // after add to this line
+          // chnge for total and add to totalserviceman
+          // change for g
+          total: Total(
+            totalServicemen: 3,
+            subtotal: item.serviceList!.price,
+          ),
+
+          serviceId: item.serviceList!.id,
+          servicePrice: double.parse(item.serviceList!.price!.toString()),
+          dateTime: DateTime.now().toString(),
+        ));
+        print('service of data ???${services.first.total!.totalServicemen}');
       } else if (item.servicePackageList != null) {
+        print('cartlist iteams 4');
+
         total += item.servicePackageList!.services!.fold(
           0.0,
-              (previousValue, element) => previousValue + double.parse(element.price!.toString()),
+          (previousValue, element) =>
+              previousValue + double.parse(element.price!.toString()),
         );
+        servicesPackages.add(ServicesPackage(
+          servicePackageId: item.servicePackageList!.id,
+          services: item.servicePackageList!.services!
+              .map((e) => PackageServices(
+                    serviceId: e.id,
+                    servicePrice: double.parse(e.price!.toString()),
+                    dateTime: DateTime.now().toString(),
+                  ))
+              .toList(),
+        ));
       }
     }
 
-    // Update the checkout model with the calculated total
-    checkoutModel = CheckoutModel(total: FinalTotal(total: total));
+    checkoutModel = CheckoutModel(
+      services: services,
+      servicesPackage: servicesPackages,
+      total: FinalTotal(total: total),
+    );
+    print('Updated checkoutModel:${checkoutModel?.services!.first.total}');
+    // log("Updated checkoutModel: ${checkoutModel?.services}");
+    notifyListeners();
   }
 
-
-  onCode(context, values)async {
+  onCode(context, values) async {
     if (values != null) {
       isLoading = true;
       notifyListeners();
@@ -68,7 +119,7 @@ class CartProvider with ChangeNotifier {
       notifyListeners();
 
       await checkout(context);
-      isLoading =false;
+      isLoading = false;
       notifyListeners();
     }
   }
@@ -78,8 +129,7 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
     SharedPreferences preferences = await SharedPreferences.getInstance();
     final rawJson = preferences.getString(session.cart);
-    final dash =
-    Provider.of<DashboardProvider>(context, listen: false);
+    final dash = Provider.of<DashboardProvider>(context, listen: false);
     dash.getCoupons();
     debugPrint("rawJson : $rawJson");
     if (rawJson != null) {
@@ -133,7 +183,7 @@ class CartProvider with ChangeNotifier {
   }
 
   checkout(context, {isCreateBook = false}) async {
-    try{
+    try {
       if (cartList.isNotEmpty) {
         try {
           int primaryIndex = 0;
@@ -143,7 +193,7 @@ class CartProvider with ChangeNotifier {
           UserModel userModel = UserModel.fromJson(
               json.decode(preferences.getString(session.user)!));
           final locationCtrl =
-          Provider.of<LocationProvider>(context, listen: false);
+              Provider.of<LocationProvider>(context, listen: false);
           int index = locationCtrl.addressList
               .indexWhere((element) => element?.isPrimary == 1);
           if (index >= 0) {
@@ -159,22 +209,23 @@ class CartProvider with ChangeNotifier {
               List idList = [];
               if (element.value.serviceList!.selectedServiceMan != null &&
                   element.value.serviceList!.selectedServiceMan!.isNotEmpty) {
-                for (var list in element.value.serviceList!.selectedServiceMan!) {
+                for (var list
+                    in element.value.serviceList!.selectedServiceMan!) {
                   idList.add(list.id);
                 }
               }
               var serviceData = {
                 "service_id": element.value.serviceList!.id,
                 "required_servicemen":
-                element.value.serviceList!.selectedRequiredServiceMan,
+                    element.value.serviceList!.selectedRequiredServiceMan,
                 "date_time":
-                "${DateFormat("dd-MMM-yyyy").format(element.value.serviceList!.serviceDate!)},${DateFormat("hh:mm").format(element.value.serviceList!.serviceDate!)} ${element.value.serviceList!.selectedDateTimeFormat != null ? element.value.serviceList!.selectedDateTimeFormat!.toLowerCase() : DateFormat("aa").format(element.value.serviceList!.serviceDate!).toLowerCase()}",
+                    "${DateFormat("dd-MMM-yyyy").format(element.value.serviceList!.serviceDate!)},${DateFormat("hh:mm").format(element.value.serviceList!.serviceDate!)} ${element.value.serviceList!.selectedDateTimeFormat != null ? element.value.serviceList!.selectedDateTimeFormat!.toLowerCase() : DateFormat("aa").format(element.value.serviceList!.serviceDate!).toLowerCase()}",
                 "address_id": element.value.serviceList!.primaryAddress!.id,
                 "select_serviceman":
-                element.value.serviceList!.selectServiceManType,
+                    element.value.serviceList!.selectServiceManType,
                 "serviceman_id": idList,
                 "select_date_time":
-                element.value.serviceList!.selectDateTimeOption,
+                    element.value.serviceList!.selectDateTimeOption,
                 "description": element.value.serviceList!.selectedServiceNote
               };
 
@@ -199,13 +250,13 @@ class CartProvider with ChangeNotifier {
                   "required_servicemen": ser.selectedRequiredServiceMan ??
                       (idList.isEmpty ? "1" : idList.length.toString()),
                   "date_time":
-                  "${DateFormat("dd-MMM-yyyy").format(ser.serviceDate!)},${DateFormat("hh:mm").format(ser.serviceDate!)} ${ser.selectedDateTimeFormat != null ? ser.selectedDateTimeFormat!.toLowerCase() : DateFormat("aa").format(ser.serviceDate!).toLowerCase()}",
+                      "${DateFormat("dd-MMM-yyyy").format(ser.serviceDate!)},${DateFormat("hh:mm").format(ser.serviceDate!)} ${ser.selectedDateTimeFormat != null ? ser.selectedDateTimeFormat!.toLowerCase() : DateFormat("aa").format(ser.serviceDate!).toLowerCase()}",
                   "address_id": ser.primaryAddress != null
                       ? ser.primaryAddress!.id
                       : locationCtrl.addressList[primaryIndex].id,
                   "select_serviceman": ser.selectServiceManType,
                   "serviceman_id":
-                  ser.selectServiceManType == "app_choose" ? [] : idList,
+                      ser.selectServiceManType == "app_choose" ? [] : idList,
                   "select_date_time": ser.selectDateTimeOption,
                   "description": ser.selectedServiceNote
                 };
@@ -239,10 +290,13 @@ class CartProvider with ChangeNotifier {
               .then((value) async {
             log("CHECKOUT RES :${value.data}");
             if (value.data == 0) {
-              if(value.message.contains("Unauthenticated.") || value.message == "Unauthenticated."){
-                SharedPreferences? preferences = await SharedPreferences.getInstance();
-                final dash = Provider.of<DashboardProvider>(context, listen: false);
-                dash.selectIndex =0;
+              if (value.message.contains("Unauthenticated.") ||
+                  value.message == "Unauthenticated.") {
+                SharedPreferences? preferences =
+                    await SharedPreferences.getInstance();
+                final dash =
+                    Provider.of<DashboardProvider>(context, listen: false);
+                dash.selectIndex = 0;
                 dash.notifyListeners();
                 preferences.remove(session.user);
                 preferences.remove(session.accessToken);
@@ -251,9 +305,8 @@ class CartProvider with ChangeNotifier {
                 preferences.remove(session.cart);
                 preferences.remove(session.recentSearch);
 
-
                 final auth = FirebaseAuth.instance.currentUser;
-                if(auth != null){
+                if (auth != null) {
                   FirebaseAuth.instance.signOut();
                   GoogleSignIn().disconnect();
                 }
@@ -261,7 +314,7 @@ class CartProvider with ChangeNotifier {
                 route.pop(context);
                 route.pushAndRemoveUntil(context);
                 route.pushAndRemoveUntil(context);
-              }else {
+              } else {
                 snackBarMessengers(context, message: value.message);
                 data = null;
                 notifyListeners();
@@ -293,7 +346,7 @@ class CartProvider with ChangeNotifier {
           notifyListeners();
         });
       }
-    }catch(e){
+    } catch (e) {
       log("EEEE checkout : $e");
     }
   }
@@ -305,20 +358,18 @@ class CartProvider with ChangeNotifier {
         "id": cart.servicePackageList!.id
       });
     } else {
-
-      final providerDetail = Provider.of<ProviderDetailsProvider>(context, listen: false);
+      final providerDetail =
+          Provider.of<ProviderDetailsProvider>(context, listen: false);
       providerDetail.selectProviderIndex = 0;
       providerDetail.notifyListeners();
       onBook(context, cart.serviceList!,
-
           addTap: () => onAdd(index),
           minusTap: () => onRemoveService(context, index));
     }
   }
 
   onRemoveService(context, index) async {
-    if ((cartList[index].serviceList!.selectedRequiredServiceMan!) ==
-        1) {
+    if ((cartList[index].serviceList!.selectedRequiredServiceMan!) == 1) {
       route.pop(context);
       isAlert = false;
       notifyListeners();
@@ -333,9 +384,8 @@ class CartProvider with ChangeNotifier {
       } else {
         isAlert = false;
         notifyListeners();
-        cartList[index].serviceList!.selectedRequiredServiceMan = ((
-                    cartList[index].serviceList!.selectedRequiredServiceMan!) -
-                1);
+        cartList[index].serviceList!.selectedRequiredServiceMan =
+            ((cartList[index].serviceList!.selectedRequiredServiceMan!) - 1);
       }
     }
 
@@ -345,8 +395,7 @@ class CartProvider with ChangeNotifier {
   onAdd(index) {
     isAlert = false;
     notifyListeners();
-    int count =
-        (cartList[index].serviceList!.selectedRequiredServiceMan!);
+    int count = (cartList[index].serviceList!.selectedRequiredServiceMan!);
     count++;
     cartList[index].serviceList!.selectedRequiredServiceMan = count;
 
@@ -366,7 +415,7 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
     completeSuccess(context);
     await checkout(context);
-    isLoading =false;
+    isLoading = false;
     notifyListeners();
   }
 
@@ -389,7 +438,7 @@ class CartProvider with ChangeNotifier {
   }
 
   onApplyRemoveTap(context) {
-    if(data !=null) {
+    if (data != null) {
       data = null;
       couponCtrl.text = "";
       notifyListeners();
@@ -537,9 +586,8 @@ class CartProvider with ChangeNotifier {
     dash.notifyListeners();
   }
 
-  onBack(context,isBack){
-
-    if(isBack){
+  onBack(context, isBack) {
+    if (isBack) {
       route.pushNamed(context, routeName.dashboard);
     }
     widget1Opacity = 0.0;

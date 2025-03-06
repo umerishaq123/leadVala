@@ -47,12 +47,12 @@ class LoginLayout extends StatelessWidget {
                       validator: (pass) =>
                           Validation().passValidation(context, pass),
                       controller: value.passwordController,
-                  suffixIcon: SvgPicture.asset(
-                      value.isPassword
-                          ? eSvgAssets.hide
-                          : eSvgAssets.eye,
-                      fit: BoxFit.scaleDown)
-                      .inkWell(onTap: () => value.passwordSeenTap()),
+                      suffixIcon: SvgPicture.asset(
+                              value.isPassword
+                                  ? eSvgAssets.hide
+                                  : eSvgAssets.eye,
+                              fit: BoxFit.scaleDown)
+                          .inkWell(onTap: () => value.passwordSeenTap()),
                       hintText: language(context, appFonts.enterPassword),
                       focusNode: value.passwordFocus,
                       obscureText: value.isPassword,
@@ -63,7 +63,8 @@ class LoginLayout extends StatelessWidget {
                       style: appCss.dmDenseSemiBold14
                           .textColor(appColor(context).primary))
                   .inkWell(
-                      onTap: () => route.push(context, const ForgotPasswordScreen()))
+                      onTap: () =>
+                          route.push(context, const ForgotPasswordScreen()))
                   .alignment(Alignment.bottomRight)
                   .paddingSymmetric(horizontal: Insets.i20),
               const VSpace(Sizes.s35),
@@ -72,7 +73,6 @@ class LoginLayout extends StatelessWidget {
                       onTap: () => value.onLogin(context))
                   .paddingSymmetric(horizontal: Insets.i20),
               const VSpace(Sizes.s12),
-
               RichText(
                   text: TextSpan(
                       text: language(context, appFonts.notMember),
@@ -87,16 +87,16 @@ class LoginLayout extends StatelessWidget {
                         style: appCss.dmDenseSemiBold14
                             .textColor(appColor(context).primary))
                   ])).alignment(Alignment.center),
-              if(appSettingModel?.activation?.defaultCredentials == "1")
+              if (appSettingModel?.activation?.defaultCredentials == "1")
                 const VSpace(Sizes.s12),
-              if(appSettingModel?.activation?.defaultCredentials == "1")
-              ButtonCommon(
-                  title: "Demo User",
-borderColor: appColor(context).primary,fontColor: appColor(context).primary,
-                  color: appColor(context).trans,
-                  onTap: () => value.demoCreds())
-                  .paddingSymmetric(horizontal: Insets.i20),
-
+              if (appSettingModel?.activation?.defaultCredentials == "1")
+                ButtonCommon(
+                        title: "Demo User",
+                        borderColor: appColor(context).primary,
+                        fontColor: appColor(context).primary,
+                        color: appColor(context).trans,
+                        onTap: () => value.demoCreds())
+                    .paddingSymmetric(horizontal: Insets.i20),
             ]).paddingSymmetric(vertical: Insets.i20)
       ]);
     });

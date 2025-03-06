@@ -155,12 +155,4 @@ class ImageAssets {
   final shimmerBg = "assets/images/shimmer_bg.png";
   final couponShimmer = "assets/images/coupon_shimmer.png";
   final empty = "assets/images/empty.png";
-
-
-
-
-
-
-
-
 }

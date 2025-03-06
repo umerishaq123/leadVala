@@ -18,7 +18,7 @@ class ServiceDescription extends StatelessWidget {
             child: DescriptionLayout(
                 icon: eSvgAssets.location,
                 title: 'Area',
-                subtitle: "Shyamal")),
+                subtitle: services?.primaryAddress?.address ?? 'N/A')),
 
 
 
@@ -35,7 +35,7 @@ class ServiceDescription extends StatelessWidget {
                 icon: eSvgAssets.homeFill,
                 title: 'Accommodation',
                 // subtitle: "${services!.duration} ${services!.durationUnit}"
-                subtitle: "Rent"
+                subtitle: services?.serviceType ?? 'N/A'
 
             )),
 
@@ -56,7 +56,7 @@ class ServiceDescription extends StatelessWidget {
             child: DescriptionLayout(
                 icon: eSvgAssets.amount,
                 title: "Amount",
-                subtitle: "₹ 40,000")),
+                subtitle: "₹ ${services?.budget ?? '0'}")),
 
 
 
@@ -73,8 +73,7 @@ class ServiceDescription extends StatelessWidget {
                 icon: eSvgAssets.homeOut,
                 title: 'Type of Tenant',
                 // subtitle: "${services!.duration} ${services!.durationUnit}"
-                subtitle: "Family"
-
+                subtitle: services?.typeOfTenant ?? 'N/A'
             )),
 
 
@@ -113,7 +112,7 @@ class ServiceDescription extends StatelessWidget {
         //     onTap: () => route.pushNamed(context, routeName.providerDetailsScreen, arg: {'provider': services!.user}),
         //     service: services!.user!.served ?? "0"),
 
-        Column(
+        services?.audio != null ?  Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
@@ -121,9 +120,9 @@ class ServiceDescription extends StatelessWidget {
               style: appCss.dmDenseMedium12.textColor(appColor(context).lightText),
             ),
             const VSpace(Sizes.s6),
-            const AudioPlayerWidget(audioUrl:'https://www2.cs.uic.edu/~i101/SoundFiles/gettysburg10.wav'), // Custom audio player widget
+          services?.audio != null ?   AudioPlayerWidget(audioUrl:services!.audio.toString()) : SizedBox(), // Custom audio player widget
           ],
-        ),
+        ) : SizedBox(),
 
 
 

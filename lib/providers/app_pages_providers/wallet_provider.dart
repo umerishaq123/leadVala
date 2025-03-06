@@ -29,6 +29,7 @@ class WalletProvider with ChangeNotifier {
   }
 
   onAddMoney(context) {
+    print('onAddMoney');
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -44,12 +45,18 @@ class WalletProvider with ChangeNotifier {
     });
   }
 
-  getUserDetail(context) async {
+  getUserDetaild(context) async {
+    print('getUserDetail');
     preferences = await SharedPreferences.getInstance();
-
+    print('preferences $preferences');
     isGuest = preferences!.getBool(session.isContinueAsGuest) ?? false;
+    print('isGuest $isGuest');
+
     //Map user = json.decode(preferences!.getString(session.user)!);
-    userModel = UserModel.fromJson(json.decode(preferences!.getString(session.user)!));
+    userModel =
+        UserModel.fromJson(json.decode(preferences!.getString(session.user)!));
+    print('userModel $userModel');
+
     if (paymentMethods.isNotEmpty) {
       paymentList = paymentMethods;
     } else {
@@ -58,8 +65,14 @@ class WalletProvider with ChangeNotifier {
       paymentList = paymentMethods;
     }
     log("paymentList L${paymentList.length}");
+    print('paymentList ${paymentList.length}');
+
     paymentList.removeWhere((element) => element.slug == "cash");
+    print('paymentList ${paymentList}');
+
     wallet = paymentList[0].slug;
+    print('paymentList ${wallet}');
+
     log("paymentList SS${paymentList.length}");
     log("paymentList SS${paymentMethods.length}");
     if (walletList.isEmpty) {
@@ -69,8 +82,11 @@ class WalletProvider with ChangeNotifier {
   }
 
   getWalletList(context) async {
+    print('getWalletList');
     try {
-      await apiServices.getApi(api.wallet, [], isToken: true, isData: true).then((value) async {
+      await apiServices
+          .getApi(api.wallet, [], isToken: true, isData: true)
+          .then((value) async {
         if (value.isSuccess!) {
           log("WALLLL :${value.data}");
           balance = double.parse(value.data['balance'].toString());
@@ -78,7 +94,8 @@ class WalletProvider with ChangeNotifier {
           for (var data in value.data['transactions']['data']) {
             walletList.add(WalletList.fromJson(data));
           }
-          final commonApi = Provider.of<CommonApiProvider>(context, listen: false);
+          final commonApi =
+              Provider.of<CommonApiProvider>(context, listen: false);
           await commonApi.selfApi(context);
 
           notifyListeners();
@@ -92,6 +109,7 @@ class WalletProvider with ChangeNotifier {
 
   //add to wallet
   addToWallet(context1, context) async {
+    print('addToWallet');
     FocusScope.of(context).requestFocus(FocusNode());
 
     try {
@@ -107,14 +125,18 @@ class WalletProvider with ChangeNotifier {
 
       notifyListeners();
       log("checkoutBody: $body");
-      await apiServices.postApi(api.addMoneyToWallet, body, isData: true, isToken: true).then((value) async {
+      await apiServices
+          .postApi(api.addMoneyToWallet, body, isData: true, isToken: true)
+          .then((value) async {
         hideLoading(context);
         notifyListeners();
         if (value.isSuccess!) {
           moneyCtrl.text = "";
           wallet = paymentList[0].slug;
           notifyListeners();
-          route.pushNamed(context, routeName.checkoutWebView, arg: value.data).then((e) async {
+          route
+              .pushNamed(context, routeName.checkoutWebView, arg: value.data)
+              .then((e) async {
             log("SSS :$e");
             if (e != null) {
               if (e['isVerify'] == true) {
@@ -161,13 +183,16 @@ class WalletProvider with ChangeNotifier {
 
   //verify payment
   getVerifyPayment(data, context) async {
+    print('getVerifyPayment');
     try {
       await apiServices
-          .getApi("${api.verifyPayment}?item_id=$data&type=wallet", {}, isToken: true, isData: true)
+          .getApi("${api.verifyPayment}?item_id=$data&type=wallet", {},
+              isToken: true, isData: true)
           .then((value) {
         log("VGHDGHSD : ${value.message}");
         if (value.isSuccess!) {
-          if (value.data["payment_status"].toString().toLowerCase() == "pending") {
+          if (value.data["payment_status"].toString().toLowerCase() ==
+              "pending") {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(language(context, appFonts.yourPaymentIsDeclined)),
               backgroundColor: appColor(context).red,

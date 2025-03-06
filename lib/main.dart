@@ -1,4 +1,4 @@
-
+import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:leadvala/helper/notification.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -11,16 +11,45 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   FlutterNativeSplash.remove();
-  await Firebase.initializeApp(
+  await initializeFirebase();
+
+// old code
+  // await Firebase.initializeApp(
+  //     options: const FirebaseOptions(
+  //         apiKey: "AIzaSyAWS3qqwI6od6GZ5rjBm1kxapTF8gRYQuA",
+  //         appId: "1:359221399571:android:ebec341250366b4993efe6",
+  //         messagingSenderId: "359221399571",
+  //         projectId: "leadvala",
+  //         storageBucket: "leadvala.firebasestorage.app"));
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((_) => runApp(MyApp()));
+}
+
+Future<void> initializeFirebase() async {
+  try {
+    // Check if Firebase is already initialized
+    if (Firebase.apps.isNotEmpty) {
+      print('⚠️ Firebase is already initialized.');
+      return;
+    }
+
+    await Firebase.initializeApp(
       options: const FirebaseOptions(
-          apiKey: "AIzaSyAWS3qqwI6od6GZ5rjBm1kxapTF8gRYQuA",
-          appId: "1:359221399571:android:ebec341250366b4993efe6",
-          messagingSenderId: "359221399571",
-          projectId: "leadvala",
-          storageBucket: "leadvala.firebasestorage.app"));
+        apiKey: "AIzaSyAfyD0--hbTJvB038snS0Mh6F4plsyRPRQ",
+        appId: "1:924265223964:android:4fe8ac5037164596c90cd9",
+        messagingSenderId: "924265223964",
+        projectId: "leadvala-b47d2",
+        storageBucket: "leadvala.firebasestorage.app",
+      ),
+    );
 
-
-  runApp(const MyApp());
+    print('✅ Firebase initialized successfully!');
+  } catch (e) {
+    print('🚨 Firebase initialization failed: $e');
+  }
 }
 
 class MyApp extends StatefulWidget {

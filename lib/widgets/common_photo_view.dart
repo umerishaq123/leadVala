@@ -49,7 +49,8 @@ class _CommonPhotoViewState extends State<CommonPhotoView> {
         isLoading = true;
         showLoading(context);
         setState(() async {
-          var response = await Dio().get(widget.image!, options: Options(responseType: ResponseType.bytes));
+          var response = await Dio().get(widget.image!,
+              options: Options(responseType: ResponseType.bytes));
           final result = await SaverGallery.saveImage(
             Uint8List.fromList(response.data),
             quality: 60,
@@ -59,7 +60,9 @@ class _CommonPhotoViewState extends State<CommonPhotoView> {
           );
           log("result:$result");
           if (result.isSuccess == true) {
-            snackBarMessengers(context, color: appColor(context).primary, message: "Image Downloaded Successfully");
+            snackBarMessengers(context,
+                color: appColor(context).primary,
+                message: "Image Downloaded Successfully");
           }
         });
         isLoading = false;
@@ -70,7 +73,9 @@ class _CommonPhotoViewState extends State<CommonPhotoView> {
       } else {
         isLoading = false;
         hideLoading(context);
-        snackBarMessengers(context, color: appColor(context).primary, message: "Image Downloaded Successfully");
+        snackBarMessengers(context,
+            color: appColor(context).primary,
+            message: "Image Downloaded Successfully");
         setState(() {});
       }
     } catch (e) {

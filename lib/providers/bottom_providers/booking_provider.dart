@@ -1,7 +1,8 @@
 import 'dart:developer';
 
 import 'package:leadvala/config.dart';
-import 'package:leadvala/models/booking_response_model.dart' as booking_response;
+import 'package:leadvala/models/booking_response_model.dart'
+    as booking_response;
 import 'package:leadvala/models/category_model.dart';
 import 'package:leadvala/screens/app_pages_screens/slot_booking_screen/layouts/year_dialog.dart';
 import 'package:leadvala/utils/date_time_picker.dart';
@@ -34,7 +35,8 @@ class BookingProvider with ChangeNotifier {
   PageController pageController = PageController();
   TextEditingController categoryCtrl = TextEditingController();
   TextEditingController searchText = TextEditingController();
-  RangeSelectionMode rangeSelectionMode = RangeSelectionMode.toggledOn; // Can be toggled on/off by longpressing a date
+  RangeSelectionMode rangeSelectionMode = RangeSelectionMode
+      .toggledOn; // Can be toggled on/off by longpressing a date
   DateTime? rangeStart;
   DateTime? rangeEnd;
   DateTime currentDate = DateTime.now();
@@ -77,27 +79,34 @@ class BookingProvider with ChangeNotifier {
 
     notifyListeners();
     int index = choseVal['index'];
-    focusedDay.value = DateTime.utc(focusedDay.value.year, index, focusedDay.value.day + 0);
+    focusedDay.value =
+        DateTime.utc(focusedDay.value.year, index, focusedDay.value.day + 0);
     onDaySelected(focusedDay.value, focusedDay.value);
   }
 
   onLeftArrow() {
-    pageController.previousPage(duration: const Duration(microseconds: 200), curve: Curves.bounceIn);
+    pageController.previousPage(
+        duration: const Duration(microseconds: 200), curve: Curves.bounceIn);
     final newMonth = focusedDay.value.subtract(const Duration(days: 30));
     focusedDay.value = newMonth;
-    int index = appArray.monthList.indexWhere((element) => element['index'] == focusedDay.value.month);
+    int index = appArray.monthList
+        .indexWhere((element) => element['index'] == focusedDay.value.month);
     chosenValue = appArray.monthList[index];
-    selectedYear = DateTime.utc(focusedDay.value.year, focusedDay.value.month, focusedDay.value.day + 0);
+    selectedYear = DateTime.utc(focusedDay.value.year, focusedDay.value.month,
+        focusedDay.value.day + 0);
     notifyListeners();
   }
 
   onRightArrow() {
-    pageController.nextPage(duration: const Duration(microseconds: 200), curve: Curves.bounceIn);
+    pageController.nextPage(
+        duration: const Duration(microseconds: 200), curve: Curves.bounceIn);
     final newMonth = focusedDay.value.add(const Duration(days: 30));
     focusedDay.value = newMonth;
-    int index = appArray.monthList.indexWhere((element) => element['index'] == focusedDay.value.month);
+    int index = appArray.monthList
+        .indexWhere((element) => element['index'] == focusedDay.value.month);
     chosenValue = appArray.monthList[index];
-    selectedYear = DateTime.utc(focusedDay.value.year, focusedDay.value.month, focusedDay.value.day + 0);
+    selectedYear = DateTime.utc(focusedDay.value.year, focusedDay.value.month,
+        focusedDay.value.day + 0);
     notifyListeners();
   }
 
@@ -124,10 +133,12 @@ class BookingProvider with ChangeNotifier {
   }
 
   onInit(context) {
-    focusedDay.value = DateTime.utc(focusedDay.value.year, focusedDay.value.month, focusedDay.value.day + 0);
+    focusedDay.value = DateTime.utc(focusedDay.value.year,
+        focusedDay.value.month, focusedDay.value.day + 0);
     onDaySelected(focusedDay.value, focusedDay.value);
     DateTime dateTime = DateTime.now();
-    int index = appArray.monthList.indexWhere((element) => element['index'] == dateTime.month);
+    int index = appArray.monthList
+        .indexWhere((element) => element['index'] == dateTime.month);
     chosenValue = appArray.monthList[index];
     final dashCtrl = Provider.of<DashboardProvider>(context, listen: false);
     categoryList = dashCtrl.categoryList;
@@ -210,7 +221,8 @@ class BookingProvider with ChangeNotifier {
   }
 
   onFetchData(context, sync) {
-    animationController = AnimationController(vsync: sync, duration: const Duration(milliseconds: 1200));
+    animationController = AnimationController(
+        vsync: sync, duration: const Duration(milliseconds: 1200));
     _runAnimation();
     onInit(context);
     Future.delayed(const Duration(milliseconds: 500), () {
@@ -249,31 +261,38 @@ class BookingProvider with ChangeNotifier {
     if (data.bookingStatus != null) {
       if (data.bookingStatus!.slug == appFonts.pending) {
         //route.pushNamed(context, routeName.packageBookingScreen);
-        route.pushNamed(context, routeName.pendingBookingScreen, arg: {"booking": data}).then((e) {
+        route.pushNamed(context, routeName.pendingBookingScreen,
+            arg: {"booking": data}).then((e) {
           dash.getBookingHistory(context);
         });
-      } else if (data.bookingStatus!.slug == appFonts.accepted || data.bookingStatus!.slug == appFonts.assigned) {
-        route.pushNamed(context, routeName.acceptedBookingScreen, arg: {"booking": data}).then((e) {
+      } else if (data.bookingStatus!.slug == appFonts.accepted ||
+          data.bookingStatus!.slug == appFonts.assigned) {
+        route.pushNamed(context, routeName.acceptedBookingScreen,
+            arg: {"booking": data}).then((e) {
           dash.getBookingHistory(context);
         });
       } else if (data.bookingStatus!.slug == appFonts.onGoing ||
           data.bookingStatus!.slug == appFonts.ontheway ||
           data.bookingStatus!.slug == appFonts.startAgain ||
           data.bookingStatus!.slug == appFonts.onHold) {
-        route.pushNamed(context, routeName.ongoingBookingScreen, arg: {"booking": data}).then((e) {
+        route.pushNamed(context, routeName.ongoingBookingScreen,
+            arg: {"booking": data}).then((e) {
           dash.getBookingHistory(context);
         });
       } else if (data.bookingStatus!.slug == appFonts.completed) {
-        route.pushNamed(context, routeName.completedServiceScreen, arg: {"booking": data}).then((e) {
+        route.pushNamed(context, routeName.completedServiceScreen,
+            arg: {"booking": data}).then((e) {
           dash.getBookingHistory(context);
         });
       } else if (data.bookingStatus!.slug == appFonts.cancel) {
-        route.pushNamed(context, routeName.cancelledServiceScreen, arg: {"booking": data}).then((e) {
+        route.pushNamed(context, routeName.cancelledServiceScreen,
+            arg: {"booking": data}).then((e) {
           dash.getBookingHistory(context);
         });
       }
     } else {
-      route.pushNamed(context, routeName.pendingBookingScreen, arg: {"booking": data}).then((e) {
+      route.pushNamed(context, routeName.pendingBookingScreen,
+          arg: {"booking": data}).then((e) {
         dash.getBookingHistory(context);
       });
     }
@@ -295,7 +314,8 @@ class BookingProvider with ChangeNotifier {
     route.pushNamed(context, routeName.myLocation, arg: true).then((e) {
       if (e != null) {
         PrimaryAddress address = e;
-        updateStatus(context, bookingModel!.id, address.id, isUpdateAddress: true);
+        updateStatus(context, bookingModel!.id, address.id,
+            isUpdateAddress: true);
       }
     });
   }
@@ -339,7 +359,9 @@ class BookingProvider with ChangeNotifier {
       }
 
       log("DDD:$data");
-      await apiServices.putApi("${api.booking}/$id", data, isToken: true, isData: true).then((value) async {
+      await apiServices
+          .putApi("${api.booking}/$id", data, isToken: true, isData: true)
+          .then((value) async {
         if (value.isSuccess!) {
           await dash.getBookingHistory(context);
 

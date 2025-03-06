@@ -10,10 +10,17 @@ class ProfileOptionsLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     final value = Provider.of<ProfileProvider>(context, listen: true);
 
+    print('profile lists === ${value.profileLists.length}');
+
     return value.isGuest? Column(
         children: value.profileLists
             .asMap()
             .entries
+            .where((e) =>
+        e.value.title != appFonts.myReviews &&
+            e.value.title != appFonts.chatHistory &&
+            e.value.title != appFonts.deleteAccount
+        )
             .map((e) =>
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           if (e.key != 1)
@@ -54,7 +61,7 @@ class ProfileOptionsLayout extends StatelessWidget {
                           onTap: () => value.onTapOption(
                               s.value, context, controller, sync))),
                 ]).paddingAll(Insets.i15)),
-          if (e.key == 1) const BecomeProviderLayout()
+          // if (e.key == 1) const BecomeProviderLayout()
         ]))
             .toList()): Column(
         children: value.profileLists

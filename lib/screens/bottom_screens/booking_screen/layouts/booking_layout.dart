@@ -1,11 +1,10 @@
-import 'dart:developer';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+
 import '../../../../config.dart';
+
 import 'package:leadvala/models/booking_response_model.dart' as booking_model;
 
+// change of some function on 03-33
 class BookingLayout extends StatefulWidget {
   final booking_model.Datum? data;
   final GestureTapCallback? onTap, editLocationTap, editDateTimeTap;
@@ -27,7 +26,7 @@ class BookingLayout extends StatefulWidget {
 class _BookingLayoutState extends State<BookingLayout> {
   @override
   Widget build(BuildContext context) {
-    final bookingProvider = Provider.of<BookingProvider>(context, listen: true);
+    // final bookingProvider = Provider.of<BookingProvider>(context, listen: true);
 
     if (widget.data == null) {
       return SizedBox.shrink(); // Fallback if no data is provided
@@ -54,7 +53,9 @@ class _BookingLayoutState extends State<BookingLayout> {
                             ),
                           ),
                           const SizedBox(width: 5),
-                          if (widget.data?.servicePackageId != null)
+                          // 03-33
+                          // if (widget.data?.servicePackageId != null)
+                          if (widget.data?.serviceId != null)
                             BookingStatusLayout(title: appFonts.package),
                         ],
                       ),
@@ -67,29 +68,34 @@ class _BookingLayoutState extends State<BookingLayout> {
                       ),
                       Row(
                         children: [
+                          // 03-33
                           Text(
-                            "${getSymbol(context)}${(currency(context).currencyVal * (widget.data?.subtotal ?? 0)).ceilToDouble().toStringAsFixed(2)}",
+                            // "${getSymbol(context)}${(currency(context).currencyVal * (widget.data?.subtotal ?? 0)).ceilToDouble().toStringAsFixed(2)}",
+                            "${getSymbol(context)}${(currency(context).currencyVal * (widget.data?.service!.price ?? 0)).ceilToDouble().toStringAsFixed(2)}",
                             style: appCss.dmDenseBold18.textColor(
                               appColor(context).darkText,
                             ),
                           ),
                           const SizedBox(width: 8),
-                          if (widget.data?.service?.discount != null)
-                            Text(
-                              "(${widget.data?.service?.discount}% ${language(context, appFonts.off)})",
-                              style: appCss.dmDenseMedium14.textColor(
-                                appColor(context).red,
-                              ),
-                            ),
+                          // 03-33
+                          // if (widget.data?.service?.discount != null)
+                          //   Text(
+                          //     "(${widget.data?.service?.discount}% ${language(context, appFonts.off)})",
+                          //     style: appCss.dmDenseMedium14.textColor(
+                          //       appColor(context).red,
+                          //     ),
+                          //   ),
                         ],
                       ),
                     ],
                   ),
                 ),
+                // 03-33
                 widget.data?.service?.media != null &&
                         (widget.data?.service?.media?.isNotEmpty ?? false)
                     ? CachedNetworkImage(
-                        imageUrl: widget.data?.service?.media?[0]?.originalUrl ?? "",
+                        imageUrl:
+                            widget.data?.service?.media?[0].originalUrl ?? "",
                         imageBuilder: (context, imageProvider) => Container(
                           height: 84,
                           width: 84,
@@ -100,19 +106,22 @@ class _BookingLayoutState extends State<BookingLayout> {
                             ),
                             shape: const SmoothRectangleBorder(
                               borderRadius: SmoothBorderRadius.all(
-                                SmoothRadius(cornerRadius: 10, cornerSmoothing: 1),
+                                SmoothRadius(
+                                    cornerRadius: 10, cornerSmoothing: 1),
                               ),
                             ),
                           ),
                         ),
                         placeholder: (context, url) => _placeholderImage(),
-                        errorWidget: (context, url, error) => _placeholderImage(),
+                        errorWidget: (context, url, error) =>
+                            _placeholderImage(),
                       )
                     : _placeholderImage(),
               ],
             ),
             Image.asset(eImageAssets.bulletDotted)
                 .paddingSymmetric(vertical: Insets.i12),
+            // 03-33
             _statusRows(),
             const SizedBox(height: 15),
           ],
@@ -137,29 +146,32 @@ class _BookingLayoutState extends State<BookingLayout> {
     ).paddingOnly(bottom: 15);
   }
 
+// 03-33
   Widget _statusRows() {
     return Column(
       children: [
-        // StatusRow(
-        //   title: appFonts.bookingStatus,
-        //   statusText: widget.data?.bookingStatus?.name ?? "",
-        //   statusId: widget.data?.bookingStatusId,
-        // ),
-        if (widget.data?.bookingStatus?.slug != appFonts.cancelled)
-          StatusRow(
-            title: appFonts.dateTime,
-            title2: widget.data?.dateTime != null
-                ? DateFormat("dd-MM-yyyy, hh:mm aa")
-                    .format(widget.data?.dateTime ?? DateTime.now())
-                : "N/A",
-            onTap: widget.editDateTimeTap,
-            style: appCss.dmDenseMedium12.textColor(appColor(context).darkText),
-          ),
+        StatusRow(
+          title: appFonts.bookingStatus,
+          // statusText: widget.data?.bookingStatus?.name ?? "",
+          // statusId: widget.data?.bookingStatusId,
+          statusText: widget.data?.consumer!.name ?? '',
+          statusId: widget.data?.serviceId,
+        ),
+        // if (widget.data?.paymentStatus?.slug != appFonts.cancelled)
+        //   StatusRow(
+        //     title: appFonts.dateTime,
+        //     title2: widget.data?.dateTime != null
+        //         ? DateFormat("dd-MM-yyyy, hh:mm aa")
+        //             .format(widget.data?.dateTime ?? DateTime.now())
+        //         : "N/A",
+        //     onTap: widget.editDateTimeTap,
+        //     style: appCss.dmDenseMedium12.textColor(appColor(context).darkText),
+        //   ),
         StatusRow(
           title: appFonts.location,
-          title2: widget.data?.address != null
-              ? "${widget.data?.address?.address}-${widget.data?.address?.area ?? widget.data?.address?.state?.name}"
-              : getAddress(context, widget.data?.addressId),
+          title2: widget.data!.address!.address != null
+              ? "${widget.data?.address?.address}-${widget.data?.address?.area ?? widget.data?.address?.city}"
+              : getAddress(context, widget.data?.address!.id),
           onTap: widget.editLocationTap,
           style: appCss.dmDenseMedium12.textColor(appColor(context).darkText),
         ),

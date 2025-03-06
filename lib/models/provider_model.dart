@@ -8,8 +8,8 @@ class ProviderModel {
   String? email;
 
   String? served;
-  int? phone;
-  String? code;
+  String? phone;
+  int? code;
   String? providerId;
   String? description;
   int? status;
@@ -41,7 +41,6 @@ class ProviderModel {
       {this.id,
       this.name,
       this.email,
-
       this.served,
       this.phone,
       this.code,
@@ -69,97 +68,210 @@ class ProviderModel {
       this.expertise,
       this.addresses,
       this.servicemans,
-      this.reviews,this.services});
+      this.reviews,
+      this.services});
 
   ProviderModel.fromJson(Map<String, dynamic> json) {
+    try {
+      id = json['id'];
+      name = json['name']?.toString();
+      email = json['email']?.toString();
 
-    id = json['id'];
-    name = json['name'];
-    email = json['email'];
+      served = json['served']?.toString();
+      phone = json['phone'] != null
+          ? json['phone'].toString()
+          : null; // Convert int to String
+      code =
+          json['code'] != null ? json['code'] : null; // Convert int to String
+      providerId =
+          json['provider_id'] != null ? json['provider_id'].toString() : null;
+      description = json['description']?.toString();
+      status = json['status'] is int ? json['status'] : 0;
+      isFeatured = json['is_featured'] is int ? json['is_featured'] : 0;
+      isVerified = json['is_verified'] is int ? json['is_verified'] : 0;
+      type = json['type']?.toString() ?? "";
+      emailVerifiedAt = json['email_verified_at']?.toString() ?? "";
+      experienceInterval = json['experience_interval']?.toString();
+      experienceDuration =
+          json['experience_duration'] is int ? json['experience_duration'] : 0;
+      createdBy = json['created_by'] is int ? json['created_by'] : 0;
+      createdAt = json['created_at']?.toString();
+      updatedAt = json['updated_at']?.toString();
+      deletedAt = json['deleted_at']?.toString();
 
-    served = json['served'];
-    phone = json['phone'];
-    code = json['code']?.toString();
-    providerId = json['provider_id']?.toString();
-    description = json['description'];
-    status = json['status'];
-    isFeatured = json['is_featured'];
-    isVerified = json['is_verified'];
-    type = json['type'] ?? "";
-    emailVerifiedAt = json['email_verified_at'] ?? "";
-    experienceInterval = json['experience_interval'];
-    experienceDuration = json['experience_duration'];
-    createdBy = json['created_by'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
-    reviewRatings = json['review_ratings'] != null ?double.parse(json['review_ratings'].toString()):null;
-    reviewCount = json['reviewCount'];
-    if (json['categories'] != null) {
-      categories = <CategoryModel>[];
-      json['categories'].forEach((v) {
-        categories!.add(CategoryModel.fromJson(v));
-      });
-    }
-    primaryAddress = json['primary_address'] != null
-        ? PrimaryAddress.fromJson(json['primary_address'])
-        : null;
-    if (json['related_services'] != null) {
-      relatedServices = <Services>[];
-      json['related_services'].forEach((v) {
-        relatedServices!.add(Services.fromJson(v));
-      });
-    }
-    if (json['media'] != null) {
-      media = <Media>[];
-      json['media'].forEach((v) {
-        media!.add(Media.fromJson(v));
-      });
-    }
-    if (json['wallet'] != null) {
-      wallet = json['wallet'] != null
-          ? WalletModel.fromJson(json['wallet'])
+      reviewRatings =
+          (json['review_ratings'] != null && json['review_ratings'] is num)
+              ? json['review_ratings'].toDouble()
+              : null; // Convert numeric rating to double safely
+
+      reviewCount = json['reviewCount'] is int ? json['reviewCount'] : 0;
+
+      if (json['categories'] != null) {
+        categories = <CategoryModel>[];
+        json['categories'].forEach((v) {
+          categories!.add(CategoryModel.fromJson(v));
+        });
+      }
+
+      primaryAddress = json['primary_address'] != null
+          ? PrimaryAddress.fromJson(json['primary_address'])
           : null;
-    }
-    if (json['known_languages'] != null) {
-      knownLanguages = <KnownLanguageModel>[];
-      json['known_languages'].forEach((v) {
-        knownLanguages!.add(KnownLanguageModel.fromJson(v));
-      });
-    }
-    if (json['expertise'] != null) {
-      expertise = <ExpertiseModel>[];
-      json['expertise'].forEach((v) {
-        expertise!.add(ExpertiseModel.fromJson(v));
-      });
-    }
-    if (json['addresses'] != null) {
-      addresses = <PrimaryAddress>[];
-      json['addresses'].forEach((v) {
-        addresses!.add(PrimaryAddress.fromJson(v));
-      });
-    }
-    if (json['servicemans'] != null) {
-      servicemans = <ServicemanModel>[];
-      json['servicemans'].forEach((v) {
-        servicemans!.add(ServicemanModel.fromJson(v));
-      });
-    }
-    if (json['reviews'] != null) {
-      reviews = <Reviews>[];
-      json['reviews'].forEach((v) {
-        reviews!.add(Reviews.fromJson(v));
-      });
-    }
-    if (json['services'] != null) {
-      services = <Services>[];
-      json['services'].forEach((v) {
-        if(v != null) {
-          services!.add(Services.fromJson(v));
-        }
-      });
+
+      if (json['related_services'] != null) {
+        relatedServices = <Services>[];
+        json['related_services'].forEach((v) {
+          relatedServices!.add(Services.fromJson(v));
+        });
+      }
+
+      if (json['media'] != null) {
+        media = <Media>[];
+        json['media'].forEach((v) {
+          media!.add(Media.fromJson(v));
+        });
+      }
+
+      if (json['wallet'] != null) {
+        wallet = WalletModel.fromJson(json['wallet']);
+      }
+
+      if (json['known_languages'] != null) {
+        knownLanguages = <KnownLanguageModel>[];
+        json['known_languages'].forEach((v) {
+          knownLanguages!.add(KnownLanguageModel.fromJson(v));
+        });
+      }
+
+      if (json['expertise'] != null) {
+        expertise = <ExpertiseModel>[];
+        json['expertise'].forEach((v) {
+          expertise!.add(ExpertiseModel.fromJson(v));
+        });
+      }
+
+      if (json['addresses'] != null) {
+        addresses = <PrimaryAddress>[];
+        json['addresses'].forEach((v) {
+          addresses!.add(PrimaryAddress.fromJson(v));
+        });
+      }
+
+      if (json['servicemans'] != null) {
+        servicemans = <ServicemanModel>[];
+        json['servicemans'].forEach((v) {
+          servicemans!.add(ServicemanModel.fromJson(v));
+        });
+      }
+
+      if (json['reviews'] != null) {
+        reviews = <Reviews>[];
+        json['reviews'].forEach((v) {
+          reviews!.add(Reviews.fromJson(v));
+        });
+      }
+
+      if (json['services'] != null) {
+        services = <Services>[];
+        json['services'].forEach((v) {
+          if (v != null) {
+            services!.add(Services.fromJson(v));
+          }
+        });
+      }
+    } catch (e) {
+      debugPrint('Error parsing ProviderModel: $e');
     }
   }
+
+  // ProviderModel.fromJson(Map<String, dynamic> json) {
+  //   id = json['id'];
+  //   name = json['name']?.toString();
+  //   email = json['email'];
+
+  //   served = json['served'];
+  //   phone = json['phone']?.toString();
+  //   code = json['code']?.toString();
+  //   providerId = json['provider_id']?.toString();
+  //   description = json['description'];
+  //   status = json['status'];
+  //   isFeatured = json['is_featured'];
+  //   isVerified = json['is_verified'];
+  //   type = json['type'] ?? "";
+  //   emailVerifiedAt = json['email_verified_at'] ?? "";
+  //   experienceInterval = json['experience_interval'];
+  //   experienceDuration = json['experience_duration'];
+  //   createdBy = json['created_by'];
+  //   createdAt = json['created_at'];
+  //   updatedAt = json['updated_at'];
+  //   deletedAt = json['deleted_at'];
+  //   reviewRatings = json['review_ratings'] != null
+  //       ? double.parse(json['review_ratings'].toString())
+  //       : null;
+  //   reviewCount = json['reviewCount'];
+  //   if (json['categories'] != null) {
+  //     categories = <CategoryModel>[];
+  //     json['categories'].forEach((v) {
+  //       categories!.add(CategoryModel.fromJson(v));
+  //     });
+  //   }
+  //   primaryAddress = json['primary_address'] != null
+  //       ? PrimaryAddress.fromJson(json['primary_address'])
+  //       : null;
+  //   if (json['related_services'] != null) {
+  //     relatedServices = <Services>[];
+  //     json['related_services'].forEach((v) {
+  //       relatedServices!.add(Services.fromJson(v));
+  //     });
+  //   }
+  //   if (json['media'] != null) {
+  //     media = <Media>[];
+  //     json['media'].forEach((v) {
+  //       media!.add(Media.fromJson(v));
+  //     });
+  //   }
+  //   if (json['wallet'] != null) {
+  //     wallet =
+  //         json['wallet'] != null ? WalletModel.fromJson(json['wallet']) : null;
+  //   }
+  //   if (json['known_languages'] != null) {
+  //     knownLanguages = <KnownLanguageModel>[];
+  //     json['known_languages'].forEach((v) {
+  //       knownLanguages!.add(KnownLanguageModel.fromJson(v));
+  //     });
+  //   }
+  //   if (json['expertise'] != null) {
+  //     expertise = <ExpertiseModel>[];
+  //     json['expertise'].forEach((v) {
+  //       expertise!.add(ExpertiseModel.fromJson(v));
+  //     });
+  //   }
+  //   if (json['addresses'] != null) {
+  //     addresses = <PrimaryAddress>[];
+  //     json['addresses'].forEach((v) {
+  //       addresses!.add(PrimaryAddress.fromJson(v));
+  //     });
+  //   }
+  //   if (json['servicemans'] != null) {
+  //     servicemans = <ServicemanModel>[];
+  //     json['servicemans'].forEach((v) {
+  //       servicemans!.add(ServicemanModel.fromJson(v));
+  //     });
+  //   }
+  //   if (json['reviews'] != null) {
+  //     reviews = <Reviews>[];
+  //     json['reviews'].forEach((v) {
+  //       reviews!.add(Reviews.fromJson(v));
+  //     });
+  //   }
+  //   if (json['services'] != null) {
+  //     services = <Services>[];
+  //     json['services'].forEach((v) {
+  //       if (v != null) {
+  //         services!.add(Services.fromJson(v));
+  //       }
+  //     });
+  //   }
+  // }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -217,8 +329,7 @@ class ProviderModel {
       data['reviews'] = reviews!.map((v) => v.toJson()).toList();
     }
     if (services != null) {
-      data['services'] =
-          services!.map((v) => v.toJson()).toList();
+      data['services'] = services!.map((v) => v.toJson()).toList();
     }
     return data;
   }

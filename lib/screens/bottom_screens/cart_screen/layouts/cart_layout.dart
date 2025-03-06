@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:intl/intl.dart';
+import 'package:leadvala/models/cart_model.dart';
 
 import '../../../../config.dart';
 
@@ -20,6 +21,7 @@ class _CartLayoutState extends State<CartLayout> {
 
   @override
   void initState() {
+    print('call to card layout screen');
     // TODO: implement initState
     log("widget.data!.isPackage :${widget.data!.isPackage}");
     if (widget.data!.isPackage == true) {
@@ -39,66 +41,72 @@ class _CartLayoutState extends State<CartLayout> {
 
   @override
   Widget build(BuildContext context) {
+    print(
+        'showing to value for data::??${(widget.data!.isPackage! ? widget.data!.servicePackageList!.price! : widget.data!.serviceList!.serviceRate!)}');
+
+    print(
+        'show to value${(widget.data!.isPackage! ? 'oooo9o--${widget.data!.servicePackageList!.price!}' : '7770007--${widget.data!.serviceList!.serviceRate!}')}');
+
     return Column(children: [
       IntrinsicHeight(
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Row(children: [
-          CachedNetworkImage(
-            imageUrl: widget.data!.isPackage!
-                ? widget.data!.servicePackageList!.user!.media![0].originalUrl!
-                : widget.data!.serviceList!.media![0].originalUrl!,
-            imageBuilder: (context, imageProvider) => Container(
-                height: Sizes.s38,
-                width: Sizes.s38,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        fit: BoxFit.cover, image: imageProvider))),
-            errorWidget: (context, url, error) => Container(
-                height: Sizes.s38,
-                width: Sizes.s38,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage(eImageAssets.noImageFound1)))),
-          ),
+          // CachedNetworkImage(
+          //   imageUrl: widget.data!.isPackage!
+          //       ? widget.data!.servicePackageList!.user!.media![0].originalUrl!
+          //       : widget.data!.serviceList!.media![0].originalUrl!,
+          //   imageBuilder: (context, imageProvider) => Container(
+          //       height: Sizes.s38,
+          //       width: Sizes.s38,
+          //       decoration: BoxDecoration(
+          //           shape: BoxShape.circle,
+          //           image: DecorationImage(
+          //               fit: BoxFit.cover, image: imageProvider))),
+          //   errorWidget: (context, url, error) => Container(
+          //       height: Sizes.s38,
+          //       width: Sizes.s38,
+          //       decoration: BoxDecoration(
+          //           shape: BoxShape.circle,
+          //           image: DecorationImage(
+          //               fit: BoxFit.cover,
+          //               image: AssetImage(eImageAssets.noImageFound1)))),
+          // ),
           const HSpace(Sizes.s8),
-          Text(
-             capitalizeFirstLetter( widget.data!.isPackage!
-                 ? widget.data!.servicePackageList!.user!.name!
-                 : widget.data!.serviceList!.user != null
-                 ? widget.data!.serviceList!.user!.name!
-                 : "Provider"),
-              style:
-                  appCss.dmDenseMedium14.textColor(appColor(context).darkText)),
-          VerticalDivider(
-                  width: 1,
-                  thickness: 1,
-                  color: appColor(context).lightText,
-                  indent: 12,
-                  endIndent: 12)
-              .paddingSymmetric(horizontal: Insets.i8),
-          Row(children: [
-            SvgPicture.asset(eSvgAssets.star),
-            const HSpace(Sizes.s3),
-            Text(
-                widget.data!.isPackage!
-                    ? widget.data!.servicePackageList!.user!.reviewRatings !=
-                            null
-                        ? widget.data!.servicePackageList!.user!.reviewRatings!
-                            .toStringAsFixed(1)
-                        : "0.0"
-                    : widget.data!.serviceList!.user != null
-                        ? widget.data!.serviceList!.user!.reviewRatings != null
-                            ? widget.data!.serviceList!.user!.reviewRatings!
-                                .toStringAsFixed(1)
-                            : "0.0"
-                        : "0.0",
-                style: appCss.dmDenseMedium13
-                    .textColor(appColor(context).darkText))
-          ])
+          // Text(
+          //    capitalizeFirstLetter( widget.data!.isPackage!
+          //        ? widget.data!.servicePackageList!.user!.name!
+          //        : widget.data!.serviceList!.user != null
+          //        ? widget.data!.serviceList!.user!.name!
+          //        : "Provider"),
+          //     style:
+          //         appCss.dmDenseMedium14.textColor(appColor(context).darkText)),
+          // VerticalDivider(
+          //         width: 1,
+          //         thickness: 1,
+          //         color: appColor(context).lightText,
+          //         indent: 12,
+          //         endIndent: 12)
+          //     .paddingSymmetric(horizontal: Insets.i8),
+          // Row(children: [
+          //   SvgPicture.asset(eSvgAssets.star),
+          //   const HSpace(Sizes.s3),
+          //   Text(
+          //       widget.data!.isPackage!
+          //           ? widget.data!.servicePackageList!.user!.reviewRatings !=
+          //                   null
+          //               ? widget.data!.servicePackageList!.user!.reviewRatings!
+          //                   .toStringAsFixed(1)
+          //               : "0.0"
+          //           : widget.data!.serviceList!.user != null
+          //               ? widget.data!.serviceList!.user!.reviewRatings != null
+          //                   ? widget.data!.serviceList!.user!.reviewRatings!
+          //                       .toStringAsFixed(1)
+          //                   : "0.0"
+          //               : "0.0",
+          //       style: appCss.dmDenseMedium13
+          //           .textColor(appColor(context).darkText))
+          // ])
         ]),
         Row(children: [
           CommonArrow(
@@ -125,20 +133,32 @@ class _CartLayoutState extends State<CartLayout> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                      language(
-                          context,
-                          widget.data!.isPackage!
-                              ? widget.data!.servicePackageList!.title
-                              : widget.data!.serviceList!.title!),
+                      capitalizeFirstLetter(widget.data!.isPackage!
+                          ? widget.data!.servicePackageList!.user!.name!
+                          : widget.data!.serviceList!.user != null
+                              ? widget.data!.serviceList!.user!.name!
+                              : "Provider"),
                       style: appCss.dmDenseSemiBold16
                           .textColor(appColor(context).darkText)),
+
+                  // Text(
+                  //     language(
+                  //         context,
+                  //         widget.data!.isPackage!
+                  //             ? widget.data!.servicePackageList!.title
+                  //             : widget.data!.serviceList!.title!),
+                  //     style: appCss.dmDenseSemiBold16
+                  //         .textColor(appColor(context).darkText)),
                   const VSpace(Sizes.s4),
                   Row(children: [
+                    // card value for my card
+
                     Text(
                         language(context,
                             "${getSymbol(context)}${(currency(context).currencyVal * (widget.data!.isPackage! ? widget.data!.servicePackageList!.price! : widget.data!.serviceList!.serviceRate!)).toStringAsFixed(2)}"),
                         style: appCss.dmDenseBold18
                             .textColor(appColor(context).primary)),
+
                     if (widget.data!.isPackage!
                         ? widget.data!.servicePackageList!.discount != null
                         : widget.data!.serviceList!.discount != null)
@@ -153,11 +173,13 @@ class _CartLayoutState extends State<CartLayout> {
                   widget.data!.isPackage == false
                       ? IntrinsicHeight(
                           child: FittedBox(
-                            child: Row(children: [
-                            SvgPicture.asset(eSvgAssets.calendar,
-                                height: Sizes.s16,
-                                colorFilter: ColorFilter.mode(appColor(context).darkText, BlendMode.srcIn),
-                                ),
+                          child: Row(children: [
+                            SvgPicture.asset(
+                              eSvgAssets.calendar,
+                              height: Sizes.s16,
+                              colorFilter: ColorFilter.mode(
+                                  appColor(context).darkText, BlendMode.srcIn),
+                            ),
                             const HSpace(Sizes.s6),
                             Text(
                                 DateFormat("dd MMM, yyyy").format(
@@ -172,17 +194,19 @@ class _CartLayoutState extends State<CartLayout> {
                                     indent: 3,
                                     endIndent: 3)
                                 .paddingSymmetric(horizontal: Insets.i6),
-                            SvgPicture.asset(eSvgAssets.clock,height: Sizes.s16,
-                                colorFilter: ColorFilter.mode(
-                                    appColor(context).darkText, BlendMode.srcIn),
+                            SvgPicture.asset(
+                              eSvgAssets.clock,
+                              height: Sizes.s16,
+                              colorFilter: ColorFilter.mode(
+                                  appColor(context).darkText, BlendMode.srcIn),
                             ),
                             const HSpace(Sizes.s6),
                             Text(
                                 "${DateFormat("hh:mm").format(widget.data!.serviceList!.serviceDate ?? DateTime.now())} ${widget.data!.serviceList!.selectedDateTimeFormat ?? "AM"}",
                                 style: appCss.dmDenseRegular13
                                     .textColor(appColor(context).darkText))
-                                                    ]),
-                          ))
+                          ]),
+                        ))
                       : /*SizedBox(
                           width: Sizes.s198,
                           child: Text(
@@ -229,23 +253,23 @@ class _CartLayoutState extends State<CartLayout> {
                           SmoothRadius(cornerRadius: 8, cornerSmoothing: 1)))))
         ]),
         const VSpace(Sizes.s12),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-                language(
-                    context,
-                    widget.data!.isPackage == true
-                        ? appFonts.includedService
-                        : appFonts.selectedServicemen),
-                style: appCss.dmDenseMedium12
-                    .textColor(appColor(context).darkText)),
-            Text(
-                "${widget.data!.isPackage == true ? widget.data!.servicePackageList!.services!.length : widget.data!.serviceList!.selectedRequiredServiceMan} ${capitalizeFirstLetter(language(context, widget.data!.isPackage == true ? appFonts.service : language(context, appFonts.serviceman)))}",
-                style: appCss.dmDenseSemiBold12
-                    .textColor(appColor(context).primary)),
-          ],
-        ),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //     Text(
+        //         language(
+        //             context,
+        //             widget.data!.isPackage == true
+        //                 ? appFonts.includedService
+        //                 : appFonts.selectedServicemen),
+        //         style: appCss.dmDenseMedium12
+        //             .textColor(appColor(context).darkText)),
+        //     Text(
+        //         "${widget.data!.isPackage == true ? widget.data!.servicePackageList!.services!.length : widget.data!.serviceList!.selectedRequiredServiceMan} ${capitalizeFirstLetter(language(context, widget.data!.isPackage == true ? appFonts.service : language(context, appFonts.serviceman)))}",
+        //         style: appCss.dmDenseSemiBold12
+        //             .textColor(appColor(context).primary)),
+        //   ],
+        // ),
         const DottedLines().paddingSymmetric(vertical: Insets.i12),
         widget.data!.isPackage == false
             ? Column(
