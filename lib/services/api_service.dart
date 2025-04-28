@@ -112,15 +112,16 @@ class ApiServices {
           options: Options(
             method: 'GET',
           ));
-      print('response data showing this time${response.statusCode}');
-      print('response data showing this time${response.data}');
+      print('main get api1${response.statusCode}');
+      print('main get api2$apiName');
+      print('main get api3${response.data}');
       log("STATUSS : ${response.statusCode}");
       if (response.statusCode == 200) {
         //get response
         var responseData = response.data;
-        print('response data all of this data ${responseData}');
+        print('response data all of this data $responseData');
         log("$apiName Response: $responseData");
-        print('datttatatatt${isData}');
+        print('datttatatatt$isData');
         //set data to class
         if (isData) {
           log("dskyghvjryb");
@@ -155,7 +156,7 @@ class ApiServices {
 
   Future<APIDataClass> postApi(String apiName, body,
       {isToken = false, isData = false}) async {
-    print('post api data:: ${body}');
+    print('post api data:: $body');
     //default data to class
     APIDataClass apiData = APIDataClass(
       message: 'No data',
@@ -170,13 +171,13 @@ class ApiServices {
       apiData.data = 0;
       return apiData;
     } else {
-      print('check to the api url name ${apiName}');
+      print('check to the api url name $apiName');
       log("URL: $apiName");
 
       //dio.options.headers["authtoken"] = authtoken;
       SharedPreferences pref = await SharedPreferences.getInstance();
       String? token = pref.getString(session.accessToken);
-      print('showing token ${token}');
+      print('showing token $token');
       print('showing token ${headersToken(token)}');
       log("AUTH : $token");
       log("AUTH : ${headersToken(token)}");
@@ -187,13 +188,13 @@ class ApiServices {
           data: body,
           options: Options(headers: isToken ? headersToken(token) : headers),
         );
-        print('showing response:::${response}');
+        print('showing response:::$response');
         print('showing response:::${response.data}');
-        print('showing body:::${body}');
+        print('showing body:::$body');
         var responseData = response.data;
         log("response : $response");
         if (response.statusCode == 200) {
-          print('response data set to the acces token: ${response}');
+          print('response data set to the acces token: $response');
           //get response
 
           if (apiName.contains("login") ||

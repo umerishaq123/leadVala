@@ -1,19 +1,19 @@
 library textstyle_extensions;
-import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 extension TextStyleExtensions on TextStyle {
-
-
   /// Shortcut for italic
   TextStyle get italic => style(FontStyle.italic);
 
   /// Shortcut for underline
-  TextStyle get underline => textDecoration(TextDecoration.underline,color: const Color(0xff5465FF));
+  TextStyle get underline =>
+      textDecoration(TextDecoration.underline, color: const Color(0xff5465FF));
 
   /// Shortcut for line through
-  TextStyle get lineThrough => textDecoration(TextDecoration.lineThrough,color: const Color(0xff808B97));
+  TextStyle get lineThrough => textDecoration(TextDecoration.lineThrough,
+      color: const Color(0xff808B97));
 
   /// Shortcut for overLine
   TextStyle get overLine => textDecoration(TextDecoration.overline);
@@ -64,6 +64,11 @@ extension TextStyleExtensions on TextStyle {
   TextStyle textFeatures(List<FontFeature> v) => copyWith(fontFeatures: v);
 
   /// Shortcut for decoration
-  TextStyle textDecoration(TextDecoration v, {Color? color, TextDecorationStyle? style, double thickness = 1}) =>
-      copyWith(decoration: v, decorationColor: color, decorationStyle: style, decorationThickness: thickness);
+  TextStyle textDecoration(TextDecoration v,
+          {Color? color, TextDecorationStyle? style, double thickness = 1}) =>
+      copyWith(
+          decoration: v,
+          decorationColor: color,
+          decorationStyle: style,
+          decorationThickness: thickness);
 }

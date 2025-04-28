@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:leadvala/config.dart';
 import 'package:leadvala/models/booking_response_model.dart'
     as booking_response;
-import 'package:leadvala/models/category_model.dart';
 import 'package:leadvala/screens/app_pages_screens/slot_booking_screen/layouts/year_dialog.dart';
 import 'package:leadvala/utils/date_time_picker.dart';
 import 'package:intl/intl.dart';
@@ -398,8 +397,6 @@ class BookingProvider with ChangeNotifier {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-
     animationController!.dispose();
     notifyListeners();
     super.dispose();

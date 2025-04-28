@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import '../../../config.dart';
 import 'layouts/common_otp_layout.dart';
 
@@ -9,7 +7,6 @@ class VerifyOtpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<VerifyOtpProvider>(builder: (context1, otpCtrl, child) {
-
       return LoadingComponent(
           child: StatefulWrapper(
         onInit: () => Future.delayed(DurationClass.ms50)
@@ -28,8 +25,7 @@ class VerifyOtpScreen extends StatelessWidget {
                         arrow: rtl(context)
                             ? eSvgAssets.arrowRight
                             : eSvgAssets.arrowLeft1,
-                        onTap: ()=> route.pop(context))
-                        .paddingAll(Insets.i20),
+                        onTap: () => route.pop(context)).paddingAll(Insets.i20),
                   ),
                   Align(
                     alignment: Alignment.center,
@@ -38,7 +34,9 @@ class VerifyOtpScreen extends StatelessWidget {
                         title: appFonts.verifyOtp,
                         subTitle: appFonts.enterTheCode,
                         isNumber: true,
-                        number:otpCtrl.isEmail ? otpCtrl.email :  "${otpCtrl.dialCode} ${otpCtrl.phone}"),
+                        number: otpCtrl.isEmail
+                            ? otpCtrl.email
+                            : "${otpCtrl.dialCode} ${otpCtrl.phone}"),
                   ),
                 ],
               ),
@@ -50,7 +48,8 @@ class VerifyOtpScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ContainerWithTextLayout(title: language(context, appFonts.enterOtp)),
+                          ContainerWithTextLayout(
+                              title: language(context, appFonts.enterOtp)),
                           const VSpace(Sizes.s8),
                           const CommonOtpLayout(),
                           const VSpace(Sizes.s20),
@@ -61,12 +60,14 @@ class VerifyOtpScreen extends StatelessWidget {
                           const VSpace(Sizes.s15),
                           otpCtrl.isCountDown
                               ? Text("${otpCtrl.min} : ${otpCtrl.sec}",
-                                      style: appCss.dmDenseMedium14.textColor(
-                                          appColor(context).primary))
+                                      style: appCss.dmDenseMedium14
+                                          .textColor(appColor(context).primary))
                                   .alignment(Alignment.center)
                               : Text(language(context, appFonts.resendCode),
-                                      style: appCss.dmDenseMedium14.textColor(
-                                          appColor(context).primary)).inkWell(onTap: ()=>otpCtrl.resendCode(context))
+                                      style: appCss.dmDenseMedium14
+                                          .textColor(appColor(context).primary))
+                                  .inkWell(
+                                      onTap: () => otpCtrl.resendCode(context))
                                   .alignment(Alignment.center)
                         ]).paddingSymmetric(vertical: Insets.i20))
               ]).paddingSymmetric(horizontal: Insets.i20)

@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -44,42 +42,47 @@ class ChatHistoryProvider with ChangeNotifier {
             .get()
             .then((value) {
           if (value.docs.isNotEmpty) {
-           value.docs.asMap().entries.forEach((element) {
-
-             FirebaseFirestore.instance
-                 .collection(collectionName.users)
-                 .doc(userModel!.id.toString())
-                 .collection(collectionName.chatWith)
-                 .doc(userModel!.id.toString() == element.value['senderId'].toString() ?element.value['receiverId'].toString() :element.value['senderId'].toString()  )
-                 .collection(collectionName.booking)
-                 .doc(element.value['bookingId'].toString() )
-                 .collection(collectionName.chat)
-                 .get()
-                 .then((v) {
-               for (var d in v.docs) {
-                 FirebaseFirestore.instance
-                     .collection(collectionName.users)
-                     .doc(userModel!.id.toString())
-                     .collection(collectionName.chatWith)
-                     .doc(userModel!.id.toString() == element.value['senderId'].toString() ?element.value['receiverId'].toString() :element.value['senderId'].toString()  )
-                     .collection(collectionName.booking)
-                     .doc(element.value['bookingId'].toString() )
-                     .collection(collectionName.chat)
-                     .doc(d.id)
-                     .delete();
-               }
-             }).then((a) {
-               FirebaseFirestore.instance
-                   .collection(collectionName.users)
-                   .doc(userModel!.id.toString())
-                   .collection(collectionName.chats)
-                   .doc(value.docs[0].id)
-                   .delete();
-             }).then((value) {
-               chatHistory = [];
-               hideLoading(context);
-             });
-           });
+            value.docs.asMap().entries.forEach((element) {
+              FirebaseFirestore.instance
+                  .collection(collectionName.users)
+                  .doc(userModel!.id.toString())
+                  .collection(collectionName.chatWith)
+                  .doc(userModel!.id.toString() ==
+                          element.value['senderId'].toString()
+                      ? element.value['receiverId'].toString()
+                      : element.value['senderId'].toString())
+                  .collection(collectionName.booking)
+                  .doc(element.value['bookingId'].toString())
+                  .collection(collectionName.chat)
+                  .get()
+                  .then((v) {
+                for (var d in v.docs) {
+                  FirebaseFirestore.instance
+                      .collection(collectionName.users)
+                      .doc(userModel!.id.toString())
+                      .collection(collectionName.chatWith)
+                      .doc(userModel!.id.toString() ==
+                              element.value['senderId'].toString()
+                          ? element.value['receiverId'].toString()
+                          : element.value['senderId'].toString())
+                      .collection(collectionName.booking)
+                      .doc(element.value['bookingId'].toString())
+                      .collection(collectionName.chat)
+                      .doc(d.id)
+                      .delete();
+                }
+              }).then((a) {
+                FirebaseFirestore.instance
+                    .collection(collectionName.users)
+                    .doc(userModel!.id.toString())
+                    .collection(collectionName.chats)
+                    .doc(value.docs[0].id)
+                    .delete();
+              }).then((value) {
+                chatHistory = [];
+                hideLoading(context);
+              });
+            });
           }
           hideLoading(context);
           notifyListeners();

@@ -35,7 +35,6 @@ class SplashApiService {
     locationCtrl.getCountryState();
     await locationCtrl.getUserCurrentLocation(context);
     search.loadImage1();
-
     if (userData != null) {
       await commonApi.selfApi(context);
       await locationCtrl.getLocationList(context);

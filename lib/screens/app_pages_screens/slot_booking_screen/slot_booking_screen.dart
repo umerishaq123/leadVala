@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:leadvala/screens/app_pages_screens/slot_booking_screen/layouts/bill_row_common.dart';
 import 'package:leadvala/screens/app_pages_screens/slot_booking_screen/layouts/step_one_layout.dart';
 import 'package:leadvala/screens/app_pages_screens/slot_booking_screen/layouts/step_two_layout.dart';
 
@@ -14,7 +11,8 @@ class SlotBookingScreen extends StatelessWidget {
     return Consumer<LocationProvider>(builder: (context1, locationCtrl, child) {
       return Consumer<SlotBookingProvider>(builder: (context2, value, child) {
         return StatefulWrapper(
-          onInit: () => Future.delayed(DurationClass.ms50).then((_) => value.onReady(context)),
+          onInit: () => Future.delayed(DurationClass.ms50)
+              .then((_) => value.onReady(context)),
           child: PopScope(
             canPop: false,
             onPopInvoked: (pop) async {
@@ -35,10 +33,13 @@ class SlotBookingScreen extends StatelessWidget {
                       .backgroundColor(appColor(context).whiteBg),
                 ),*/
                 appBar: AppBarCommon(
-                  title: "${language(context, appFonts.step)} ${value.isStep2 == false ? "1" : "2"}",
+                  title:
+                      "${language(context, appFonts.step)} ${value.isStep2 == false ? "1" : "2"}",
                   onTap: () => value.onBack(context),
                 ),
-                body: value.isStep2 == false ? const StepOneLayout() : const StepTwoLayout()),
+                body: value.isStep2 == false
+                    ? const StepOneLayout()
+                    : const StepTwoLayout()),
           ),
         );
       });

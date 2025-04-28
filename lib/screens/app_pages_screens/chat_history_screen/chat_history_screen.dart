@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:leadvala/screens/app_pages_screens/chat_history_screen/layouts/chat_history_layout.dart';
 
 import '../../../config.dart';
@@ -11,23 +10,28 @@ class ChatHistoryScreen extends StatefulWidget {
   State<ChatHistoryScreen> createState() => _ChatHistoryScreenState();
 }
 
-class _ChatHistoryScreenState extends State<ChatHistoryScreen> with TickerProviderStateMixin {
+class _ChatHistoryScreenState extends State<ChatHistoryScreen>
+    with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Consumer<ChatHistoryProvider>(builder: (context, value, child) {
       return Scaffold(
           appBar: AppBar(
               title: Text(language(context, appFonts.chatHistory),
-                  style: appCss.dmDenseBold18.textColor(appColor(context).darkText)),
+                  style: appCss.dmDenseBold18
+                      .textColor(appColor(context).darkText)),
               centerTitle: true,
               actions: [
                 if (value.chatHistory.isNotEmpty)
                   MoreOptionLayout(
-                    onSelected: (index) => value.onTapOption(index, context, this),
+                    onSelected: (index) =>
+                        value.onTapOption(index, context, this),
                     list: appArray.chatHistoryOptionList,
                   ).paddingSymmetric(horizontal: Insets.i20)
               ],
-              leading: CommonArrow(arrow: eSvgAssets.arrowLeft, onTap: () => route.pop(context)).paddingAll(Insets.i8)),
+              leading: CommonArrow(
+                  arrow: eSvgAssets.arrowLeft,
+                  onTap: () => route.pop(context)).paddingAll(Insets.i8)),
           /*body: SingleChildScrollView(
             child: StreamBuilder(
                 stream: FirebaseFirestore.instance
@@ -88,14 +92,16 @@ class _ChatHistoryScreenState extends State<ChatHistoryScreen> with TickerProvid
                                 .asMap()
                                 .entries
                                 .map((e) => ChatHistoryLayout(
-                                    onTap: () => value.onChatClick(context, e.value),
+                                    onTap: () =>
+                                        value.onChatClick(context, e.value),
                                     data: e.value.data(),
                                     index: e.key,
                                     list: value.chatHistory))
                                 .toList())
                         .paddingAll(Insets.i15)
                         .boxShapeExtension(color: appColor(context).fieldCardBg)
-                  ]).paddingSymmetric(horizontal: Insets.i20, vertical: Sizes.s15)),
+                  ]).paddingSymmetric(
+                        horizontal: Insets.i20, vertical: Sizes.s15)),
           ));
     });
   }

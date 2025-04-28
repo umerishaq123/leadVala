@@ -2,7 +2,6 @@ class CheckoutModel {
   List<SingleServices>? services;
   List<ServicesPackage>? servicesPackage;
   FinalTotal? total;
-
   CheckoutModel({this.services, this.servicesPackage, this.total});
 
   CheckoutModel.fromJson(Map<String, dynamic> json) {

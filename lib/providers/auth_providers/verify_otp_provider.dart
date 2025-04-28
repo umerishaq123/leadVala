@@ -32,16 +32,19 @@ class VerifyOtpProvider with ChangeNotifier {
     notifyListeners();
 
     debugPrint("verificationCode : $verificationCode");
-    PhoneAuthCredential authCredential =
-        PhoneAuthProvider.credential(verificationId: verificationCode!, smsCode: otpController.text);
+    PhoneAuthCredential authCredential = PhoneAuthProvider.credential(
+        verificationId: verificationCode!, smsCode: otpController.text);
 
-    firebaseAuth.signInWithCredential(authCredential).then((UserCredential value) async {
+    firebaseAuth
+        .signInWithCredential(authCredential)
+        .then((UserCredential value) async {
       if (value.user != null) {
         login(context);
       } else {
         hideLoading(context);
         notifyListeners();
-        snackBarMessengers("SOMETHING WENT WRONG", color: appColor(context).red);
+        snackBarMessengers("SOMETHING WENT WRONG",
+            color: appColor(context).red);
       }
     }).catchError((error) {
       hideLoading(context);
@@ -64,9 +67,11 @@ class VerifyOtpProvider with ChangeNotifier {
         log("SSSS : ${value.isSuccess}");
         notifyListeners();
         if (value.isSuccess!) {
-          route.pushNamed(context, routeName.resetPass, arg: {"otp": otpController.text, "email": email});
+          route.pushNamed(context, routeName.resetPass,
+              arg: {"otp": otpController.text, "email": email});
         } else {
-          snackBarMessengers(context, message: value.message, color: appColor(context).red);
+          snackBarMessengers(context,
+              message: value.message, color: appColor(context).red);
         }
       });
     } catch (e) {
@@ -78,7 +83,8 @@ class VerifyOtpProvider with ChangeNotifier {
 
   defaultTheme(context) {
     final defaultPinTheme = PinTheme(
-        textStyle: appCss.dmDenseSemiBold18.textColor(appColor(context).darkText),
+        textStyle:
+            appCss.dmDenseSemiBold18.textColor(appColor(context).darkText),
         width: Sizes.s55,
         height: Sizes.s48,
         decoration: BoxDecoration(
@@ -106,7 +112,8 @@ class VerifyOtpProvider with ChangeNotifier {
   }
 
   void startTimer() {
-    countdownTimer = Timer.periodic(const Duration(seconds: 1), (_) => setCountDown());
+    countdownTimer =
+        Timer.periodic(const Duration(seconds: 1), (_) => setCountDown());
     notifyListeners();
   }
 
@@ -166,7 +173,7 @@ class VerifyOtpProvider with ChangeNotifier {
 
   //login
   login(context) async {
-    String token = await getFcmToken();
+    String? token = await getFcmToken();
     var body = {
       "login_type": "phone",
       "user": {"phone": phone, "code": dialCode},
@@ -176,7 +183,9 @@ class VerifyOtpProvider with ChangeNotifier {
     log("body : $body");
 
     try {
-      await apiServices.postApi(api.socialLogin, jsonEncode(body)).then((value) async {
+      await apiServices
+          .postApi(api.socialLogin, jsonEncode(body))
+          .then((value) async {
         hideLoading(context);
         log("VVVV : ${value.isSuccess}");
         notifyListeners();
@@ -184,26 +193,32 @@ class VerifyOtpProvider with ChangeNotifier {
           SharedPreferences pref = await SharedPreferences.getInstance();
 
           pref.setBool(session.isContinueAsGuest, false);
-          final commonApi = Provider.of<CommonApiProvider>(context, listen: false);
+          final commonApi =
+              Provider.of<CommonApiProvider>(context, listen: false);
           await commonApi.selfApi(context);
           dynamic userData = pref.getString(session.user);
           if (userData != null) {
-            final locationCtrl = Provider.of<LocationProvider>(context, listen: false);
+            final locationCtrl =
+                Provider.of<LocationProvider>(context, listen: false);
             pref.remove(session.isContinueAsGuest);
             locationCtrl.getUserCurrentLocation(context);
             locationCtrl.getLocationList(context);
             locationCtrl.getCountryState();
-            final favCtrl = Provider.of<FavouriteListProvider>(context, listen: false);
+            final favCtrl =
+                Provider.of<FavouriteListProvider>(context, listen: false);
             favCtrl.getFavourite();
             final cartCtrl = Provider.of<CartProvider>(context, listen: false);
             cartCtrl.onReady(context);
-            final notifyCtrl = Provider.of<NotificationProvider>(context, listen: false);
+            final notifyCtrl =
+                Provider.of<NotificationProvider>(context, listen: false);
             notifyCtrl.getNotificationList(context);
           }
-          snackBarMessengers(context, message: value.message, color: appColor(context).primary);
+          snackBarMessengers(context,
+              message: value.message, color: appColor(context).primary);
           route.pushReplacementNamed(context, routeName.dashboard);
         } else {
-          snackBarMessengers(context, message: value.message, color: appColor(context).red);
+          snackBarMessengers(context,
+              message: value.message, color: appColor(context).red);
         }
       });
     } catch (e) {

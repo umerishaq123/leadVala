@@ -18,6 +18,7 @@ class PaymentMethodLayout extends StatelessWidget {
     final value = Provider.of<PaymentProvider>(context, listen: true);
     print('chec slug ${data!.slug}');
     print('check value of payment method :: ${value.booking}');
+    print('check value of payment method :: ${value.bookingId}');
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Row(children: [
         if (data!.slug != "cash")
@@ -27,6 +28,7 @@ class PaymentMethodLayout extends StatelessWidget {
               width: Sizes.s70,
               image: data!.image,
               assetImage: eImageAssets.noImageFound1),
+
         /* SvgPicture.asset(data["image"],colorFilter: ColorFilter.mode( selectIndex == index ? appColor(context).primary : appColor(context).darkText , BlendMode.srcIn),).paddingAll(Insets.i10).decorated(
               color: selectIndex == index
                   ? appColor(context).primary.withOpacity(0.1)

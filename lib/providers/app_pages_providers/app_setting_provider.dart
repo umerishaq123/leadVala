@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:leadvala/config.dart';
@@ -28,7 +27,8 @@ class AppSettingProvider with ChangeNotifier {
         return const AlertDialog(
           insetPadding: EdgeInsets.symmetric(horizontal: Insets.i20),
           shape: SmoothRectangleBorder(
-              borderRadius: SmoothBorderRadius.all(SmoothRadius(cornerRadius: AppRadius.r14, cornerSmoothing: 1))),
+              borderRadius: SmoothBorderRadius.all(SmoothRadius(
+                  cornerRadius: AppRadius.r14, cornerSmoothing: 1))),
           content: ThemeSelect(),
         );
       },
@@ -68,7 +68,8 @@ class AppSettingProvider with ChangeNotifier {
     final dash = Provider.of<DashboardProvider>(context, listen: false);
     log("VURE :${currency(context).currency}");
     if (currency(context).currency != null) {
-      selectIndex = dash.currencyList.indexWhere((element) => element.symbol == currency(context).currency!.symbol);
+      selectIndex = dash.currencyList.indexWhere(
+          (element) => element.symbol == currency(context).currency!.symbol);
       showModalBottomSheet(
         context: context,
         backgroundColor: Colors.transparent,

@@ -1,6 +1,3 @@
-import 'package:leadvala/common/extension/widget_extension.dart';
-import 'package:leadvala/widgets/common_skeleton.dart';
-
 import '../config.dart';
 
 class GridShimmer extends StatelessWidget {

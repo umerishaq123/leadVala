@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:leadvala/config.dart';
 
 import '../../common_tap.dart';
-import '../../widgets/alert_message_common.dart';
 
 class FavouriteListProvider with ChangeNotifier {
   List<FavouriteModel> favoriteList = [];
@@ -27,9 +26,11 @@ class FavouriteListProvider with ChangeNotifier {
     String apiUrlName = "";
     if (providerCtrl.text.isNotEmpty || serviceCtrl.text.isNotEmpty) {
       if (selectedIndex == 0) {
-        apiUrlName = "${api.favouriteList}?type=provider&search=${providerCtrl.text}";
+        apiUrlName =
+            "${api.favouriteList}?type=provider&search=${providerCtrl.text}";
       } else {
-        apiUrlName = "${api.favouriteList}?type=service&search=${serviceCtrl.text}";
+        apiUrlName =
+            "${api.favouriteList}?type=service&search=${serviceCtrl.text}";
       }
     } else {
       apiUrlName = api.favouriteList;
@@ -124,25 +125,33 @@ class FavouriteListProvider with ChangeNotifier {
       showLoading(context);
       notifyListeners();
       if (type == "service") {
-        serviceFavList.removeWhere((element) => element.serviceId.toString() == id.toString());
+        serviceFavList.removeWhere(
+            (element) => element.serviceId.toString() == id.toString());
         notifyListeners();
-        index = favoriteList.indexWhere((element) => element.serviceId.toString() == id.toString());
+        index = favoriteList.indexWhere(
+            (element) => element.serviceId.toString() == id.toString());
       } else {
-        providerFavList.removeWhere((element) => element.providerId.toString() == id.toString());
+        providerFavList.removeWhere(
+            (element) => element.providerId.toString() == id.toString());
         notifyListeners();
-        index = favoriteList.indexWhere((element) => element.providerId.toString() == id.toString());
+        index = favoriteList.indexWhere(
+            (element) => element.providerId.toString() == id.toString());
       }
 
       notifyListeners();
       int favId = favoriteList[index].id!;
       log("favId : $favId");
       if (type == "service") {
-        favoriteList.removeWhere((element) => element.serviceId.toString() == id.toString());
+        favoriteList.removeWhere(
+            (element) => element.serviceId.toString() == id.toString());
       } else {
-        favoriteList.removeWhere((element) => element.providerId.toString() == id.toString());
+        favoriteList.removeWhere(
+            (element) => element.providerId.toString() == id.toString());
       }
       log("DDD :${"${api.favoriteList}/$type/$favId"}");
-      await apiServices.deleteApi("${api.favoriteList}/$type/$favId", {}, isToken: true).then((value) {
+      await apiServices
+          .deleteApi("${api.favoriteList}/$type/$favId", {}, isToken: true)
+          .then((value) {
         hideLoading(context);
         notifyListeners();
         if (value.isSuccess!) {
@@ -159,12 +168,16 @@ class FavouriteListProvider with ChangeNotifier {
   }
 
   onFeatured(context, Services? services, id) async {
-    final providerDetail = Provider.of<ProviderDetailsProvider>(context, listen: false);
+    final providerDetail =
+        Provider.of<ProviderDetailsProvider>(context, listen: false);
     providerDetail.selectProviderIndex = 0;
     providerDetail.notifyListeners();
-    onBook(context, services!, addTap: () => onAdd(id: id), minusTap: () => onRemoveService(context, id: id))!
+    onBook(context, services!,
+            addTap: () => onAdd(id: id),
+            minusTap: () => onRemoveService(context, id: id))!
         .then((e) {
-      serviceFavList[id].service!.selectedRequiredServiceMan = serviceFavList[id].service!.requiredServicemen;
+      serviceFavList[id].service!.selectedRequiredServiceMan =
+          serviceFavList[id].service!.requiredServicemen;
       notifyListeners();
     });
   }

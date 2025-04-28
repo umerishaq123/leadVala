@@ -95,7 +95,6 @@ class AddButtonCommon extends StatelessWidget {
 }
 class AddedButtonCommon extends StatelessWidget {
   final GestureTapCallback? onTap;
-
   const AddedButtonCommon({super.key, this.onTap});
 
   @override

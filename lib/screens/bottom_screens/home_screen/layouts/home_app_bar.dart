@@ -33,7 +33,10 @@ class HomeAppBar extends StatelessWidget {
                       Text(
                           setPrimaryAddress == null
                               ? language(context, appFonts.currentLocation)
-                              : setPrimaryAddress == -1 ? language(context, appFonts.currentLocation): capitalizeFirstLetter(userPrimaryAddress!.type),
+                              : setPrimaryAddress == -1
+                                  ? language(context, appFonts.currentLocation)
+                                  : capitalizeFirstLetter(
+                                      userPrimaryAddress!.type),
                           style: appCss.dmDenseRegular13
                               .textColor(appColor(context).lightText)),
                       const HSpace(Sizes.s5),
@@ -41,23 +44,23 @@ class HomeAppBar extends StatelessWidget {
                     ]).inkWell(onTap: () => value.locationTap(context)),
                 if (street != null)
                   SizedBox(
-                      width: Sizes.s180,
+                      width: Sizes.s240,
                       child: Text(street!,
                               overflow: TextOverflow.ellipsis,
-                              style: appCss.dmDenseBold14.textColor(
-                                  appColor(context).darkText))
+                              style: appCss.dmDenseBold14
+                                  .textColor(appColor(context).darkText))
                           .inkWell(onTap: () => value.locationTap(context)))
               ])
         ]),
         Row(children: [
-          CommonArrow(arrow: eSvgAssets.search).inkWell(onTap: () {
-            value.animationController!.stop();
-            value.notifyListeners();
-            route.pushNamed(context, routeName.search).then((e) {
-              value.animationController!.reset();
-              value.notifyListeners();
-            });
-          }),
+          // CommonArrow(arrow: eSvgAssets.search).inkWell(onTap: () {
+          //   value.animationController!.stop();
+          //   value.notifyListeners();
+          //   route.pushNamed(context, routeName.search).then((e) {
+          //     value.animationController!.reset();
+          //     value.notifyListeners();
+          //   });
+          // }),
           const HSpace(Sizes.s10),
           Consumer<NotificationProvider>(
               builder: (context1, notification, child) {
@@ -70,15 +73,13 @@ class HomeAppBar extends StatelessWidget {
                           alignment: Alignment.center,
                           fit: BoxFit.scaleDown,
                           colorFilter: ColorFilter.mode(
-                              appColor(context).darkText,
-                              BlendMode.srcIn)),
+                              appColor(context).darkText, BlendMode.srcIn)),
                       if (notification.totalCount() != 0)
                         Positioned(
                             top: 2,
                             right: 2,
                             child: Icon(Icons.circle,
-                                size: Sizes.s7,
-                                color: appColor(context).red))
+                                size: Sizes.s7, color: appColor(context).red))
                     ]))
                 .decorated(
                     shape: BoxShape.circle,

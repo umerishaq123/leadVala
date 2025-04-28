@@ -4,13 +4,6 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:leadvala/common_tap.dart';
 import 'package:leadvala/config.dart';
-import 'package:leadvala/models/cart_model.dart';
-import 'package:leadvala/models/checkout_model.dart';
-import 'package:leadvala/models/coupon_model.dart';
-import 'package:leadvala/models/service_model.dart';
-import 'package:leadvala/models/service_package_model.dart';
-import 'package:leadvala/models/user_model.dart';
-import 'package:leadvala/providers/app_pages_providers/pending_booking_provider.dart';
 import 'package:leadvala/widgets/alert_message_common.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -40,7 +33,7 @@ class CartProvider with ChangeNotifier {
 
     updateCheckoutModel();
     cartList.add(cartItem);
-    print('add to cart ${cartList.first.serviceList}');
+    print('add to cartLLLLLLL ${cartList.first.serviceList}');
     // Ensure checkoutModel updates on every cart change
     notifyListeners();
   }

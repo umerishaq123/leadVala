@@ -117,7 +117,7 @@ return   SizedBox(
                             child: DescriptionLayout(
                               icon: eSvgAssets.location,
                               title: 'Area ??>>>>?',
-                              subtitle: data?.mainArea?? 'N/A',
+                              subtitle: data?.mainarea?? 'N/A',
                             ),
                           ),
                           Container(

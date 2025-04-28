@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:country_list_pick/support/code_country.dart';
 import 'package:leadvala/config.dart';
 import 'package:leadvala/widgets/alert_message_common.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -48,8 +47,8 @@ class RegisterProvider extends ChangeNotifier {
 
       showLoading(context);
       notifyListeners();
-      String token = await getFcmToken();
-      print('print to fcmtoken : ? $token');
+      String? token = await getFcmToken();
+      print('printtoken $token');
 
       var body = {
         "name": txtName.text,
@@ -60,9 +59,9 @@ class RegisterProvider extends ChangeNotifier {
         "password_confirmation": txtPass.text,
         "fcm_token": token
       };
-      print('print token: $token');
+      print('print token:??>> $token');
 
-      print('print body: $body');
+      print('print body:??>> $body');
 
       log("body : $body");
 
@@ -72,6 +71,7 @@ class RegisterProvider extends ChangeNotifier {
         await apiServices
             .postApi(api.register, jsonEncode(body))
             .then((value) async {
+          print('showing of value of this data ${value.data}');
           hideLoading(context);
           notifyListeners();
           if (value.isSuccess!) {
@@ -91,6 +91,7 @@ class RegisterProvider extends ChangeNotifier {
       } catch (e) {
         hideLoading(context);
         notifyListeners();
+        print('catch of error in line $e');
         log("CATCH signUp: $e");
       }
     }
