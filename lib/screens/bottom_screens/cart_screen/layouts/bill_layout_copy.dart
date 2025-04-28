@@ -28,8 +28,11 @@ class BillcopyClass extends StatelessWidget {
     print('Subtotal +++++${subtotal}');
 
     double allaboutTotal = currencyValue * subtotal;
-    double gstRate = 18.0;
-    double gstAmount = (subtotal * gstRate) / 100;
+    // double gstRate = 18.0;
+    double gstRate = 0.0;
+
+    // double gstAmount = (subtotal * gstRate) / 100;
+    double gstAmount = 0;
     double platformFees = subtotal * 0.05;
     double totalAmount = subtotal + gstAmount + platformFees;
 
@@ -76,11 +79,11 @@ class BillcopyClass extends StatelessWidget {
             ).paddingOnly(bottom: Insets.i10),
 
             // ✅ GST Calculation
-            BillRowCommon(
-              title: "GST (${gstRate.toStringAsFixed(0)}%)",
-              color: appColor(context).online,
-              price: "${getSymbol(context)}${gstAmount.toStringAsFixed(2)}",
-            ).paddingOnly(bottom: Insets.i10),
+            // BillRowCommon(
+            //   title: "GST (${gstRate.toStringAsFixed(0)}%)",
+            //   color: appColor(context).online,
+            //   price: "${getSymbol(context)}${gstAmount.toStringAsFixed(2)}",
+            // ).paddingOnly(bottom: Insets.i10),
 
             // ✅ Platform Fees
             BillRowCommon(

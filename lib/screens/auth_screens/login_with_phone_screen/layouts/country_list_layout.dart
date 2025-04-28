@@ -4,8 +4,6 @@ import 'package:country_list_pick/country_list_pick.dart';
 import 'package:leadvala/widgets/country_picker_custom/country_code_custom.dart';
 import 'package:leadvala/widgets/country_picker_custom/country_picker_custom.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import '../../../../config.dart';
 
 List<Map> countriesEnglish = [
@@ -35,7 +33,11 @@ List<Map> countriesEnglish = [
   {"name": "Benin", "dial_code": "+229", "code": "BJ"},
   {"name": "Bermuda", "dial_code": "+1441", "code": "BM"},
   {"name": "Bhutan", "dial_code": "+975", "code": "BT"},
-  {"name": "Bolivia, Plurinational State of", "dial_code": "+591", "code": "BO"},
+  {
+    "name": "Bolivia, Plurinational State of",
+    "dial_code": "+591",
+    "code": "BO"
+  },
   {"name": "Bosnia and Herzegovina", "dial_code": "+387", "code": "BA"},
   {"name": "Botswana", "dial_code": "+267", "code": "BW"},
   {"name": "Brazil", "dial_code": "+55", "code": "BR"},
@@ -58,7 +60,11 @@ List<Map> countriesEnglish = [
   {"name": "Colombia", "dial_code": "+57", "code": "CO"},
   {"name": "Comoros", "dial_code": "+269", "code": "KM"},
   {"name": "Congo", "dial_code": "+242", "code": "CG"},
-  {"name": "Congo, The Democratic Republic of the Congo", "dial_code": "+243", "code": "CD"},
+  {
+    "name": "Congo, The Democratic Republic of the Congo",
+    "dial_code": "+243",
+    "code": "CD"
+  },
   {"name": "Cook Islands", "dial_code": "+682", "code": "CK"},
   {"name": "Costa Rica", "dial_code": "+506", "code": "CR"},
   {"name": "Cote d'Ivoire", "dial_code": "+225", "code": "CI"},
@@ -108,7 +114,11 @@ List<Map> countriesEnglish = [
   {"name": "Iceland", "dial_code": "+354", "code": "IS"},
   {"name": "India", "dial_code": "+91", "code": "IN"},
   {"name": "Indonesia", "dial_code": "+62", "code": "ID"},
-  {"name": "Iran, Islamic Republic of Persian Gulf", "dial_code": "+98", "code": "IR"},
+  {
+    "name": "Iran, Islamic Republic of Persian Gulf",
+    "dial_code": "+98",
+    "code": "IR"
+  },
   {"name": "Iraq", "dial_code": "+964", "code": "IQ"},
   {"name": "Ireland", "dial_code": "+353", "code": "IE"},
   {"name": "Isle of Man", "dial_code": "+44", "code": "IM"},
@@ -121,7 +131,11 @@ List<Map> countriesEnglish = [
   {"name": "Kazakhstan", "dial_code": "+77", "code": "KZ"},
   {"name": "Kenya", "dial_code": "+254", "code": "KE"},
   {"name": "Kiribati", "dial_code": "+686", "code": "KI"},
-  {"name": "Korea, Democratic People's Republic of Korea", "dial_code": "+850", "code": "KP"},
+  {
+    "name": "Korea, Democratic People's Republic of Korea",
+    "dial_code": "+850",
+    "code": "KP"
+  },
   {"name": "Korea, Republic of South Korea", "dial_code": "+82", "code": "KR"},
   {"name": "Kuwait", "dial_code": "+965", "code": "KW"},
   {"name": "Kyrgyzstan", "dial_code": "+996", "code": "KG"},
@@ -148,7 +162,11 @@ List<Map> countriesEnglish = [
   {"name": "Mauritius", "dial_code": "+230", "code": "MU"},
   {"name": "Mayotte", "dial_code": "+262", "code": "YT"},
   {"name": "Mexico", "dial_code": "+52", "code": "MX"},
-  {"name": "Micronesia, Federated States of Micronesia", "dial_code": "+691", "code": "FM"},
+  {
+    "name": "Micronesia, Federated States of Micronesia",
+    "dial_code": "+691",
+    "code": "FM"
+  },
   {"name": "Moldova", "dial_code": "+373", "code": "MD"},
   {"name": "Monaco", "dial_code": "+377", "code": "MC"},
   {"name": "Mongolia", "dial_code": "+976", "code": "MN"},
@@ -174,7 +192,11 @@ List<Map> countriesEnglish = [
   {"name": "Oman", "dial_code": "+968", "code": "OM"},
   {"name": "Pakistan", "dial_code": "+92", "code": "PK"},
   {"name": "Palau", "dial_code": "+680", "code": "PW"},
-  {"name": "Palestinian Territory, Occupied", "dial_code": "+970", "code": "PS"},
+  {
+    "name": "Palestinian Territory, Occupied",
+    "dial_code": "+970",
+    "code": "PS"
+  },
   {"name": "Panama", "dial_code": "+507", "code": "PA"},
   {"name": "Papua New Guinea", "dial_code": "+675", "code": "PG"},
   {"name": "Paraguay", "dial_code": "+595", "code": "PY"},
@@ -190,12 +212,20 @@ List<Map> countriesEnglish = [
   {"name": "Rwanda", "dial_code": "+250", "code": "RW"},
   {"name": "Reunion", "dial_code": "+262", "code": "RE"},
   {"name": "Saint Barthelemy", "dial_code": "+590", "code": "BL"},
-  {"name": "Saint Helena, Ascension and Tristan Da Cunha", "dial_code": "+290", "code": "SH"},
+  {
+    "name": "Saint Helena, Ascension and Tristan Da Cunha",
+    "dial_code": "+290",
+    "code": "SH"
+  },
   {"name": "Saint Kitts and Nevis", "dial_code": "+1869", "code": "KN"},
   {"name": "Saint Lucia", "dial_code": "+1758", "code": "LC"},
   {"name": "Saint Martin", "dial_code": "+590", "code": "MF"},
   {"name": "Saint Pierre and Miquelon", "dial_code": "+508", "code": "PM"},
-  {"name": "Saint Vincent and the Grenadines", "dial_code": "+1784", "code": "VC"},
+  {
+    "name": "Saint Vincent and the Grenadines",
+    "dial_code": "+1784",
+    "code": "VC"
+  },
   {"name": "Samoa", "dial_code": "+685", "code": "WS"},
   {"name": "San Marino", "dial_code": "+378", "code": "SM"},
   {"name": "Sao Tome and Principe", "dial_code": "+239", "code": "ST"},
@@ -211,7 +241,11 @@ List<Map> countriesEnglish = [
   {"name": "Somalia", "dial_code": "+252", "code": "SO"},
   {"name": "South Africa", "dial_code": "+27", "code": "ZA"},
   {"name": "South Sudan", "dial_code": "+211", "code": "SS"},
-  {"name": "South Georgia and the South Sandwich Islands", "dial_code": "+500", "code": "GS"},
+  {
+    "name": "South Georgia and the South Sandwich Islands",
+    "dial_code": "+500",
+    "code": "GS"
+  },
   {"name": "Spain", "dial_code": "+34", "code": "ES"},
   {"name": "Sri Lanka", "dial_code": "+94", "code": "LK"},
   {"name": "Sudan", "dial_code": "+249", "code": "SD"},
@@ -223,7 +257,11 @@ List<Map> countriesEnglish = [
   {"name": "Syrian Arab Republic", "dial_code": "+963", "code": "SY"},
   {"name": "Taiwan", "dial_code": "+886", "code": "TW"},
   {"name": "Tajikistan", "dial_code": "+992", "code": "TJ"},
-  {"name": "Tanzania, United Republic of Tanzania", "dial_code": "+255", "code": "TZ"},
+  {
+    "name": "Tanzania, United Republic of Tanzania",
+    "dial_code": "+255",
+    "code": "TZ"
+  },
   {"name": "Thailand", "dial_code": "+66", "code": "TH"},
   {"name": "Timor-Leste", "dial_code": "+670", "code": "TL"},
   {"name": "Togo", "dial_code": "+228", "code": "TG"},
@@ -243,7 +281,11 @@ List<Map> countriesEnglish = [
   {"name": "Uruguay", "dial_code": "+598", "code": "UY"},
   {"name": "Uzbekistan", "dial_code": "+998", "code": "UZ"},
   {"name": "Vanuatu", "dial_code": "+678", "code": "VU"},
-  {"name": "Venezuela, Bolivarian Republic of Venezuela", "dial_code": "+58", "code": "VE"},
+  {
+    "name": "Venezuela, Bolivarian Republic of Venezuela",
+    "dial_code": "+58",
+    "code": "VE"
+  },
   {"name": "Vietnam", "dial_code": "+84", "code": "VN"},
   {"name": "Virgin Islands, British", "dial_code": "+1284", "code": "VG"},
   {"name": "Virgin Islands, U.S.", "dial_code": "+1340", "code": "VI"},
@@ -1498,7 +1540,8 @@ class CountryListLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<ProfileDetailProvider, RegisterProvider>(builder: (context1, value, register, child) {
+    return Consumer2<ProfileDetailProvider, RegisterProvider>(
+        builder: (context1, value, register, child) {
       log("djkhgdfjhg:$dialCode");
       return SizedBox(
               height: Sizes.s50,
@@ -1506,7 +1549,8 @@ class CountryListLayout extends StatelessWidget {
                 appBar: AppBar(
                     centerTitle: true,
                     title: Text(language(context, appFonts.selectCountry),
-                        style: appCss.dmDenseBold20.textColor(appColor(context).whiteBg)),
+                        style: appCss.dmDenseBold20
+                            .textColor(appColor(context).whiteBg)),
                     elevation: 0,
                     backgroundColor: appColor(context).primary),
                 countryBuilder: (context, countryCode) => Container(
@@ -1522,7 +1566,8 @@ class CountryListLayout extends StatelessWidget {
                       ),
                       title: Text(
                         countryCode.name!,
-                        style: appCss.dmDenseMedium14.textColor(appColor(context).darkText),
+                        style: appCss.dmDenseMedium14
+                            .textColor(appColor(context).darkText),
                       ),
                       onTap: () {
                         Navigator.pop(context, countryCode);
@@ -1533,19 +1578,27 @@ class CountryListLayout extends StatelessWidget {
                 pickerBuilder: (context, CountryCodeCustom? countryCode) {
                   return Row(children: [
                     Image.asset("${countryCode!.flagUri}",
-                        package: 'country_list_pick', width: Sizes.s22, height: Sizes.s16),
+                        package: 'country_list_pick',
+                        width: Sizes.s22,
+                        height: Sizes.s16),
                     Text(countryCode.dialCode.toString(),
-                            style: appCss.dmDenseMedium14.textColor(appColor(context).darkText))
+                            style: appCss.dmDenseMedium14
+                                .textColor(appColor(context).darkText))
                         .paddingSymmetric(horizontal: Insets.i5),
-                    Icon(CupertinoIcons.chevron_down, size: Sizes.s16, color: appColor(context).darkText)
+                    Icon(CupertinoIcons.chevron_down,
+                        size: Sizes.s16, color: appColor(context).darkText)
                   ]);
                 },
-                theme: CountryTheme(isShowFlag: true, alphabetSelectedBackgroundColor: appColor(context).primary),
+                theme: CountryTheme(
+                    isShowFlag: true,
+                    alphabetSelectedBackgroundColor: appColor(context).primary),
                 initialSelection: dialCode,
                 onChanged: onChanged,
               ))
           .decorated(
-              color: appColor(context).whiteBg, borderRadius: const BorderRadius.all(Radius.circular(AppRadius.r8)));
+              color: appColor(context).whiteBg,
+              borderRadius:
+                  const BorderRadius.all(Radius.circular(AppRadius.r8)));
     });
   }
 }

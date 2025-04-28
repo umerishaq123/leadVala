@@ -8,7 +8,6 @@
 // import '../../../config.dart';
 // import '../../../users_services.dart';
 
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../config.dart';
@@ -73,7 +72,6 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Widget _buildBannerSection(DashboardProvider dash, HomeScreenProvider value) {
-    print('${dash.bannerList.length}');
     return Column(
       children: [
         BannerLayout(
@@ -81,11 +79,11 @@ class _HomeScreenState extends State<HomeScreen>
           onPageChanged: (index, reason) => value.onSlideBanner(index),
           onTap: (type, id) => value.onBannerTap(context, type, id),
         ),
-        // if (dash.bannerList.length > 1) ...[
-        //   const SizedBox(height: 12),
-        //   DotIndicator(list: dash.bannerList, selectedIndex: value.selectIndex),
-        //   const SizedBox(height: 20),
-        // ]
+        if (dash.bannerList.length > 1) ...[
+          const SizedBox(height: 12),
+          DotIndicator(list: dash.bannerList, selectedIndex: value.selectIndex),
+          const SizedBox(height: 20),
+        ]
       ],
     );
   }

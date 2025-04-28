@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:leadvala/screens/bottom_screens/booking_screen/booking_shimmer/booking_shimmer.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 

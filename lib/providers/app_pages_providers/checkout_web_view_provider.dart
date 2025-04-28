@@ -4,8 +4,6 @@ import 'package:leadvala/config.dart';
 import 'package:leadvala/services/environment.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../../models/status_booking_model.dart';
-
 class CheckoutWebViewProvider with ChangeNotifier {
   bool isPayment = false, isLoading = true;
 

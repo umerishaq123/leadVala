@@ -1,6 +1,3 @@
-import 'dart:developer';
-import 'dart:io';
-
 import '../../../config.dart';
 
 class ProfileDetailScreen extends StatelessWidget {

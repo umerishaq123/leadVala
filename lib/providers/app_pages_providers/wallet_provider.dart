@@ -8,7 +8,6 @@ import 'package:leadvala/widgets/alert_message_common.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../screens/app_pages_screens/wallet_balance_screen/layouts/add_money_layout.dart';
-import '../../screens/bottom_screens/cart_screen/layouts/service_detail_layout.dart';
 
 class WalletProvider with ChangeNotifier {
   List<WalletList> walletList = [];
@@ -88,6 +87,7 @@ class WalletProvider with ChangeNotifier {
           .getApi(api.wallet, [], isToken: true, isData: true)
           .then((value) async {
         if (value.isSuccess!) {
+          print('getwalletlist???${value.data}');
           log("WALLLL :${value.data}");
           balance = double.parse(value.data['balance'].toString());
           walletList = [];

@@ -6,7 +6,7 @@ class ServiceDetailShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: isDark(context)?Colors.black:Colors.white,
+      backgroundColor: isDark(context) ? Colors.black : Colors.white,
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
@@ -29,9 +29,11 @@ class ServiceDetailShimmer extends StatelessWidget {
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               const CommonSkeleton(
                   width: Sizes.s60, height: Sizes.s60, radius: 8),
-              const CommonSkeleton(width: Sizes.s60, height: Sizes.s60, radius: 8)
+              const CommonSkeleton(
+                      width: Sizes.s60, height: Sizes.s60, radius: 8)
                   .paddingSymmetric(horizontal: Sizes.s15),
-              const CommonSkeleton(width: Sizes.s60, height: Sizes.s60, radius: 8)
+              const CommonSkeleton(
+                  width: Sizes.s60, height: Sizes.s60, radius: 8)
             ]),
             const VSpace(Sizes.s18),
             Stack(alignment: Alignment.center, children: [
@@ -60,9 +62,79 @@ class ServiceDetailShimmer extends StatelessWidget {
           ])
               .marginSymmetric(horizontal: Sizes.s15)
               .paddingOnly(bottom: Sizes.s15)
-              .backgroundColor(isDark(context) ?Colors.black:appColor(context).whiteColor)
+              .backgroundColor(
+                  isDark(context) ? Colors.black : appColor(context).whiteColor)
         ],
       ),
     );
   }
 }
+//  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+//         Expanded(
+//             child: DescriptionLayout(
+//                 icon: eSvgAssets.location,
+//                 title: 'Area',
+//                 subtitle: services?.primaryAddress?.address ?? 'N/A')),
+
+//         Container(
+//           color: appColor(context).stroke,
+//           width: 2,
+//           height: Sizes.s78,
+//         ),
+
+//         SizedBox(
+//           width: 20,
+//         ),
+
+//         Expanded(
+//             child: DescriptionLayout(
+//                 icon: eSvgAssets.homeFill,
+//                 title: 'Accommodation',
+//                 // subtitle: "${services!.duration} ${services!.durationUnit}"
+//                 subtitle: services?.serviceType ?? 'N/A')),
+
+//         // if (services!.categories!.isNotEmpty)
+//         //   Expanded(
+//         //     child: DescriptionLayout(
+//         //             icon: eSvgAssets.categories, title: appFonts.category, subtitle: services!.categories![0].title!)
+//         //         .paddingOnly(
+//         //             left: AppLocalizations.of(context)?.locale.languageCode == "ar" ? 0 : Insets.i20,
+//         //             right: AppLocalizations.of(context)?.locale.languageCode == "ar" ? 0 : Insets.i20),
+//         //   )
+//       ]).paddingSymmetric(horizontal: Insets.i25),
+
+//          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+//         Expanded(
+//             child: DescriptionLayout(
+//                 icon: eSvgAssets.amount,
+//                 title: "Amount",
+//                 subtitle: "₹ ${services?.budget ?? '0'}")),
+
+//         Container(
+//           color: appColor(context).stroke,
+//           width: 2,
+//           height: Sizes.s78,
+//         ),
+
+//         SizedBox(
+//           width: 20,
+//         ),
+
+//         Expanded(
+//             child: DescriptionLayout(
+//                 icon: eSvgAssets.homeOut,
+//                 title: 'Type of Tenant',
+//                 // subtitle: "${services!.duration} ${services!.durationUnit}"
+//                 subtitle: services?.typeOfTenant ?? 'N/A')),
+
+//         // if (services!.categories!.isNotEmpty)
+//         //   Expanded(
+//         //     child: DescriptionLayout(
+//         //             icon: eSvgAssets.categories, title: appFonts.category, subtitle: services!.categories![0].title!)
+//         //         .paddingOnly(
+//         //             left: AppLocalizations.of(context)?.locale.languageCode == "ar" ? 0 : Insets.i20,
+//         //             right: AppLocalizations.of(context)?.locale.languageCode == "ar" ? 0 : Insets.i20),
+//         //   )
+//       ]).paddingSymmetric(horizontal: Insets.i25),
+//       const DottedLines(),
+//       const VSpace(Sizes.s17),

@@ -21,26 +21,25 @@ class CategoryModel {
 
   List<CategoryModel>? hasSubCategories;
 
-
   CategoryModel(
       {this.id,
-        this.title,
-        this.slug,
-        this.description,
-        this.parentId,
-        this.metaTitle,
-        this.metaDescription,
-        this.commission,
-        this.status,
-        this.isFeatured,
-        this.categoryType,
-        this.createdBy,
-        this.createdAt,
-        this.updatedAt,
-        this.deletedAt,
-        this.media,
-        this.pivot,
-        this.hasSubCategories});
+      this.title,
+      this.slug,
+      this.description,
+      this.parentId,
+      this.metaTitle,
+      this.metaDescription,
+      this.commission,
+      this.status,
+      this.isFeatured,
+      this.categoryType,
+      this.createdBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.media,
+      this.pivot,
+      this.hasSubCategories});
 
   CategoryModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -104,8 +103,6 @@ class CategoryModel {
   }
 }
 
-
-
 class Pivot {
   String? serviceId;
   String? categoryId;
@@ -145,21 +142,21 @@ class HasSubCategories {
 
   HasSubCategories(
       {this.id,
-        this.title,
-        this.slug,
-        this.description,
-        this.parentId,
-        this.metaTitle,
-        this.metaDescription,
-        this.commission,
-        this.status,
-        this.isFeatured,
-        this.categoryType,
-        this.createdBy,
-        this.createdAt,
-        this.updatedAt,
-        this.deletedAt,
-        this.media});
+      this.title,
+      this.slug,
+      this.description,
+      this.parentId,
+      this.metaTitle,
+      this.metaDescription,
+      this.commission,
+      this.status,
+      this.isFeatured,
+      this.categoryType,
+      this.createdBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.media});
 
   HasSubCategories.fromJson(Map<String, dynamic> json) {
     id = json['id'];

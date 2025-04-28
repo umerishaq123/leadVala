@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:leadvala/config.dart';
 
 class ServicePackageAllListProvider with ChangeNotifier {
@@ -10,8 +8,11 @@ class ServicePackageAllListProvider with ChangeNotifier {
   double? val;
 
   onAnimate(TickerProvider sync) async {
-    animationController = AnimationController(vsync: sync, duration: const Duration(seconds: 10))..repeat();
-    rotationAnimation = Tween<double>(begin: 1, end: 0).animate(animationController!);
+    animationController =
+        AnimationController(vsync: sync, duration: const Duration(seconds: 10))
+          ..repeat();
+    rotationAnimation =
+        Tween<double>(begin: 1, end: 0).animate(animationController!);
 
     //notifyListeners();
     await Future.delayed(DurationClass.s2);
@@ -47,7 +48,6 @@ class ServicePackageAllListProvider with ChangeNotifier {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     animationController!.dispose();
     super.dispose();
   }

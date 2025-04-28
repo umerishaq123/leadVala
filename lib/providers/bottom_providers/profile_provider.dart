@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:leadvala/config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -16,7 +16,7 @@ class ProfileProvider with ChangeNotifier {
   List<ProfileModel> profileLists = [];
   bool isPositionedRight = false;
   bool isAnimateOver = false, isGuest = false;
-
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
   onFloatImage() {
     notifyListeners();
   }
@@ -287,7 +287,7 @@ class ProfileProvider with ChangeNotifier {
                             child: ButtonCommon(
                           title: appFonts.yes,
                           color: appColor(context).primary,
-                          onTap: () {
+                          onTap: () async {
                             userModel = null;
                             setPrimaryAddress = null;
                             userPrimaryAddress = null;
@@ -301,6 +301,10 @@ class ProfileProvider with ChangeNotifier {
                             preferences!.remove(session.isLogin);
                             preferences!.remove(session.cart);
                             preferences!.remove(session.recentSearch);
+                            messaging.deleteToken();
+                            print("✅ FCM Token Removed Successfully");
+
+                            // 🔹 Remove Token from Local Storage
 
                             final auth = FirebaseAuth.instance.currentUser;
                             if (auth != null) {

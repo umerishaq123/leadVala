@@ -1,14 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:leadvala/common/extension/text_style_extensions.dart';
-import 'package:leadvala/models/provider_model.dart';
-import 'package:leadvala/models/service_model.dart';
-import 'package:leadvala/packages_list.dart';
-import 'package:leadvala/screens/app_pages_screens/pending_booking_screen/layouts/booking_status_dialog.dart';
-import 'package:leadvala/screens/app_pages_screens/provider_details_screen/layouts/book_your_service_layout.dart';
 import 'package:leadvala/widgets/alert_message_common.dart';
-import 'package:rate_my_app/rate_my_app.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'config.dart';
@@ -35,7 +28,7 @@ onBook(
   if (!isGuest) {
     print('call to card 1');
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
-
+    // create a new cart item based on
     // Create a new cart item based on whether it's a package or a single service
     CartModel newCartItem = CartModel(
       isPackage: isPackage,
@@ -95,9 +88,7 @@ onBook(
       );
       List<SingleServices>? services = cartProvider.checkoutModel?.services;
     }
-
-//
-
+//   list<singlesServices>? services = cartprovider.checkoutmodel?.services;
     // Log to verify services have been added
     log("Services after addition: ${cartProvider.checkoutModel?.services ?? 'No services'}");
     log("ServicesPackage after addition: ${cartProvider.checkoutModel?.servicesPackage ?? 'No service packages'}");

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:leadvala/screens/app_pages_screens/category_detail_screen/category_detail_shimmer/category_detail_shimmer.dart';
 
 import '../../../config.dart';

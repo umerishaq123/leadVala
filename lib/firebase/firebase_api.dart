@@ -404,8 +404,7 @@ class FirebaseApi {
           final response = e.response;
           log("RES :${response!.data}");
         } else {
-          final response = e.response;
-          log("RESs :${e}");
+          log("RESs :$e");
         }
       }
     }

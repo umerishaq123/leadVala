@@ -1,5 +1,4 @@
 import '../config.dart';
-import '../widgets/no_internet_layout.dart';
 
 class NoInternetScreen extends StatefulWidget {
   const NoInternetScreen({super.key});
@@ -22,7 +21,7 @@ class _NoInternetScreenState extends State<NoInternetScreen>
                   title: appFonts.oppsYour,
                   subtitle: appFonts.clickTheRefresh,
                   buttonText: appFonts.refresh,
-                  bTap: (){
+                  bTap: () {
                     value.animationController!.dispose();
                     route.pushReplacementNamed(context, routeName.splash);
                   },

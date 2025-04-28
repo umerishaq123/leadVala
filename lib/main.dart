@@ -1,9 +1,9 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:leadvala/helper/notification.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:leadvala/screens/auth_screens/splash_screen/layouts/splash_layout.dart';
 import 'common/theme/app_theme.dart';
+// import 'package:flutter/foundation.dart' show kIsWeb;
+
 import 'config.dart';
 
 void main() async {
@@ -67,8 +67,12 @@ class _MyAppState extends State<MyApp> {
         builder: (context1, AsyncSnapshot<SharedPreferences> snapData) {
           if (snapData.hasData) {
             return MultiProvider(providers: [
+              // ChangeNotifierProvider(
+              //     create: (_) => ThemeService(snapData.data!, context)),
               ChangeNotifierProvider(
-                  create: (_) => ThemeService(snapData.data!, context)),
+                  create: (_) =>
+                      ThemeService(snapData.data!)), // 🔥 Now always Light Mode
+
               ChangeNotifierProvider(create: (_) => SplashProvider()),
               ChangeNotifierProvider(create: (_) => CommonApiProvider()),
               ChangeNotifierProvider(create: (_) => OnBoardingProvider()),
@@ -157,9 +161,8 @@ class RouteToPage extends StatefulWidget {
 class _RouteToPageState extends State<RouteToPage> {
   @override
   void initState() {
-    // TODO: implement initState
     // CustomNotificationController().initNotification(context);
-    // setState(() {});
+    //   customnotificationcontroller.
     super.initState();
   }
 
@@ -172,8 +175,12 @@ class _RouteToPageState extends State<RouteToPage> {
               title: 'LeadVala User',
               navigatorKey: navigatorKey,
               debugShowCheckedModeBanner: false,
-              theme: AppTheme.fromType(ThemeType.light).themeData,
-              darkTheme: AppTheme.fromType(ThemeType.dark).themeData,
+              // theme: AppTheme.fromType(ThemeType.light).themeData,
+              theme: AppTheme.fromType(ThemeType.light)
+                  .themeData, // 🔥 Light Theme
+              // darkTheme: AppTheme.fromType(ThemeType.dark).themeData,
+              darkTheme: AppTheme.fromType(ThemeType.light)
+                  .themeData, // 🔥 Remove Dark Theme
               locale: lang.locale,
               localizationsDelegates: const [
                 AppLocalizations.delegate,
@@ -183,7 +190,7 @@ class _RouteToPageState extends State<RouteToPage> {
                 GlobalCupertinoLocalizations.delegate
               ],
               supportedLocales: appArray.localList,
-              themeMode: theme.theme,
+              themeMode: ThemeMode.light,
               initialRoute: "/",
               routes: appRoute.route);
         });

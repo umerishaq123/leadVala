@@ -72,7 +72,8 @@ class ServicesPackageDetailsProvider with ChangeNotifier {
 
   getServicePackageById(context, serviceId) async {
     try {
-      await apiServices.getApi("${api.servicePackages}/$serviceId", []).then((value) {
+      await apiServices
+          .getApi("${api.servicePackages}/$serviceId", []).then((value) {
         if (value.isSuccess!) {
           notifyListeners();
           log("DDDD :${value.data}");

@@ -1,11 +1,7 @@
 import 'dart:developer';
-import 'dart:ffi';
 
 import 'package:leadvala/common_tap.dart';
 import 'package:leadvala/widgets/common_image_layout.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 import '../config.dart';

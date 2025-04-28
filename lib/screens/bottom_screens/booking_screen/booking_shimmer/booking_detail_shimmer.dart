@@ -1,8 +1,4 @@
-import 'package:leadvala/common_shimmer/shimmer_list.dart';
 import 'package:leadvala/config.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class BookingDetailShimmer extends StatelessWidget {
   const BookingDetailShimmer({super.key});
@@ -16,7 +12,8 @@ class BookingDetailShimmer extends StatelessWidget {
           children: [
             const Row(
               children: [
-                CommonSkeleton(height: Sizes.s40, width: Sizes.s40, isCircle: true),
+                CommonSkeleton(
+                    height: Sizes.s40, width: Sizes.s40, isCircle: true),
                 HSpace(Sizes.s50),
                 CommonSkeleton(height: Sizes.s15, width: Sizes.s155)
               ],
@@ -27,15 +24,20 @@ class BookingDetailShimmer extends StatelessWidget {
               children: [
                 const CommonSkeleton(height: Sizes.s142, radius: 10),
                 const VSpace(Sizes.s20),
-                const Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                  CommonSkeleton(height: Sizes.s15, width: Sizes.s65),
-                  CommonSkeleton(height: Sizes.s32, width: Sizes.s106, radius: 4),
-                ]),
+                const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CommonSkeleton(height: Sizes.s15, width: Sizes.s65),
+                      CommonSkeleton(
+                          height: Sizes.s32, width: Sizes.s106, radius: 4),
+                    ]),
                 const VSpace(Sizes.s18),
-                const Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                  CommonSkeleton(height: Sizes.s15, width: Sizes.s185),
-                  CommonSkeleton(height: Sizes.s15, width: Sizes.s35),
-                ]),
+                const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CommonSkeleton(height: Sizes.s15, width: Sizes.s185),
+                      CommonSkeleton(height: Sizes.s15, width: Sizes.s35),
+                    ]),
                 const VSpace(Sizes.s11),
                 const CommonSkeleton(height: Sizes.s11, width: Sizes.s92),
                 const VSpace(Sizes.s20),
@@ -46,14 +48,19 @@ class BookingDetailShimmer extends StatelessWidget {
                         Expanded(
                           child: Row(
                             children: [
-                              CommonSkeleton(height: Sizes.s20, width: Sizes.s20, radius: 0),
+                              CommonSkeleton(
+                                  height: Sizes.s20,
+                                  width: Sizes.s20,
+                                  radius: 0),
                               HSpace(Sizes.s18),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  CommonSkeleton(height: Sizes.s11, width: Sizes.s76),
+                                  CommonSkeleton(
+                                      height: Sizes.s11, width: Sizes.s76),
                                   VSpace(Sizes.s8),
-                                  CommonSkeleton(height: Sizes.s9, width: Sizes.s25)
+                                  CommonSkeleton(
+                                      height: Sizes.s9, width: Sizes.s25)
                                 ],
                               )
                             ],
@@ -62,14 +69,19 @@ class BookingDetailShimmer extends StatelessWidget {
                         Expanded(
                           child: Row(
                             children: [
-                              CommonSkeleton(height: Sizes.s20, width: Sizes.s20, radius: 0),
+                              CommonSkeleton(
+                                  height: Sizes.s20,
+                                  width: Sizes.s20,
+                                  radius: 0),
                               HSpace(Sizes.s18),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  CommonSkeleton(height: Sizes.s11, width: Sizes.s76),
+                                  CommonSkeleton(
+                                      height: Sizes.s11, width: Sizes.s76),
                                   VSpace(Sizes.s8),
-                                  CommonSkeleton(height: Sizes.s9, width: Sizes.s25)
+                                  CommonSkeleton(
+                                      height: Sizes.s9, width: Sizes.s25)
                                 ],
                               )
                             ],
@@ -80,12 +92,14 @@ class BookingDetailShimmer extends StatelessWidget {
                     VSpace(Sizes.s38),
                     Row(
                       children: [
-                        CommonSkeleton(height: Sizes.s20, width: Sizes.s20, radius: 0),
+                        CommonSkeleton(
+                            height: Sizes.s20, width: Sizes.s20, radius: 0),
                         HSpace(Sizes.s18),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CommonSkeleton(height: Sizes.s11, width: Sizes.s230),
+                            CommonSkeleton(
+                                height: Sizes.s11, width: Sizes.s230),
                             VSpace(Sizes.s8),
                             CommonSkeleton(height: Sizes.s9, width: Sizes.s25)
                           ],
@@ -93,10 +107,15 @@ class BookingDetailShimmer extends StatelessWidget {
                       ],
                     )
                   ],
-                ).paddingSymmetric(horizontal: Sizes.s10, vertical: Sizes.s15).boxBorderExtension(context,
-                    color: isDark(context) ? Colors.black : Colors.white,
-                    isShadow: false,
-                    bColor: isDark(context) ? Colors.black26 : appColor(context).skeletonColor),
+                )
+                    .paddingSymmetric(
+                        horizontal: Sizes.s10, vertical: Sizes.s15)
+                    .boxBorderExtension(context,
+                        color: isDark(context) ? Colors.black : Colors.white,
+                        isShadow: false,
+                        bColor: isDark(context)
+                            ? Colors.black26
+                            : appColor(context).skeletonColor),
                 const VSpace(Sizes.s17),
                 const CommonSkeleton(height: Sizes.s11, width: Sizes.s58),
                 const VSpace(Sizes.s14),
@@ -127,23 +146,42 @@ class BookingDetailShimmer extends StatelessWidget {
                             const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                                  CommonWhiteShimmer(height: Sizes.s13, width: Sizes.s86),
-                                  CommonWhiteShimmer(height: Sizes.s13, width: Sizes.s44)
-                                ]),
+                                Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      CommonWhiteShimmer(
+                                          height: Sizes.s13, width: Sizes.s86),
+                                      CommonWhiteShimmer(
+                                          height: Sizes.s13, width: Sizes.s44)
+                                    ]),
                                 VSpace(Sizes.s32),
-                                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                                  Row(children: [
-                                    CommonWhiteShimmer(height: Sizes.s38, width: Sizes.s38, isCircle: true),
-                                    HSpace(Sizes.s13),
-                                    Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                      CommonWhiteShimmer(height: Sizes.s11, width: Sizes.s68),
-                                      VSpace(Sizes.s10),
-                                      CommonWhiteShimmer(height: Sizes.s11, width: Sizes.s116)
+                                Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(children: [
+                                        CommonWhiteShimmer(
+                                            height: Sizes.s38,
+                                            width: Sizes.s38,
+                                            isCircle: true),
+                                        HSpace(Sizes.s13),
+                                        Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              CommonWhiteShimmer(
+                                                  height: Sizes.s11,
+                                                  width: Sizes.s68),
+                                              VSpace(Sizes.s10),
+                                              CommonWhiteShimmer(
+                                                  height: Sizes.s11,
+                                                  width: Sizes.s116)
+                                            ])
+                                      ]),
+                                      CommonWhiteShimmer(
+                                          height: Sizes.s11, width: Sizes.s60)
                                     ])
-                                  ]),
-                                  CommonWhiteShimmer(height: Sizes.s11, width: Sizes.s60)
-                                ])
                               ],
                             ).paddingSymmetric(horizontal: Sizes.s12)
                           ],
@@ -157,43 +195,55 @@ class BookingDetailShimmer extends StatelessWidget {
                       padding: const EdgeInsets.all(Sizes.s20),
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                          image: DecorationImage(image: AssetImage(eImageAssets.shimmerBg), fit: BoxFit.fill)),
+                          image: DecorationImage(
+                              image: AssetImage(eImageAssets.shimmerBg),
+                              fit: BoxFit.fill)),
                       child: Column(
                         children: [
                           const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              CommonWhiteShimmer(height: Sizes.s13, width: Sizes.s105),
-                              CommonWhiteShimmer(height: Sizes.s13, width: Sizes.s47),
+                              CommonWhiteShimmer(
+                                  height: Sizes.s13, width: Sizes.s105),
+                              CommonWhiteShimmer(
+                                  height: Sizes.s13, width: Sizes.s47),
                             ],
                           ).paddingOnly(bottom: Sizes.s24),
                           const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              CommonWhiteShimmer(height: Sizes.s13, width: Sizes.s165),
-                              CommonWhiteShimmer(height: Sizes.s13, width: Sizes.s52),
+                              CommonWhiteShimmer(
+                                  height: Sizes.s13, width: Sizes.s165),
+                              CommonWhiteShimmer(
+                                  height: Sizes.s13, width: Sizes.s52),
                             ],
                           ).paddingOnly(bottom: Sizes.s24),
                           const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              CommonWhiteShimmer(height: Sizes.s13, width: Sizes.s28),
-                              CommonWhiteShimmer(height: Sizes.s13, width: Sizes.s52),
+                              CommonWhiteShimmer(
+                                  height: Sizes.s13, width: Sizes.s28),
+                              CommonWhiteShimmer(
+                                  height: Sizes.s13, width: Sizes.s52),
                             ],
                           ).paddingOnly(bottom: Sizes.s24),
                           const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              CommonWhiteShimmer(height: Sizes.s13, width: Sizes.s105),
-                              CommonWhiteShimmer(height: Sizes.s13, width: Sizes.s47),
+                              CommonWhiteShimmer(
+                                  height: Sizes.s13, width: Sizes.s105),
+                              CommonWhiteShimmer(
+                                  height: Sizes.s13, width: Sizes.s47),
                             ],
                           ).paddingOnly(bottom: Sizes.s24),
                           const VSpace(Sizes.s24),
                           const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              CommonWhiteShimmer(height: Sizes.s13, width: Sizes.s105),
-                              CommonWhiteShimmer(height: Sizes.s13, width: Sizes.s47),
+                              CommonWhiteShimmer(
+                                  height: Sizes.s13, width: Sizes.s105),
+                              CommonWhiteShimmer(
+                                  height: Sizes.s13, width: Sizes.s47),
                             ],
                           )
                         ],
@@ -203,7 +253,9 @@ class BookingDetailShimmer extends StatelessWidget {
                 )
               ],
             ).paddingAll(Sizes.s15).boxBorderExtension(context,
-                color: isDark(context) ? Colors.black : Colors.white, bColor: appColor(context).stroke, isShadow: true)
+                color: isDark(context) ? Colors.black : Colors.white,
+                bColor: appColor(context).stroke,
+                isShadow: true)
           ],
         ).paddingSymmetric(horizontal: Sizes.s20, vertical: Sizes.s50),
       ),

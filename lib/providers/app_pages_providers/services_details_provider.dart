@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:leadvala/common_tap.dart';
 import 'package:leadvala/config.dart';
 
-import '../../widgets/alert_message_common.dart';
-
 class ServicesDetailsProvider with ChangeNotifier {
   int selectedIndex = 0, selected = -1;
   bool isBottom = true;
@@ -20,6 +18,7 @@ class ServicesDetailsProvider with ChangeNotifier {
   }
 
   onReady(context) async {
+    print('on ready function');
     scrollController.addListener(listen);
 
     notifyListeners();
@@ -27,11 +26,13 @@ class ServicesDetailsProvider with ChangeNotifier {
     log("service :$data");
     if (data['serviceId'] != null) {
       getServiceById(context, data['serviceId']);
+      print('////primery address?3?${data['serviceId']}');
     } else {
       service = data['services'];
       notifyListeners();
       getServiceById(context, service!.id);
-      getServiceFaqId(context, service!.id);
+      // getServiceFaqId(context, service!.id);
+      print('////primery address?2?${service!.id}');
     }
     Future.delayed(const Duration(milliseconds: 500), () {
       widget1Opacity = 1;
@@ -108,24 +109,67 @@ class ServicesDetailsProvider with ChangeNotifier {
 
   getServiceById(context, serviceId) async {
     try {
-      await apiServices.getApi("${api.service}?serviceId=$serviceId", []).then((value) {
-        if (value.isSuccess!) {
-          service = Services.fromJson(value.data[0]);
-          notifyListeners();
+      print('🔍 Fetching service with ID: $serviceId');
+
+      final response =
+          await apiServices.getApi("${api.service}?serviceId=$serviceId", []);
+
+      print('📥 API Response: ${response.data}');
+
+      if (response.isSuccess! &&
+          response.data != null &&
+          response.data.isNotEmpty) {
+        print('✅ Service data found, parsing...');
+
+        // ✅ Parse service data safely
+        service = Services.fromJson(response.data[0]);
+
+        // ✅ Check if `primaryAddress` is null before accessing it
+        if (service?.primaryAddress != null) {
+          print('📍 Primary Address Found: ${service!.primaryAddress!.area}');
         } else {
-          notifyListeners();
+          print('⚠️ Warning: Primary Address is NULL');
         }
-      });
+      } else {
+        print('⚠️ No service data found for ID: $serviceId');
+      }
     } catch (e) {
-      log("ERRROEEE getServiceById : $e");
-      notifyListeners();
+      print('❌ Error fetching service: $e');
+      log("ERROR getServiceById: $e");
     }
+
+    notifyListeners();
   }
+
+  // getServiceById(context, serviceId) async {
+  //   try {
+  //     print('showing service if${serviceId}');
+  //     await apiServices
+  //         .getApi("${api.service}?serviceId=$serviceId", []).then((value) {
+  //       print('showing of value of this dataaaaass${value.data}');
+  //       print('${value.data}');
+  //       if (value.isSuccess!) {
+  //         print('succes data');
+  //         service = Services.fromJson(value.data[0]);
+  //         print('hhhhhhhhhhhhhhhhh${service!.primaryAddress!.area}');
+  //         notifyListeners();
+  //       } else {
+  //         print('else of data');
+  //         notifyListeners();
+  //       }
+  //     });
+  //   } catch (e) {
+  //     print('showing error of list data$e');
+  //     log("ERRROEEE getServiceById : $e");
+  //     notifyListeners();
+  //   }
+  // }
 
   getServiceFaqId(context, serviceId) async {
     try {
       await apiServices
-          .getApi("${api.serviceFaq}?service_id=$serviceId", [], isData: true, isMessage: false)
+          .getApi("${api.serviceFaq}?service_id=$serviceId", [],
+              isData: true, isMessage: false)
           .then((value) {
         if (value.isSuccess!) {
           for (var d in value.data) {
@@ -146,11 +190,15 @@ class ServicesDetailsProvider with ChangeNotifier {
   }
 
   onFeatured(context, Services? services, id) async {
-    final providerDetail = Provider.of<ProviderDetailsProvider>(context, listen: false);
+    final providerDetail =
+        Provider.of<ProviderDetailsProvider>(context, listen: false);
     providerDetail.selectProviderIndex = 0;
     providerDetail.notifyListeners();
-    onBook(context, services!, addTap: () => onAdd(id: id), minusTap: () => onRemoveService(context, id: id)).then((e) {
-      service!.relatedServices![id].selectedRequiredServiceMan = service!.relatedServices![id].requiredServicemen;
+    onBook(context, services!,
+        addTap: () => onAdd(id: id),
+        minusTap: () => onRemoveService(context, id: id)).then((e) {
+      service!.relatedServices![id].selectedRequiredServiceMan =
+          service!.relatedServices![id].requiredServicemen;
       notifyListeners();
     });
   }
@@ -182,7 +230,8 @@ class ServicesDetailsProvider with ChangeNotifier {
         isAlert = false;
         notifyListeners();
       } else {
-        if ((service!.requiredServicemen!) == (service!.selectedRequiredServiceMan!)) {
+        if ((service!.requiredServicemen!) ==
+            (service!.selectedRequiredServiceMan!)) {
           isAlert = true;
           notifyListeners();
           await Future.delayed(DurationClass.s3);
@@ -191,7 +240,8 @@ class ServicesDetailsProvider with ChangeNotifier {
         } else {
           isAlert = false;
           notifyListeners();
-          service!.selectedRequiredServiceMan = ((service!.selectedRequiredServiceMan!) - 1);
+          service!.selectedRequiredServiceMan =
+              ((service!.selectedRequiredServiceMan!) - 1);
         }
       }
     }

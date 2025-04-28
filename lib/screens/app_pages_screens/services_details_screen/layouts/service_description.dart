@@ -1,5 +1,3 @@
-import 'package:leadvala/common/languages/app_language.dart';
-
 import '../../../../config.dart';
 import 'audio_widget.dart';
 
@@ -12,13 +10,11 @@ class ServiceDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-
-
         Expanded(
             child: DescriptionLayout(
                 icon: eSvgAssets.location,
                 title: 'Area',
-                subtitle: services?.mainArea ?? 'N/A')),
+                subtitle: services?.mainarea ?? 'N/A')),
 
 
 
@@ -28,17 +24,16 @@ class ServiceDescription extends StatelessWidget {
           height: Sizes.s78,
         ),
 
-        SizedBox( width: 20,),
+        SizedBox(
+          width: 20,
+        ),
 
         Expanded(
             child: DescriptionLayout(
                 icon: eSvgAssets.homeFill,
                 title: 'Accommodation',
                 // subtitle: "${services!.duration} ${services!.durationUnit}"
-                subtitle: services?.serviceType ?? 'N/A'
-
-            )),
-
+                subtitle: services?.serviceType ?? 'N/A')),
 
         // if (services!.categories!.isNotEmpty)
         //   Expanded(
@@ -50,15 +45,11 @@ class ServiceDescription extends StatelessWidget {
         //   )
       ]).paddingSymmetric(horizontal: Insets.i25),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-
-
         Expanded(
             child: DescriptionLayout(
                 icon: eSvgAssets.amount,
-                title: "Amount",
+                title: "Budget",
                 subtitle: "₹ ${services?.budget ?? '0'}")),
-
-
 
         Container(
           color: appColor(context).stroke,
@@ -66,16 +57,16 @@ class ServiceDescription extends StatelessWidget {
           height: Sizes.s78,
         ),
 
-        SizedBox( width: 20,),
+        SizedBox(
+          width: 20,
+        ),
 
         Expanded(
             child: DescriptionLayout(
                 icon: eSvgAssets.homeOut,
                 title: 'Type of Tenant',
                 // subtitle: "${services!.duration} ${services!.durationUnit}"
-                subtitle: services?.typeOfTenant ?? 'N/A'
-            )),
-
+                subtitle: services?.typeOfTenant ?? 'N/A')),
 
         // if (services!.categories!.isNotEmpty)
         //   Expanded(
@@ -96,9 +87,11 @@ class ServiceDescription extends StatelessWidget {
       //     .paddingSymmetric(horizontal: Insets.i25),
       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(language(context, 'Client Requirement'),
-            style: appCss.dmDenseMedium12.textColor(appColor(context).lightText)),
+            style:
+                appCss.dmDenseMedium12.textColor(appColor(context).lightText)),
         const VSpace(Sizes.s6),
-        if (services!.description != null) ReadMoreLayout(text: services!.description!),
+        if (services!.description != null)
+          ReadMoreLayout(text: services!.description!),
         const VSpace(Sizes.s20),
 
         // ProviderDetailsLayout(
@@ -112,31 +105,36 @@ class ServiceDescription extends StatelessWidget {
         //     onTap: () => route.pushNamed(context, routeName.providerDetailsScreen, arg: {'provider': services!.user}),
         //     service: services!.user!.served ?? "0"),
 
-        services?.audio != null ?  Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              language(context, 'Audio Recoding of Client'),
-              style: appCss.dmDenseMedium12.textColor(appColor(context).lightText),
-            ),
-            const VSpace(Sizes.s6),
-          services?.audio != null ?   AudioPlayerWidget(audioUrl:services!.audio.toString()) : SizedBox(), // Custom audio player widget
-          ],
-        ) : SizedBox(),
-
-
+        services?.audio != null
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    language(context, 'Audio Recoding of Client'),
+                    style: appCss.dmDenseMedium12
+                        .textColor(appColor(context).lightText),
+                  ),
+                  const VSpace(Sizes.s6),
+                  services?.audio != null
+                      ? AudioPlayerWidget(audioUrl: services!.audio.toString())
+                      : SizedBox(), // Custom audio player widget
+                ],
+              )
+            : SizedBox(),
 
         if (services!.reviews!.isNotEmpty)
           HeadingRowCommon(
                   title: appFonts.review,
-                  onTap: () => route.pushNamed(context, routeName.servicesReviewScreen, arg: services!))
+                  onTap: () => route.pushNamed(
+                      context, routeName.servicesReviewScreen, arg: services!))
               .paddingOnly(top: Insets.i20, bottom: Insets.i12),
         if (services!.reviews!.isNotEmpty)
           Column(
               children: services!.reviews!
                   .asMap()
                   .entries
-                  .map((e) => ServiceReviewLayout(data: e.value, index: e.key, list: appArray.reviewList))
+                  .map((e) => ServiceReviewLayout(
+                      data: e.value, index: e.key, list: appArray.reviewList))
                   .toList())
       ]).paddingSymmetric(horizontal: Insets.i20, vertical: Insets.i20)
     ]).boxBorderExtension(context, isShadow: true);

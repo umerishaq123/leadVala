@@ -460,7 +460,8 @@ class AppFonts {
   final paymentSummary = "paymentSummary";
   final paymentId = "paymentId";
   final methodType = "methodType";
-  final giveAppreciation = "Give appreciation to servicemen for his great work.";
+  final giveAppreciation =
+      "Give appreciation to servicemen for his great work.";
   final rateNow = "Rate now";
   final downloadBill = "Download Bill";
   final theProviderHas = "The provider has not approved yet.";

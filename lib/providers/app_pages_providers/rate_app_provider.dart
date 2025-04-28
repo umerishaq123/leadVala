@@ -2,11 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:dio/dio.dart' as dio;
-
 import 'package:leadvala/config.dart';
 import 'package:leadvala/widgets/alert_message_common.dart';
-import 'package:in_app_review/in_app_review.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 //import 'package:rate_my_app/rate_my_app.dart';
 
@@ -36,7 +33,8 @@ class RateAppProvider with ChangeNotifier {
           rateBuilder(context);
           rateApp(context);
         } else {
-          route.pushNamed(context, routeName.contactUs, arg: {'rate': selectedIndex, "desc": rateController.text});
+          route.pushNamed(context, routeName.contactUs,
+              arg: {'rate': selectedIndex, "desc": rateController.text});
         }
       }
     }
@@ -107,7 +105,9 @@ class RateAppProvider with ChangeNotifier {
     }
 
     try {
-      await apiServices.postApi(api.rateApp, body, isToken: true).then((value) async {
+      await apiServices
+          .postApi(api.rateApp, body, isToken: true)
+          .then((value) async {
         hideLoading(context);
 
         notifyListeners();
@@ -127,7 +127,8 @@ class RateAppProvider with ChangeNotifier {
                     });
               });
         } else {
-          snackBarMessengers(context, message: value.message, color: appColor(context).red);
+          snackBarMessengers(context,
+              message: value.message, color: appColor(context).red);
         }
       });
     } catch (e) {
@@ -173,7 +174,9 @@ class RateAppProvider with ChangeNotifier {
 
     log("BODU :$body");
     try {
-      await apiServices.postApi(api.review, jsonEncode(body), isToken: true).then((value) async {
+      await apiServices
+          .postApi(api.review, jsonEncode(body), isToken: true)
+          .then((value) async {
         hideLoading(context);
 
         notifyListeners();
@@ -198,7 +201,8 @@ class RateAppProvider with ChangeNotifier {
               });
         } else {
           log("value.message :${value.message}");
-          snackBarMessengers(context, message: value.message, color: appColor(context).red);
+          snackBarMessengers(context,
+              message: value.message, color: appColor(context).red);
         }
       });
     } catch (e) {

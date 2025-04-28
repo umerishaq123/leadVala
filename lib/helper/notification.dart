@@ -91,7 +91,6 @@
 //           // TODO add a proper drawable resource to android, for now using
 //           //      one that already exists in example app.
 //           styleInformation: bigPictureStyleInformation,
-
 //           // TODO add a proper drawable resource to android, for now using
 //           //      one that already exists in example app.
 //           icon: '@mipmap/ic_launcher',

@@ -23,10 +23,9 @@ class WalletOptionSelection extends StatelessWidget {
           const HSpace(Sizes.s12),
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(language(context, appFonts.wallet),
-                    style: appCss.dmDenseSemiBold14.textColor(value.isWallet
-                        ? appColor(context).primary
-                        : appColor(context).darkText))
-               ,
+                style: appCss.dmDenseSemiBold14.textColor(value.isWallet
+                    ? appColor(context).primary
+                    : appColor(context).darkText)),
             Text(
                 language(context,
                     "${getSymbol(context)}${value.userModel != null && value.userModel!.wallet != null ? (currency(context).currencyVal * value.userModel!.wallet!.balance!).ceilToDouble() : "0.00"}"),
@@ -50,11 +49,17 @@ class WalletOptionSelection extends StatelessWidget {
                     ? Icon(Icons.circle,
                         color: appColor(context).primary, size: 13)
                     : null)
-            .inkWell(onTap: () =>value.onTapWallet(context))
+            .inkWell(onTap: () {
+          value.onTapWallet(context);
+        })
       ])
           .paddingSymmetric(vertical: Insets.i12, horizontal: Insets.i15)
           .boxBorderExtension(context, isShadow: value.isWallet ? false : true)
-          .paddingSymmetric(vertical: Insets.i10) .inkWell(onTap: () => value.onTapWallet(context, ));
+          .paddingSymmetric(vertical: Insets.i10)
+          .inkWell(
+              onTap: () => value.onTapWallet(
+                    context,
+                  ));
     });
   }
 }

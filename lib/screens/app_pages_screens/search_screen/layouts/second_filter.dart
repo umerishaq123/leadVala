@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:ui';
 import 'dart:ui' as ui;
 
@@ -58,40 +57,34 @@ class _SecondFilterState extends State<SecondFilter> {
                           FlutterSliderTooltipPositionOffset(top: 28),
                       alwaysShowTooltip: true,
                       boxStyle: FlutterSliderTooltipBox(
-                          decoration: BoxDecoration(
-                              color: appColor(context).trans))),
+                          decoration:
+                              BoxDecoration(color: appColor(context).trans))),
                   rightHandler: FlutterSliderHandler(
-                      decoration: BoxDecoration(
-                          color: appColor(context).trans),
+                      decoration: BoxDecoration(color: appColor(context).trans),
                       child: SvgPicture.asset(
                         eSvgAssets.rSlider1,
                         fit: BoxFit.cover,
                       ).paddingOnly(bottom: 1)),
                   handler: FlutterSliderHandler(
-                      decoration: BoxDecoration(
-                          color: appColor(context).trans),
+                      decoration: BoxDecoration(color: appColor(context).trans),
                       child: SvgPicture.asset(eSvgAssets.rSlider2)
                           .paddingOnly(bottom: 1)),
                   max: widget.max,
                   min: widget.min,
                   handlerHeight: 25,
-
                   trackBar: FlutterSliderTrackBar(
                       activeTrackBarHeight: 4.5,
-                      activeTrackBar: BoxDecoration(
-                          color: appColor(context).darkText),
+                      activeTrackBar:
+                          BoxDecoration(color: appColor(context).darkText),
                       inactiveTrackBarHeight: 4.5,
                       inactiveDisabledTrackBarColor: Colors.cyanAccent,
-                      activeDisabledTrackBarColor:
-                          appColor(context).darkText),
+                      activeDisabledTrackBarColor: appColor(context).darkText),
                   step: const FlutterSliderStep(step: 20),
                   jump: true,
                   onDragging: widget.onDragging!)
               .paddingOnly(bottom: Insets.i10),
-        )
-            .boxShapeExtension(color: appColor(context).fieldCardBg)
-            .padding(
-                horizontal: Insets.i20, top: Insets.i10, bottom: Insets.i20),
+        ).boxShapeExtension(color: appColor(context).fieldCardBg).padding(
+            horizontal: Insets.i20, top: Insets.i10, bottom: Insets.i20),
         Text(language(context, appFonts.ratings),
                 style: appCss.dmDenseMedium14
                     .textColor(appColor(context).lightText))

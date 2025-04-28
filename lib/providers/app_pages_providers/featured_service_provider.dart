@@ -1,21 +1,15 @@
-import 'dart:developer';
-
 import 'package:leadvala/common_tap.dart';
-import 'package:leadvala/models/blog_model.dart';
-import 'package:leadvala/models/booking_status_model.dart';
-import 'package:leadvala/models/coupon_model.dart';
-import 'package:leadvala/models/currency_model.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../config.dart';
-import '../../widgets/alert_message_common.dart';
 
 class FeaturedServiceProvider with ChangeNotifier {
   List<Services> featuredServiceList = [];
   List<Services> searchList = [];
   final FocusNode searchFocus = FocusNode();
   TextEditingController txtFeaturedSearch = TextEditingController();
-  final PagingController<int, Services> pagingController = PagingController(firstPageKey: 1);
+  final PagingController<int, Services> pagingController =
+      PagingController(firstPageKey: 1);
   AnimationController? animationController;
 
   //featured package list
@@ -59,7 +53,8 @@ class FeaturedServiceProvider with ChangeNotifier {
   }
 
   onReady(context, TickerProvider sync) async {
-    animationController = AnimationController(vsync: sync, duration: const Duration(milliseconds: 1200));
+    animationController = AnimationController(
+        vsync: sync, duration: const Duration(milliseconds: 1200));
     _runAnimation();
     notifyListeners();
   }
@@ -76,19 +71,22 @@ class FeaturedServiceProvider with ChangeNotifier {
     }
   }
 
-  onFeatured(context, Services? services, id, {inCart, isSearch = false}) async {
+  onFeatured(context, Services? services, id,
+      {inCart, isSearch = false}) async {
     if (inCart) {
       route.pop(context);
       route.pushNamed(context, routeName.cartScreen);
     } else {
-      final providerDetail = Provider.of<ProviderDetailsProvider>(context, listen: false);
+      final providerDetail =
+          Provider.of<ProviderDetailsProvider>(context, listen: false);
       providerDetail.selectProviderIndex = 0;
       providerDetail.notifyListeners();
       onBook(context, services!,
               addTap: () => onAdd(context, id, isSearch: isSearch),
               minusTap: () => onRemoveService(context, id, isSearch: isSearch))!
           .then((e) {
-        searchList[id].selectedRequiredServiceMan = searchList[id].requiredServicemen;
+        searchList[id].selectedRequiredServiceMan =
+            searchList[id].requiredServicemen;
         notifyListeners();
       });
     }
@@ -101,7 +99,8 @@ class FeaturedServiceProvider with ChangeNotifier {
         isAlert = false;
         notifyListeners();
       } else {
-        if ((searchList[index].requiredServicemen!) == (searchList[index].selectedRequiredServiceMan!)) {
+        if ((searchList[index].requiredServicemen!) ==
+            (searchList[index].selectedRequiredServiceMan!)) {
           isAlert = true;
           notifyListeners();
           await Future.delayed(DurationClass.s3);
@@ -110,7 +109,8 @@ class FeaturedServiceProvider with ChangeNotifier {
         } else {
           isAlert = false;
           notifyListeners();
-          searchList[index].selectedRequiredServiceMan = ((searchList[index].selectedRequiredServiceMan!) - 1);
+          searchList[index].selectedRequiredServiceMan =
+              ((searchList[index].selectedRequiredServiceMan!) - 1);
         }
       }
     } else {
@@ -138,7 +138,6 @@ class FeaturedServiceProvider with ChangeNotifier {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     animationController!.dispose();
     super.dispose();
   }

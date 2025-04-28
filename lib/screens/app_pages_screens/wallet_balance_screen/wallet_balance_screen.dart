@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import '../../../config.dart';
 
 class WalletBalanceScreen extends StatefulWidget {

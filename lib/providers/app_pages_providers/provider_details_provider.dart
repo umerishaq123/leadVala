@@ -1,11 +1,6 @@
-import 'dart:convert';
 import 'dart:developer';
 
-import 'package:leadvala/common_tap.dart';
 import 'package:leadvala/config.dart';
-import 'package:leadvala/models/selected_service_cart.dart';
-
-import '../../widgets/alert_message_common.dart';
 
 class ProviderDetailsProvider with ChangeNotifier {
   int selectIndex = 0;

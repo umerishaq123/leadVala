@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import '../config.dart';
 
 class FavouriteModel {
@@ -15,14 +13,14 @@ class FavouriteModel {
 
   FavouriteModel(
       {this.id,
-        this.consumerId,
-        this.providerId,
-        this.serviceId,
-        this.createdAt,
-        this.updatedAt,
-        this.deletedAt,
-        this.provider,
-        this.service});
+      this.consumerId,
+      this.providerId,
+      this.serviceId,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.provider,
+      this.service});
 
   FavouriteModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -35,9 +33,8 @@ class FavouriteModel {
     provider = json['provider'] != null
         ? ProviderModel.fromJson(json['provider'])
         : null;
-    service = json['service'] != null
-        ? Services.fromJson(json['service'])
-        : null;
+    service =
+        json['service'] != null ? Services.fromJson(json['service']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -59,8 +56,3 @@ class FavouriteModel {
     return data;
   }
 }
-
-
-
-
-

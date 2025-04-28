@@ -1,8 +1,6 @@
 import 'dart:developer';
-import 'dart:ffi';
 
 import 'package:leadvala/config.dart';
-import 'package:leadvala/widgets/alert_message_common.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -40,81 +38,110 @@ class PendingBookingProvider with ChangeNotifier {
   onCancelBooking(context) {
     showDialog(
         context: context,
-        builder: (context1) => Consumer<PendingBookingProvider>(builder: (context2, value, child) {
+        builder: (context1) =>
+            Consumer<PendingBookingProvider>(builder: (context2, value, child) {
               return AlertDialog(
                   contentPadding: EdgeInsets.zero,
-                  insetPadding: const EdgeInsets.symmetric(horizontal: Insets.i20),
+                  insetPadding:
+                      const EdgeInsets.symmetric(horizontal: Insets.i20),
                   shape: const SmoothRectangleBorder(
-                      borderRadius:
-                          SmoothBorderRadius.all(SmoothRadius(cornerRadius: AppRadius.r14, cornerSmoothing: 1))),
+                      borderRadius: SmoothBorderRadius.all(SmoothRadius(
+                          cornerRadius: AppRadius.r14, cornerSmoothing: 1))),
                   backgroundColor: appColor(context).whiteBg,
                   content: Stack(alignment: Alignment.topRight, children: [
-                    Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
-                      Text(language(context, appFonts.reason),
-                          style: appCss.dmDenseMedium14.textColor(appColor(context).darkText)),
-                      const VSpace(Sizes.s8),
-                      TextFieldCommon(
-                          controller: reasonCtrl,
-                          focusNode: searchFocus,
-                          isNumber: true,
-                          hintText: appFonts.writeHere,
-                          maxLines: 4,
-                          onChanged: (v) {
-                            notifyListeners();
-                          },
-                          minLines: 4,
-                          fillColor: appColor(context).fieldCardBg),
-                      // Sub text
-                      const VSpace(Sizes.s15),
-                      Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                        Text(language(context, "\u2022"),
-                            style: appCss.dmDenseMedium14.textColor(appColor(context).lightText)),
-                        const HSpace(Sizes.s10),
-                        Expanded(
-                            child: RichText(
-                                text: TextSpan(
-                                    style: appCss.dmDenseMedium14.textColor(appColor(context).lightText),
-                                    text: language(context, appFonts.pleaseReadThe),
-                                    children: [
-                              TextSpan(
-                                  style: TextStyle(
-                                      color: appColor(context).darkText,
-                                      fontFamily: GoogleFonts.dmSans().fontFamily,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      decoration: TextDecoration.underline),
-                                  text: language(context, appFonts.cancellationPolicy)),
-                              TextSpan(
-                                  style: appCss.dmDenseMedium14.textColor(appColor(context).lightText),
-                                  text: language(context, appFonts.beforeCancelling))
-                            ])))
-                      ]),
-                      const VSpace(Sizes.s20),
-                      ButtonCommon(
-                          color: reasonCtrl.text.isNotEmpty
-                              ? appColor(context).primary
-                              : appColor(context).primary.withOpacity(0.10),
-                          borderColor: reasonCtrl.text.isNotEmpty
-                              ? appColor(context).primary
-                              : appColor(context).primary.withOpacity(0.10),
-                          fontColor:
-                              reasonCtrl.text.isNotEmpty ? appColor(context).whiteColor : appColor(context).primary,
-                          onTap: () {
-                            if (reasonCtrl.text.isNotEmpty) {
-                              updateStatus(context, isCancel: true);
-                            } else {
-                              Fluttertoast.showToast(msg: "Please Enter reason");
-                            }
-                          },
-                          title: appFonts.submit)
-                    ]).padding(horizontal: Insets.i20, top: Insets.i60, bottom: Insets.i20),
-                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                      // Title
-                      Text(language(context, appFonts.reasonOfCancelBooking),
-                          style: appCss.dmDenseExtraBold16.textColor(appColor(context).darkText)),
-                      Icon(CupertinoIcons.multiply, size: Sizes.s20, color: appColor(context).darkText)
-                          .inkWell(onTap: () => route.pop(context))
-                    ]).paddingAll(Insets.i20)
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(language(context, appFonts.reason),
+                              style: appCss.dmDenseMedium14
+                                  .textColor(appColor(context).darkText)),
+                          const VSpace(Sizes.s8),
+                          TextFieldCommon(
+                              controller: reasonCtrl,
+                              focusNode: searchFocus,
+                              isNumber: true,
+                              hintText: appFonts.writeHere,
+                              maxLines: 4,
+                              onChanged: (v) {
+                                notifyListeners();
+                              },
+                              minLines: 4,
+                              fillColor: appColor(context).fieldCardBg),
+                          // Sub text
+                          const VSpace(Sizes.s15),
+                          Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(language(context, "\u2022"),
+                                    style: appCss.dmDenseMedium14.textColor(
+                                        appColor(context).lightText)),
+                                const HSpace(Sizes.s10),
+                                Expanded(
+                                    child: RichText(
+                                        text: TextSpan(
+                                            style: appCss.dmDenseMedium14
+                                                .textColor(appColor(context)
+                                                    .lightText),
+                                            text: language(context,
+                                                appFonts.pleaseReadThe),
+                                            children: [
+                                      TextSpan(
+                                          style: TextStyle(
+                                              color: appColor(context).darkText,
+                                              fontFamily: GoogleFonts.dmSans()
+                                                  .fontFamily,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              decoration:
+                                                  TextDecoration.underline),
+                                          text: language(context,
+                                              appFonts.cancellationPolicy)),
+                                      TextSpan(
+                                          style: appCss.dmDenseMedium14
+                                              .textColor(
+                                                  appColor(context).lightText),
+                                          text: language(context,
+                                              appFonts.beforeCancelling))
+                                    ])))
+                              ]),
+                          const VSpace(Sizes.s20),
+                          ButtonCommon(
+                              color: reasonCtrl.text.isNotEmpty
+                                  ? appColor(context).primary
+                                  : appColor(context).primary.withOpacity(0.10),
+                              borderColor: reasonCtrl.text.isNotEmpty
+                                  ? appColor(context).primary
+                                  : appColor(context).primary.withOpacity(0.10),
+                              fontColor: reasonCtrl.text.isNotEmpty
+                                  ? appColor(context).whiteColor
+                                  : appColor(context).primary,
+                              onTap: () {
+                                if (reasonCtrl.text.isNotEmpty) {
+                                  updateStatus(context, isCancel: true);
+                                } else {
+                                  Fluttertoast.showToast(
+                                      msg: "Please Enter reason");
+                                }
+                              },
+                              title: appFonts.submit)
+                        ]).padding(
+                        horizontal: Insets.i20,
+                        top: Insets.i60,
+                        bottom: Insets.i20),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // Title
+                          Text(
+                              language(context, appFonts.reasonOfCancelBooking),
+                              style: appCss.dmDenseExtraBold16
+                                  .textColor(appColor(context).darkText)),
+                          Icon(CupertinoIcons.multiply,
+                                  size: Sizes.s20,
+                                  color: appColor(context).darkText)
+                              .inkWell(onTap: () => route.pop(context))
+                        ]).paddingAll(Insets.i20)
                   ]));
             })).then((value) {
       reasonCtrl.text = "";
@@ -137,10 +164,12 @@ class PendingBookingProvider with ChangeNotifier {
           b1OnTap: () {
             route.pop(context);
             route.pop(context);
-            route.pushNamed(context, routeName.cancelledServiceScreen, arg: {"booking": booking!}).then((e) {
+            route.pushNamed(context, routeName.cancelledServiceScreen,
+                arg: {"booking": booking!}).then((e) {
               log("CHEC");
               route.pushNamedAndRemoveUntil(context, routeName.dashboard);
-              final dash = Provider.of<DashboardProvider>(context, listen: false);
+              final dash =
+                  Provider.of<DashboardProvider>(context, listen: false);
               dash.selectIndex = 1;
               dash.notifyListeners();
             });
@@ -153,7 +182,10 @@ class PendingBookingProvider with ChangeNotifier {
   //booking detail by id
   getBookingDetailById(context, {id}) async {
     try {
-      await apiServices.getApi("${api.booking}/${id ?? booking!.id}", [], isToken: true, isData: true).then((value) {
+      await apiServices
+          .getApi("${api.booking}/${id ?? booking!.id}", [],
+              isToken: true, isData: true)
+          .then((value) {
         if (value.isSuccess!) {
           debugPrint("BOOKING DATA : ${value.data}");
           booking = BookingModel.fromJson(value.data);
@@ -188,7 +220,10 @@ class PendingBookingProvider with ChangeNotifier {
       } else {
         data = {"booking_status": "cancel"};
       }
-      await apiServices.putApi("${api.booking}/${booking!.id}", data, isToken: true, isData: true).then((value) {
+      await apiServices
+          .putApi("${api.booking}/${booking!.id}", data,
+              isToken: true, isData: true)
+          .then((value) {
         hideLoading(context);
         notifyListeners();
         reasonCtrl.text = "";

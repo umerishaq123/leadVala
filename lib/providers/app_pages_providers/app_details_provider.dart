@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:leadvala/config.dart';
-import 'package:leadvala/models/pages_model.dart';
 import 'package:leadvala/screens/app_pages_screens/app_details_screen/layouts/page_detail.dart';
 
 class AppDetailsProvider with ChangeNotifier {

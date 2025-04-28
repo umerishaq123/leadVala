@@ -1,4 +1,3 @@
-
 import '../../../config.dart';
 
 class FeaturedServiceScreen extends StatefulWidget {
@@ -18,17 +17,15 @@ class _FeaturedServiceScreenState extends State<FeaturedServiceScreen>
           canPop: true,
           onPopInvoked: (didPop) {
             value.onBack(context, false);
-if(didPop) return;
-
+            if (didPop) return;
           },
           child: StatefulWrapper(
               onInit: () => Future.delayed(DurationClass.ms50)
                   .then((_) => value.onReady(context, this)),
               child: Scaffold(
                   appBar: AppBarCommon(
-                    title: appFonts.featuredService,
-                    onTap: () =>value.onBack(context, true)
-                  ),
+                      title: appFonts.featuredService,
+                      onTap: () => value.onBack(context, true)),
                   body:
                       Consumer<CartProvider>(builder: (context2, cart, child) {
                     return RefreshIndicator(
@@ -38,24 +35,31 @@ if(didPop) return;
                         child: SingleChildScrollView(
                             child: Column(children: [
                           SearchTextFieldCommon(
-                              focusNode: value.searchFocus,
-                              controller: value.txtFeaturedSearch,
-                              suffixIcon: value.txtFeaturedSearch.text.isNotEmpty?  Icon(Icons.cancel,color: appColor(context).darkText,).inkWell(onTap: (){
-                                value.txtFeaturedSearch.text = "";
+                                  focusNode: value.searchFocus,
+                                  controller: value.txtFeaturedSearch,
+                                  suffixIcon:
+                                      value.txtFeaturedSearch.text.isNotEmpty
+                                          ? Icon(
+                                              Icons.cancel,
+                                              color: appColor(context).darkText,
+                                            ).inkWell(onTap: () {
+                                              value.txtFeaturedSearch.text = "";
 
-                                value.getFeaturedPackage();
-                                value.notifyListeners();
-                              }):null,
-                              onChanged: (v) {
-                                if (v.isEmpty) {
-                                  value.getFeaturedPackage();
-                                } else if (v.length > 3) {
-                                  value.getFeaturedPackage();
-                                }
-                                value.notifyListeners();
-                              },
-                              onFieldSubmitted: (v) =>
-                                  value.getFeaturedPackage()).paddingSymmetric(horizontal: Insets.i20),
+                                              value.getFeaturedPackage();
+                                              value.notifyListeners();
+                                            })
+                                          : null,
+                                  onChanged: (v) {
+                                    if (v.isEmpty) {
+                                      value.getFeaturedPackage();
+                                    } else if (v.length > 3) {
+                                      value.getFeaturedPackage();
+                                    }
+                                    value.notifyListeners();
+                                  },
+                                  onFieldSubmitted: (v) =>
+                                      value.getFeaturedPackage())
+                              .paddingSymmetric(horizontal: Insets.i20),
                           const VSpace(Sizes.s20),
                           value.txtFeaturedSearch.text.isEmpty
                               ? FutureBuilder(
@@ -87,7 +91,8 @@ if(didPop) return;
                                                         routeName.servicesDetailsScreen,
                                                         arg: {'services': e.value})))
                                           ],
-                                        ).paddingSymmetric(horizontal: Insets.i20);
+                                        ).paddingSymmetric(
+                                            horizontal: Insets.i20);
                                       }
                                     }
                                   })
@@ -136,7 +141,7 @@ if(didPop) return;
                                       const VSpace(Sizes.s25),
                                       Text(
                                           language(
-                                              context, appFonts.noMatching!),
+                                              context, appFonts.noMatching),
                                           style: appCss.dmDenseBold18.textColor(
                                               appColor(context).darkText)),
                                       const VSpace(Sizes.s8),

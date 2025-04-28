@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,7 +5,6 @@ import 'package:leadvala/config.dart';
 import 'package:leadvala/widgets/alert_message_common.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../../models/country_state_model.dart';
 import '../../services/environment.dart';
 
 class NewLocationProvider with ChangeNotifier {
@@ -66,14 +64,15 @@ class NewLocationProvider with ChangeNotifier {
       }
 
       countryValue = address!.countryId!;
-      int index = locationCtrl.countryStateList.indexWhere((element) => element.id == countryValue);
+      int index = locationCtrl.countryStateList
+          .indexWhere((element) => element.id == countryValue);
       country = locationCtrl.countryStateList[index];
       locationCtrl.stateList = locationCtrl.countryStateList[index].state!;
       stateValue = address!.stateId!;
       locationCtrl.notifyListeners();
 
-      selectIndex =
-          categoryList.indexWhere((element) => element.toString().toLowerCase() == address!.type!.toLowerCase());
+      selectIndex = categoryList.indexWhere((element) =>
+          element.toString().toLowerCase() == address!.type!.toLowerCase());
       state = locationCtrl.stateList[stateValue!];
       isCheck = address!.isPrimary == 1 ? true : false;
       log("DIAOCLODE1 :${address!.code}");
@@ -95,8 +94,9 @@ class NewLocationProvider with ChangeNotifier {
 
       cityCtrl.text = locationCtrl.place!.locality!;
       isEdit = false;
-      int ind = locationCtrl.countryStateList
-          .indexWhere((element) => element.name!.toLowerCase() == locationCtrl.place!.country!.toLowerCase());
+      int ind = locationCtrl.countryStateList.indexWhere((element) =>
+          element.name!.toLowerCase() ==
+          locationCtrl.place!.country!.toLowerCase());
       log("DDD :$ind");
 
       if (ind >= 0) {
@@ -105,8 +105,9 @@ class NewLocationProvider with ChangeNotifier {
 
         locationCtrl.stateList = locationCtrl.countryStateList[ind].state!;
       }
-      int stateIndex = locationCtrl.stateList.indexWhere(
-          (element) => element.name!.toLowerCase() == locationCtrl.place!.administrativeArea!.toLowerCase());
+      int stateIndex = locationCtrl.stateList.indexWhere((element) =>
+          element.name!.toLowerCase() ==
+          locationCtrl.place!.administrativeArea!.toLowerCase());
       log("stateIndex :$stateIndex");
       if (stateIndex >= 0) {
         state = locationCtrl.stateList[stateIndex];
@@ -164,7 +165,8 @@ class NewLocationProvider with ChangeNotifier {
 
     final locationCtrl = Provider.of<LocationProvider>(context, listen: false);
     country = c;
-    int index = locationCtrl.countryStateList.indexWhere((element) => element.id == countryValue);
+    int index = locationCtrl.countryStateList
+        .indexWhere((element) => element.id == countryValue);
     if (index >= 0) {
       locationCtrl.stateList = locationCtrl.countryStateList[index].state!;
       /*   stateValue = locationCtrl.stateList[0].id!;
@@ -192,10 +194,12 @@ class NewLocationProvider with ChangeNotifier {
           if (state != null) {
             addAddress(context);
           } else {
-            snackBarMessengers(context, message: language(context, appFonts.selectCountry));
+            snackBarMessengers(context,
+                message: language(context, appFonts.selectCountry));
           }
         } else {
-          snackBarMessengers(context, message: language(context, appFonts.selectCountry));
+          snackBarMessengers(context,
+              message: language(context, appFonts.selectCountry));
         }
       }
     }
@@ -204,7 +208,8 @@ class NewLocationProvider with ChangeNotifier {
   //add Address
   addAddress(context) async {
     try {
-      final locationCtrl = Provider.of<LocationProvider>(context, listen: false);
+      final locationCtrl =
+          Provider.of<LocationProvider>(context, listen: false);
       log("countryValue :${countryValue}");
       log("countryValue :${locationCtrl.countryStateList.length}");
       showLoading(context);
@@ -226,7 +231,9 @@ class NewLocationProvider with ChangeNotifier {
       };
 
       log("body : $body");
-      await apiServices.postApi('$apiUrl/address', body, isToken: true).then((value) async {
+      await apiServices
+          .postApi('$apiUrl/address', body, isToken: true)
+          .then((value) async {
         if (value.isSuccess!) {
           await locationCtrl.getLocationList(context);
           hideLoading(context);
@@ -261,7 +268,8 @@ class NewLocationProvider with ChangeNotifier {
           } else {
             log("VVVV : ${value.isSuccess}");
             notifyListeners();
-            snackBarMessengers(context, color: appColor(context).red, message: value.message);
+            snackBarMessengers(context,
+                color: appColor(context).red, message: value.message);
           }
         }
       });
@@ -295,7 +303,9 @@ class NewLocationProvider with ChangeNotifier {
     log("ADDRESS ED :${"${api.address}/${address!.id}"}");
     log("body : $body");
     try {
-      await apiServices.putApi("${api.address}/${address!.id}", body, isToken: true).then((value) {
+      await apiServices
+          .putApi("${api.address}/${address!.id}", body, isToken: true)
+          .then((value) {
         hideLoading(context);
         log("VVVV : ${value.isSuccess}");
         notifyListeners();
@@ -303,7 +313,8 @@ class NewLocationProvider with ChangeNotifier {
           route.pop(context);
           route.pop(context);
         } else {
-          snackBarMessengers(context, color: appColor(context).red, message: value.message);
+          snackBarMessengers(context,
+              color: appColor(context).red, message: value.message);
         }
       });
     } catch (e) {

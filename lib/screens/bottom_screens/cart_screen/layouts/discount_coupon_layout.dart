@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:developer';
 
 import '../../../../config.dart';
@@ -47,7 +46,8 @@ class DiscountCouponLayout extends StatelessWidget {
                 value.focus.addListener(() {
                   if (value.focus.hasFocus) {
                     value.scrollController.animateTo(180.0,
-                        duration: Duration(milliseconds: 500), curve: Curves.ease);
+                        duration: Duration(milliseconds: 500),
+                        curve: Curves.ease);
                   }
 
                   value.notifyListeners();

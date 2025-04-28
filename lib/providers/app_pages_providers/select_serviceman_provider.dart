@@ -3,9 +3,6 @@ import 'dart:developer';
 
 import 'package:leadvala/common_tap.dart';
 import 'package:leadvala/config.dart';
-import 'package:leadvala/models/cart_model.dart';
-import 'package:leadvala/models/selected_service_cart.dart';
-import 'package:leadvala/widgets/alert_message_common.dart';
 
 class SelectServicemanProvider with ChangeNotifier {
   ServicePackageModel? servicePackageModel;
@@ -98,7 +95,8 @@ class SelectServicemanProvider with ChangeNotifier {
         userId: service.userId,
         type: service.type,
         requiredServicemen: service.requiredServicemen,
-        selectServiceManType: selectProviderIndex == 0 ? "app_choose" : "as_per_my_choice",
+        selectServiceManType:
+            selectProviderIndex == 0 ? "app_choose" : "as_per_my_choice",
         serviceDate: service.serviceDate,
         reviewRatings: service.reviewRatings,
         relatedServices: service.relatedServices,
@@ -134,7 +132,8 @@ class SelectServicemanProvider with ChangeNotifier {
             Services services = e;
             notifyListeners();
 
-            servicePackageList[index].selectServiceManType = services.selectServiceManType;
+            servicePackageList[index].selectServiceManType =
+                services.selectServiceManType;
             servicePackageList[index].selectedServiceMan = null;
             notifyListeners();
           }
@@ -153,7 +152,8 @@ class SelectServicemanProvider with ChangeNotifier {
         if (e != null) {
           if (isPackage) {
             Services services = e;
-            servicePackageList[index].selectServiceManType = services.selectServiceManType;
+            servicePackageList[index].selectServiceManType =
+                services.selectServiceManType;
             notifyListeners();
           }
         }
@@ -168,7 +168,8 @@ class SelectServicemanProvider with ChangeNotifier {
       isAlert = false;
       notifyListeners();
     } else {
-      if ((servicePackageList[index].requiredServicemen!) == (servicePackageList[index].selectedRequiredServiceMan!)) {
+      if ((servicePackageList[index].requiredServicemen!) ==
+          (servicePackageList[index].selectedRequiredServiceMan!)) {
         isAlert = true;
         notifyListeners();
         await Future.delayed(DurationClass.s3);
@@ -208,7 +209,8 @@ class SelectServicemanProvider with ChangeNotifier {
 
   onBack() async {
     servicePackageList.asMap().entries.forEach((element) {
-      element.value.selectedRequiredServiceMan = element.value.requiredServicemen;
+      element.value.selectedRequiredServiceMan =
+          element.value.requiredServicemen;
       element.value.serviceDate = null;
       element.value.selectedDateTimeFormat = null;
       element.value.selectedServiceMan = null;
@@ -232,7 +234,8 @@ class SelectServicemanProvider with ChangeNotifier {
     if (index >= 0) {
       //snackBarMessengers(context, message: "Package Already Added");
     } else {
-      CartModel cartModel = CartModel(isPackage: true, servicePackageList: servicePackageModel);
+      CartModel cartModel =
+          CartModel(isPackage: true, servicePackageList: servicePackageModel);
       cartCtrl.cartList.add(cartModel);
       cartCtrl.notifyListeners();
     }
@@ -241,7 +244,8 @@ class SelectServicemanProvider with ChangeNotifier {
     log("CART: ${cartCtrl.cartList.length}");
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.remove(session.cart);
-    List<String> personsEncoded = cartCtrl.cartList.map((person) => jsonEncode(person.toJson())).toList();
+    List<String> personsEncoded =
+        cartCtrl.cartList.map((person) => jsonEncode(person.toJson())).toList();
     preferences.setString(session.cart, json.encode(personsEncoded));
 
     cartCtrl.notifyListeners();
