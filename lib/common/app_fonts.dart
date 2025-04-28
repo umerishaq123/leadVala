@@ -503,7 +503,7 @@ class AppFonts {
   final selectAddress = "selectAddress";
   final selectPrimaryLocation = "selectPrimaryLocation";
   final served = "served";
-  final added = "added";
+  final added = "Details";
   final dealsZone = "dealsZone";
   final pleaseSelectAddress = "pleaseSelectAddress";
   final servicePackageDisclaimer = "servicePackageDisclaimer";

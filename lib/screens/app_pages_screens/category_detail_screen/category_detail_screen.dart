@@ -150,10 +150,12 @@ class CategoryDetailScreen extends StatelessWidget {
                                     top: Insets.i15, bottom: Insets.i25)
                                 .width(MediaQuery.of(context).size.width),
                           value.serviceList.isNotEmpty
-                              ? Consumer<CartProvider>(
+                              ?
+                               Consumer<CartProvider>(
                                   builder: (context2, cart, child) {
                                   return Column(
-                                    children: value.serviceList
+                                    children: 
+                                    value.serviceList
                                         .asMap()
                                         .entries
                                         .map((e) => FeaturedServicesLayout(
@@ -161,11 +163,14 @@ class CategoryDetailScreen extends StatelessWidget {
                                             isProvider: false,
                                             inCart:
                                                 isInCart(context, e.value.id),
-                                            addTap: () => value.getProviderById(
+                                            addTap: () => value.getServiceById(
                                                 context,
-                                                e.value.userId,
-                                                e.key,
-                                                e.value),
+                                                e.value.id),
+                                            // value.getProviderById(
+                                            //     context,
+                                            //     e.value.userId,
+                                            //     e.key,
+                                            //     e.value),
                                             onTap: () => value.getServiceById(
                                                 context,
                                                 e.value.id)).paddingSymmetric(
@@ -198,6 +203,8 @@ class CategoryDetailScreen extends StatelessWidget {
                                         ])).marginOnly(top: Insets.i50),
                                   ],
                                 )
+                        
+                        
                         ]),
                       ),
                     )),

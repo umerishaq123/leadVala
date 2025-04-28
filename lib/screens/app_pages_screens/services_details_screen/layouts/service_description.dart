@@ -18,7 +18,7 @@ class ServiceDescription extends StatelessWidget {
             child: DescriptionLayout(
                 icon: eSvgAssets.location,
                 title: 'Area',
-                subtitle: services?.primaryAddress?.address ?? 'N/A')),
+                subtitle: services?.mainArea ?? 'N/A')),
 
 
 

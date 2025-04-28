@@ -376,22 +376,34 @@ class CategoriesDetailsProvider with ChangeNotifier {
     }
   }
 
-  getServiceById(context, serviceId) async {
-    try {
-      await apiServices
-          .getApi("${api.service}?serviceId=$serviceId", []).then((value) {
-        if (value.isSuccess!) {
-          services = Services.fromJson(value.data[0]);
-          notifyListeners();
-        }
-        route.pushNamed(context, routeName.servicesDetailsScreen,
-            arg: {'services': services!});
-      });
-    } catch (e) {
-      log("ERRROEEE getServiceById : $e");
-      notifyListeners();
-    }
+  bool _isLoadingService = false;
+
+bool get isLoadingService => _isLoadingService;
+
+setLoadingService(bool status) {
+  _isLoadingService = status;
+  notifyListeners();
+}
+
+getServiceById(BuildContext context, serviceId) async {
+  try {
+    setLoadingService(true); // Start loading
+    await apiServices
+        .getApi("${api.service}?serviceId=$serviceId", []).then((value) {
+      if (value.isSuccess!) {
+        services = Services.fromJson(value.data[0]);
+        notifyListeners();
+      }
+      route.pushNamed(context, routeName.servicesDetailsScreen,
+          arg: {'services': services!});
+    });
+  } catch (e) {
+    log("ERROR getServiceById : $e");
+  } finally {
+    setLoadingService(false); // Stop loading always
   }
+}
+
 
   getProviderById(context, id, index, Services service) async {
     final cartCtrl = Provider.of<CartProvider>(context, listen: false);

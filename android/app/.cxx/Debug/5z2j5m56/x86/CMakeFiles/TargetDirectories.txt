@@ -1,0 +1,2 @@
+C:/Users/DELL/Downloads/leadvala_user_app/android/app/.cxx/Debug/5z2j5m56/x86/CMakeFiles/edit_cache.dir
+C:/Users/DELL/Downloads/leadvala_user_app/android/app/.cxx/Debug/5z2j5m56/x86/CMakeFiles/rebuild_cache.dir

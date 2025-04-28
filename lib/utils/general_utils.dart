@@ -424,10 +424,11 @@ double totalServicesChargesAndTotalBooking(BookingModel bookingModel) {
 }
 
 /// Capitalize given String
-String capitalizeFirstLetter(val) {
-  return (val != null)
-      ? (val![0].toString().toUpperCase() + val!.substring(1))
-      : validate(value: val);
+String capitalizeFirstLetter(String? val) {
+  if (val == null || val.isEmpty) {
+    return validate(value: val);
+  }
+  return val[0].toString().toUpperCase() + val.substring(1);
 }
 
 // Check null string, return given value if null
