@@ -4,7 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:leadvala/models/media_model.dart';
 
 /// Convert JSON string to `BookingResponseModel`

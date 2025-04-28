@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:intl/intl.dart';
-import 'package:leadvala/common/assets/index.dart';
 import 'package:leadvala/config.dart';
 
 class AppArray {

@@ -45,13 +45,15 @@ class MyReviewProvider extends ChangeNotifier {
         context: context,
         builder: (context1) {
           return StatefulBuilder(builder: (context2, setState) {
-            return Consumer<MyReviewProvider>(builder: (context3, value, child) {
+            return Consumer<MyReviewProvider>(
+                builder: (context3, value, child) {
               return AlertDialog(
                   contentPadding: EdgeInsets.zero,
-                  insetPadding: const EdgeInsets.symmetric(horizontal: Insets.i20),
+                  insetPadding:
+                      const EdgeInsets.symmetric(horizontal: Insets.i20),
                   shape: const SmoothRectangleBorder(
-                      borderRadius:
-                          SmoothBorderRadius.all(SmoothRadius(cornerRadius: AppRadius.r14, cornerSmoothing: 1))),
+                      borderRadius: SmoothBorderRadius.all(SmoothRadius(
+                          cornerRadius: AppRadius.r14, cornerSmoothing: 1))),
                   backgroundColor: appColor(context).whiteBg,
                   content: Stack(alignment: Alignment.topRight, children: [
                     Column(mainAxisSize: MainAxisSize.min, children: [
@@ -60,37 +62,54 @@ class MyReviewProvider extends ChangeNotifier {
                         Stack(alignment: Alignment.topCenter, children: [
                           SizedBox(
                                   width: MediaQuery.of(context).size.width,
-                                  child: Stack(alignment: Alignment.bottomCenter, children: [
-                                    SizedBox(
-                                        height: Sizes.s180,
-                                        width: Sizes.s150,
-                                        child: AnimatedContainer(
-                                            duration: const Duration(milliseconds: 200),
-                                            curve: isPositionedRight ? Curves.bounceIn : Curves.bounceOut,
-                                            alignment: isPositionedRight ? Alignment.center : Alignment.topCenter,
+                                  child: Stack(
+                                      alignment: Alignment.bottomCenter,
+                                      children: [
+                                        SizedBox(
+                                            height: Sizes.s180,
+                                            width: Sizes.s150,
                                             child: AnimatedContainer(
-                                                duration: const Duration(milliseconds: 200),
-                                                height: 40,
-                                                child: Image.asset(eImageAssets.reviewTrash)))),
-                                    Image.asset(eImageAssets.dustbin, height: Sizes.s88, width: Sizes.s88)
-                                        .paddingOnly(bottom: Insets.i24)
-                                  ]))
+                                                duration: const Duration(
+                                                    milliseconds: 200),
+                                                curve: isPositionedRight
+                                                    ? Curves.bounceIn
+                                                    : Curves.bounceOut,
+                                                alignment: isPositionedRight
+                                                    ? Alignment.center
+                                                    : Alignment.topCenter,
+                                                child: AnimatedContainer(
+                                                    duration: const Duration(
+                                                        milliseconds: 200),
+                                                    height: 40,
+                                                    child: Image.asset(
+                                                        eImageAssets
+                                                            .reviewTrash)))),
+                                        Image.asset(eImageAssets.dustbin,
+                                                height: Sizes.s88,
+                                                width: Sizes.s88)
+                                            .paddingOnly(bottom: Insets.i24)
+                                      ]))
                               .decorated(
                                   color: appColor(context).fieldCardBg,
-                                  borderRadius: BorderRadius.circular(AppRadius.r10)),
+                                  borderRadius:
+                                      BorderRadius.circular(AppRadius.r10)),
                         ]),
                         if (offsetAnimation != null)
                           SlideTransition(
                               position: offsetAnimation!,
-                              child: (offsetAnimation != null && isAnimateOver == true)
-                                  ? Image.asset(eImageAssets.dustbinCover, height: 38)
+                              child: (offsetAnimation != null &&
+                                      isAnimateOver == true)
+                                  ? Image.asset(eImageAssets.dustbinCover,
+                                      height: 38)
                                   : const SizedBox())
                       ]),
                       // Sub text
                       const VSpace(Sizes.s15),
                       Text(language(context, appFonts.deleteReviewSuccessfully),
                           textAlign: TextAlign.center,
-                          style: appCss.dmDenseRegular14.textColor(appColor(context).lightText).textHeight(1.2)),
+                          style: appCss.dmDenseRegular14
+                              .textColor(appColor(context).lightText)
+                              .textHeight(1.2)),
                       const VSpace(Sizes.s20),
                       Row(children: [
                         Expanded(
@@ -99,24 +118,34 @@ class MyReviewProvider extends ChangeNotifier {
                                 title: appFonts.no,
                                 borderColor: appColor(context).primary,
                                 color: appColor(context).whiteBg,
-                                style: appCss.dmDenseSemiBold16.textColor(appColor(context).primary))),
+                                style: appCss.dmDenseSemiBold16
+                                    .textColor(appColor(context).primary))),
                         const HSpace(Sizes.s15),
                         Expanded(
                             child: ButtonCommon(
                           title: appFonts.yes,
                           color: appColor(context).primary,
                           onTap: () => deleteReview(context, id),
-                          style: appCss.dmDenseSemiBold16.textColor(appColor(context).whiteColor),
+                          style: appCss.dmDenseSemiBold16
+                              .textColor(appColor(context).whiteColor),
                         ))
                       ])
-                    ]).padding(horizontal: Insets.i20, top: Insets.i60, bottom: Insets.i20),
-                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                      // Title
-                      Text(language(context, appFonts.deleteReview),
-                          style: appCss.dmDenseExtraBold18.textColor(appColor(context).darkText)),
-                      Icon(CupertinoIcons.multiply, size: Sizes.s20, color: appColor(context).darkText)
-                          .inkWell(onTap: () => route.pop(context))
-                    ]).paddingAll(Insets.i20)
+                    ]).padding(
+                        horizontal: Insets.i20,
+                        top: Insets.i60,
+                        bottom: Insets.i20),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // Title
+                          Text(language(context, appFonts.deleteReview),
+                              style: appCss.dmDenseExtraBold18
+                                  .textColor(appColor(context).darkText)),
+                          Icon(CupertinoIcons.multiply,
+                                  size: Sizes.s20,
+                                  color: appColor(context).darkText)
+                              .inkWell(onTap: () => route.pop(context))
+                        ]).paddingAll(Insets.i20)
                   ]));
             });
           });
@@ -136,13 +165,16 @@ class MyReviewProvider extends ChangeNotifier {
         isAnimateOver = true;
         notifyListeners();
       }).then((value) {
-        controller = AnimationController(vsync: sync, duration: const Duration(seconds: 2))..forward();
-        offsetAnimation = Tween<Offset>(begin: const Offset(0, 0.5), end: const Offset(0, 0.88))
-            .animate(CurvedAnimation(parent: controller!, curve: Curves.elasticOut));
+        controller = AnimationController(
+            vsync: sync, duration: const Duration(seconds: 2))
+          ..forward();
+        offsetAnimation = Tween<Offset>(
+                begin: const Offset(0, 0.5), end: const Offset(0, 0.88))
+            .animate(
+                CurvedAnimation(parent: controller!, curve: Curves.elasticOut));
         notifyListeners();
       });
     });
-
     notifyListeners();
   }
 
@@ -152,7 +184,9 @@ class MyReviewProvider extends ChangeNotifier {
     route.pop(context);
 
     try {
-      await apiServices.deleteApi("${api.review}/$id", {}, isToken: true).then((value) {
+      await apiServices
+          .deleteApi("${api.review}/$id", {}, isToken: true)
+          .then((value) {
         hideLoading(context);
         log("VVVV : ${value.isSuccess}");
         notifyListeners();
@@ -160,7 +194,8 @@ class MyReviewProvider extends ChangeNotifier {
           completeSuccess(context, isBack);
           getMyReview(context);
         } else {
-          snackBarMessengers(context, color: appColor(context).red, message: value.message);
+          snackBarMessengers(context,
+              color: appColor(context).red, message: value.message);
         }
       });
     } catch (e) {

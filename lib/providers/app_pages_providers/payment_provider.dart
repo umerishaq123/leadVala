@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:leadvala/models/booking_model.dart';
 import 'package:leadvala/widgets/alert_message_common.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -16,6 +15,8 @@ class PaymentProvider with ChangeNotifier {
   String? method;
   BookingModel? booking;
   SharedPreferences? preferences;
+  CouponModel? data;
+
   dynamic checkoutBody;
   double wallet = 0.0;
   CheckoutModel? checkoutModel;
@@ -65,7 +66,8 @@ class PaymentProvider with ChangeNotifier {
 
         // ✅ Fix Null Wallet Crash
         wallet = userModel?.wallet?.balance ?? 0.0;
-        print("👛 User Wallet Balance: $wallet");
+        print('wallet showing data ?? ${userModel!}');
+        print("👛 User Wallet Balance: ${wallet}");
       } else {
         print("⚠️ User data not found in SharedPreferences.");
       }
@@ -166,12 +168,158 @@ class PaymentProvider with ChangeNotifier {
       notifyListeners();
     } else {
       show();
-      log("scrollController.position.pixels${scrollController.position.pixels}");
+      log("scrprollController.position.pixels${scrollController.position.pixels}");
       notifyListeners();
     }
 
     notifyListeners();
   }
+
+  wlletpayment(BuildContext context) async {
+    showLoading(context);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString("accessToken") ?? "NO_TOKEN";
+
+    if (checkoutModel == null ||
+        checkoutModel!.services == null ||
+        checkoutModel!.services!.isEmpty) {
+      print("❌ ERROR: No services selected.");
+      hideLoading(context);
+      return;
+    }
+
+    var selectedService = checkoutModel!.services!.first;
+
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    var data = {
+      "services": [
+        {
+          "service_id": selectedService.serviceId,
+          "service_name": "Test Service",
+          "required_servicemen": 1,
+          "select_serviceman": "as_per_my_choice",
+          "address_id": 105,
+          "serviceman_id": "91"
+        }
+      ],
+      "date_time": "25-Feb-2025, 10:30 am",
+      "payment_method": "wallet",
+      "address_id": 105
+    };
+
+    print("🚀 Request Data: ${jsonEncode(data)}");
+
+    var dio = Dio();
+
+    try {
+      var response = await dio.post(
+        api.booking,
+        options: Options(headers: headers),
+        data: jsonEncode(data), // Ensure it's properly encoded
+      );
+
+      if (response.statusCode == 200) {
+        print("✅ Booking Successful: ${response.data}");
+        onContinue(context);
+
+        // route
+        //     .pushNamed(context, routeName.checkoutWebView, arg: response.data)
+        //     .then((e) async {
+        //   if (e != null && e['isVerify'] == true) {
+        //     print("🔹 Payment Verified. Proceeding...");
+        //     onContinue(context);
+        //   } else {
+        //     showLayout(context, response.data['item_id']);
+        //   }
+        // });
+      } else {
+        print("❌ API Error: ${response.statusMessage}");
+      }
+    } catch (e) {
+      print("❌ Booking Error: $e");
+    } finally {
+      hideLoading(context);
+    }
+  }
+
+  // wlletpayment(context) async {
+  //   showLoading(context);
+  //   // final cartctrl = provide.of cartprovider context listen
+
+  //   print('🚀 Proceeding to book...');
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String? token = prefs.getString("accessToken") ?? "NO_TOKEN";
+  //   var selectedService = checkoutModel!.services!.first;
+  //   var headers = {
+  //     'Content-Type': 'application/json',
+  //     'Authorization': 'Bearer $token',
+  //     'Cookie': 'leadvala_session=cCsw8JCO5V3Qa3f8jkZyUAkeyrKoSoNGvDwxKYRe'
+  //   };
+
+  //   var data = json.encode({
+  //     "services": [
+  //       {
+  //         "service_id": selectedService,
+  //         "service_name": "Test Service",
+  //         "required_servicemen": 1, // Ensure this key is included
+  //         "select_serviceman": "as_per_my_choice",
+  //         "address_id": 105,
+  //         "serviceman_id": "91"
+  //       }
+  //     ],
+  //     "date_time": "",
+  //     "payment_method": "wallet",
+  //     "address_id": 105
+  //   });
+
+  //   print('$data');
+
+  //   var dio = Dio();
+
+  //   try {
+  //     var response = await dio.request(
+  //       api.booking,
+  //       options: Options(
+  //         method: 'POST',
+  //         headers: headers,
+  //       ),
+  //       data: data,
+  //     );
+
+  //     if (response.statusCode == 200) {
+  //       print("✅ Booking Successful: ${response.data}");
+  //       print('how is it check in booking ${response.data}');
+
+  //       // route
+  //       //     .pushNamed(context, routeName.checkoutWebView, arg: response.data)
+  //       //     .then((e) async {
+  //       //   print('how is it check in booking ${response.data}');
+  //       //   // onContinue(context);
+
+  //       //   if (e != null && e['isVerify'] == true) {
+  //       //     print('is verify');
+  //       //     onContinue(context);
+
+  //       //     // temp stope this line
+  //       //     // await getVerifyPayment(response.data['item_id'], context);
+  //       //   } else {
+  //       //     showLayout(context, response.data['item_id']);
+  //       //   }
+  //       // });
+  //     } else {
+  //       print("❌ API Error: ${response.statusMessage}");
+  //     }
+  //   } catch (e) {
+  //     print("❌ Booking Error: $e");
+  //   } finally {
+  //     hideLoading(context);
+  //   }
+  //   print("📌 Request Headers: $headers");
+  // }
 
   void show() {
     print('call11');
@@ -194,8 +342,18 @@ class PaymentProvider with ChangeNotifier {
   int selectedAddressId = 0; // Default value
 
   void onSelectPaymentMethod(int index, String slug) {
+    print('whats your index and slug part$slug');
+
+    // Ensure slug is assigned properly
+    if (slug == null || slug.isEmpty) {
+      print("❌ Error: Empty or Null Slug - Defaulting to 'cash'");
+      slug = "cash";
+    }
     selectIndex = index;
-    selectedPaymentMethod = slug;
+    // selectedPaymentMethod = slug;
+    selectedPaymentMethod = (slug.isNotEmpty) ? slug : "cash";
+
+    print('✅ Updated Selected Payment Method: $selectedPaymentMethod');
     notifyListeners();
   }
 
@@ -361,9 +519,18 @@ class PaymentProvider with ChangeNotifier {
     isWallet = !isWallet;
     notifyListeners();
     if (isWallet) {
-      selectIndex = null;
+      selectIndex = -1;
+      selectedPaymentMethod = "wallet"; // 🔥 Ensure this is updated
+      print('hhhhhhhhhhwallet$selectedPaymentMethod');
+    } else {
+      selectedPaymentMethod = null; // Reset when unselected
     }
     notifyListeners();
+
+    // if (isWallet) {
+    //   selectIndex = null;
+    // }
+    // notifyListeners();
   }
 
   //booking detail by id
@@ -375,6 +542,7 @@ class PaymentProvider with ChangeNotifier {
       await apiServices
           .getApi("${api.booking}/$bookingId", [], isToken: true, isData: true)
           .then((value) {
+        print('hhhhhhhhhhhhhhhhhh${value.data}');
         debugPrint("BOOKING DATA : ${value.data}");
 
         if (value.isSuccess!) {
@@ -503,35 +671,55 @@ class PaymentProvider with ChangeNotifier {
   }
 
   addToCartOrBooking(context) {
-    print('call6');
-    print('booking ids$bookingId');
-    print('bookingIda 2 $method');
+    print('how to showing$selectedPaymentMethod');
 
-    // commet for g
-    // change for 15-02
     if (isRePayment) {
       print('????///${isRePayment}');
-
       rePayment(context, itemId);
     } else {
-      if (bookingId == 0) {
-        proceedToBook(context);
+      if (selectedPaymentMethod == "cash") {
+        wlletpayment(context);
+        print('how to showing cash');
+        // proceedToBook(context);
+      } else if (selectedPaymentMethod == "wallet") {
+        print('wallet');
+        wlletpayment(context);
       } else {
-        if (method == "cash") {
-          updateStatus(context, "completed");
-        } else if (method == "wallet") {
-          updateStatus(context, "completed");
-        } else {
-          log("isRePayment:$isRePayment");
-          if (isRePayment) {
-            rePayment(context, itemId);
-          } else {
-            bookingPayment(context);
-          }
-        }
+        proceedToBook(context);
       }
     }
   }
+
+  // if (bookingId == 0) {
+  //   print('how to showing');
+  //   // proceedToBook(context);
+  // } else {
+  //   if (method == "cash") {
+  //     updateStatus(context, "completed");
+  //   } else if (method == "wallet") {
+  //     updateStatus(context, "completed");
+  //   } else {
+  //     log("isRePayment:$isRePayment");
+  //     if (isRePayment) {
+  //       rePayment(context, itemId);
+  //     } else {
+  //       bookingPayment(context);
+  //     }
+  //   }
+  // }
+
+  // if (method == "cash") {
+  //   updateStatus(context, "completed");
+  // } else if (method == "wallet") {
+  //   updateStatus(context, "completed");
+  // } else {
+  //   log("isRePayment:$isRePayment");
+  //   if (isRePayment) {
+  //     rePayment(context, itemId);
+  //   } else {
+  //     bookingPayment(context);
+  //   }
+  // }
 
   //update status
   updateStatus(context, status, {isCancel = false, sync, id}) async {
@@ -633,14 +821,7 @@ class PaymentProvider with ChangeNotifier {
     print('🚀 Proceeding to book...');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString("accessToken") ?? "NO_TOKEN";
-    // final cartCtrl = Provider.of<CartProvider>(context, listen: false);
-    // cartCtrl.checkoutModel!.services!.first.addressId;
-    // cartCtrl.cartList.first.serviceList!.userId;
 
-    // print(
-    //     'all about to this print check it ??1${cartCtrl.cartList.first.serviceList!.userId}');
-
-    // ✅ Select the first service
     var selectedService = checkoutModel!.services!.first;
     var headers = {
       'Content-Type': 'application/json',
@@ -652,6 +833,7 @@ class PaymentProvider with ChangeNotifier {
     print('???..>>>>>>>${selectedService.providerId}');
     print('???..>>>>>>>${selectedService.total!.total}');
     print('???..>>>>>>>${selectedService.serviceId}');
+
     var data = json.encode({
       "services": [
         {
@@ -842,157 +1024,163 @@ class PaymentProvider with ChangeNotifier {
   }
 }
 
-// dad code
-// try {
-//   showLoading(context);
-//   notifyListeners();
 
-//   // ✅ Ensure checkoutBody is initialized
-//   if (checkoutBody == null) {
-//     print('❌ ERROR: checkoutBody is null, initializing it...');
-//     checkoutBody = {}; // Initialize as empty Map to avoid null error
-//   }
 
-//   var body = Map<String, dynamic>.from(
-//       checkoutBody); // ✅ Create a copy of checkoutBody
 
-//   // ✅ Ensure 'method' is not null
-//   if (method == null) {
-//     print('❌ ERROR: payment method is null, setting default...');
-//     method = "cash"; // Set a default payment method if null
-//   }
+/*
+dad code finde to the circul of this data 
 
-//   // body["payment_method"] = isWallet ? "wallet" : method;
-//   body["services"];
-//   //  = currency(context).currency?.code ??
-//   //     "INR"; // Ensure currency_code is not null
+try {
+  showLoading(context);
+  notifyListeners();
 
-//   print('✅ Proceeding with body: $body');
-//   checkoutBody = body;
-//   notifyListeners();
-//   print('✅ Proceeding with body22 $checkoutBody');
+  // ✅ Ensure checkoutBody is initialized
+  if (checkoutBody == null) {
+    print('❌ ERROR: checkoutBody is null, initializing it...');
+    checkoutBody = {}; // Initialize as empty Map to avoid null error
+  }
 
-//   log("checkoutBody: $checkoutBody");
+  var body = Map<String, dynamic>.from(
+      checkoutBody); // ✅ Create a copy of checkoutBody
 
-//   // ✅ Calling API safely
-//   await apiServices
-//       .postApi(api.booking, body, isData: true, isToken: true)
-//       .then((value) async {
-//     print('✅ API Response: ${value.data}');
-//     print('✅ API Response: ${value.isSuccess}');
-//     hideLoading(context);
-//     notifyListeners();
+  // ✅ Ensure 'method' is not null
+  if (method == null) {
+    print('❌ ERROR: payment method is null, setting default...');
+    method = "cash"; // Set a default payment method if null
+  }
 
-//     if (value.isSuccess!) {
-//       if (body["payment_method"] == "cash") {
-//         onContinue(context);
-//       } else if (body["payment_method"] == "wallet") {
-//         onContinue(context);
-//         final wallet = Provider.of<WalletProvider>(context, listen: false);
-//         wallet.getWalletList(context);
-//       } else {
-//         print('✅ Redirecting to Checkout WebView...');
-//         route
-//             .pushNamed(context, routeName.checkoutWebView, arg: value.data)
-//             .then((e) async {
-//           log("SSS :$e");
-//           if (e != null && e['isVerify'] == true) {
-//             await getVerifyPayment(value.data['item_id'], context);
-//           } else {
-//             showLayout(context, value.data['item_id']);
-//           }
-//         });
-//       }
-//     } else {
-//       log("❌ API Error: ${value.message}");
-//       flutterAlertMessage(context,
-//           msg: value.message, bgColor: appColor(context).red);
-//     }
-//   });
-// } catch (e) {
-//   log("❌ ERROR in proceedToBook: $e");
+  // body["payment_method"] = isWallet ? "wallet" : method;
+  body["services"];
+  //  = currency(context).currency?.code ??
+  //     "INR"; // Ensure currency_code is not null
 
-//   flutterAlertMessage(context,
-//       msg: e.toString(), bgColor: appColor(context).red);
-//   hideLoading(context);
-//   notifyListeners();
-// }
+  print('✅ Proceeding with body: $body');
+  checkoutBody = body;
+  notifyListeners();
+  print('✅ Proceeding with body22 $checkoutBody');
 
-// proceedToBook(context) async {
-//   print('call8');
+  log("checkoutBody: $checkoutBody");
 
-//   print('proceedtobook');
-//   try {
-//     print('proceedtobooktry');
+  // ✅ Calling API safely
+  await apiServices
+      .postApi(api.booking, body, isData: true, isToken: true)
+      .then((value) async {
+    print('✅ API Response: ${value.data}');
+    print('✅ API Response: ${value.isSuccess}');
+    hideLoading(context);
+    notifyListeners();
 
-//     showLoading(context);
-//     notifyListeners();
-//     var body = checkoutBody;
-//     print('pro book body ${body}');
-//     print('pro method:???  ${method}');=
-//     body["payment_method"] = isWallet ? "wallet" : method;
-//     body["currency_code"] = currency(context).currency!.code;
-//     print('pro book body1 ${body}');
-//     print(
-//         'pro book body6 ${body["payment_method"] = isWallet ? "wallet" : method}');
-//     print(
-//         'pro book body7 ${body["currency_code"] = currency(context).currency!.code}');
-//     print('pro book body3 ${method}');
-//     print('pro book body2 ${checkoutBody}');
+    if (value.isSuccess!) {
+      if (body["payment_method"] == "cash") {
+        onContinue(context);
+      } else if (body["payment_method"] == "wallet") {
+        onContinue(context);
+        final wallet = Provider.of<WalletProvider>(context, listen: false);
+        wallet.getWalletList(context);
+      } else {
+        print('✅ Redirecting to Checkout WebView...');
+        route
+            .pushNamed(context, routeName.checkoutWebView, arg: value.data)
+            .then((e) async {
+          log("SSS :$e");
+          if (e != null && e['isVerify'] == true) {
+            await getVerifyPayment(value.data['item_id'], context);
+          } else {
+            showLayout(context, value.data['item_id']);
+          }
+        });
+      }
+    } else {
+      log("❌ API Error: ${value.message}");
+      flutterAlertMessage(context,
+          msg: value.message, bgColor: appColor(context).red);
+    }
+  });
+} catch (e) {
+  log("❌ ERROR in proceedToBook: $e");
 
-//     checkoutBody = body;
+  flutterAlertMessage(context,
+      msg: e.toString(), bgColor: appColor(context).red);
+  hideLoading(context);
+  notifyListeners();
+}
 
-//     notifyListeners();
-//     log("checkoutBody: $checkoutBody");
-//     await apiServices
-//         .postApi(api.booking, body, isData: true, isToken: true)
-//         .then((value) async {
-//       print('proceed to book data ${value.data}');
-//       hideLoading(context);
-//       notifyListeners();
-//       log("VA :${value.data}");
-//       if (value.isSuccess!) {
-//         if (body["payment_method"] == "cash") {
-//           onContinue(context);
-//         } else if (body["payment_method"] == "wallet") {
-//           onContinue(context);
-//           final wallet = Provider.of<WalletProvider>(context, listen: false);
-//           wallet.getWalletList(context);
-//         } else {
-//           print('proccedtobook else part ');
-//           route
-//               .pushNamed(context, routeName.checkoutWebView, arg: value.data)
-//               .then((e) async {
-//             log("SSS :$e");
-//             if (e != null) {
-//               log("value.data[sss :${value.data}");
-//               if (e['isVerify'] == true) {
-//                 log("value.data[sdsafdsfs :${value.data}");
-//                 log("value.data[ :${value.data}");
-//                 await getVerifyPayment(value.data['item_id'], context);
-//               } else {
-//                 showLayout(context, value.data['item_id']);
-//               }
-//             } else {
-//               showLayout(context, value.data['item_id']);
-//             }
-//           });
-//         }
-//         notifyListeners();
-//       } else {
-//         log("SUCCCC ::;:${value.data} //${value.message}");
-//         print('else part of catch${value.message} ');
-//         flutterAlertMessage(context,
-//             msg: value.message, bgColor: appColor(context).red);
-//       }
-//     });
-//   } catch (e) {
-//     log("SHHHH:${e}");
-//     print("SHHHH:${e}");
-//     flutterAlertMessage(context,
-//         msg: e.toString(), bgColor: appColor(context).red);
-//     print('showing to error${e}');
-//     hideLoading(context);
-//     notifyListeners();
-//   }
-// }
+proceedToBook(context) async {
+  print('call8');
+
+  print('proceedtobook');
+  try {
+    print('proceedtobooktry');
+
+    showLoading(context);
+    notifyListeners();
+    var body = checkoutBody;
+    print('pro book body ${body}');
+    print('pro method:???  ${method}');=
+    body["payment_method"] = isWallet ? "wallet" : method;
+    body["currency_code"] = currency(context).currency!.code;
+    print('pro book body1 ${body}');
+    print(
+        'pro book body6 ${body["payment_method"] = isWallet ? "wallet" : method}');
+    print(
+        'pro book body7 ${body["currency_code"] = currency(context).currency!.code}');
+    print('pro book body3 ${method}');
+    print('pro book body2 ${checkoutBody}');
+
+    checkoutBody = body;
+
+    notifyListeners();
+    log("checkoutBody: $checkoutBody");
+    await apiServices
+        .postApi(api.booking, body, isData: true, isToken: true)
+        .then((value) async {
+      print('proceed to book data ${value.data}');
+      hideLoading(context);
+      notifyListeners();
+      log("VA :${value.data}");
+      if (value.isSuccess!) {
+        if (body["payment_method"] == "cash") {
+          onContinue(context);
+        } else if (body["payment_method"] == "wallet") {
+          onContinue(context);
+          final wallet = Provider.of<WalletProvider>(context, listen: false);
+          wallet.getWalletList(context);
+        } else {
+          print('proccedtobook else part ');
+          route
+              .pushNamed(context, routeName.checkoutWebView, arg: value.data)
+              .then((e) async {
+            log("SSS :$e");
+            if (e != null) {
+              log("value.data[sss :${value.data}");
+              if (e['isVerify'] == true) {
+                log("value.data[sdsafdsfs :${value.data}");
+                log("value.data[ :${value.data}");
+                await getVerifyPayment(value.data['item_id'], context);
+              } else {
+                showLayout(context, value.data['item_id']);
+              }
+            } else {
+              showLayout(context, value.data['item_id']);
+            }
+          });
+        }
+        notifyListeners();
+      } else {
+        log("SUCCCC ::;:${value.data} //${value.message}");
+        print('else part of catch${value.message} ');
+        flutterAlertMessage(context,
+            msg: value.message, bgColor: appColor(context).red);
+      }
+    });
+  } catch (e) {
+    log("SHHHH:${e}");
+    print("SHHHH:${e}");
+    flutterAlertMessage(context,
+        msg: e.toString(), bgColor: appColor(context).red);
+    print('showing to error${e}');
+    hideLoading(context);
+    notifyListeners();
+  }
+}
+*/

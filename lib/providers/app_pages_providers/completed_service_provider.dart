@@ -1,19 +1,13 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:leadvala/config.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:http/http.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../firebase/firebase_api.dart';
 import '../../models/status_booking_model.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../../screens/app_pages_screens/completed_service_screen/layouts/pdf_view_screen.dart';
 import '../../widgets/alert_message_common.dart';
 
 class CompletedServiceProvider with ChangeNotifier {
@@ -40,7 +34,10 @@ class CompletedServiceProvider with ChangeNotifier {
   //booking detail by id
   getBookingDetailBy(context, {id}) async {
     try {
-      await apiServices.getApi("${api.booking}/${id ?? booking!.id}", [], isToken: true, isData: true).then((value) {
+      await apiServices
+          .getApi("${api.booking}/${id ?? booking!.id}", [],
+              isToken: true, isData: true)
+          .then((value) {
         hideLoading(context);
         if (value.isSuccess!) {
           debugPrint("BOOKING DATA : ${value.data}");
@@ -81,7 +78,8 @@ class CompletedServiceProvider with ChangeNotifier {
     isDownloading = true;
 
     try {
-      var savePath = '/storage/emulated/0/Download/${booking!.bookingNumber}.pdf';
+      var savePath =
+          '/storage/emulated/0/Download/${booking!.bookingNumber}.pdf';
       var dio = Dio();
       dio.interceptors.add(LogInterceptor());
       try {
@@ -105,7 +103,8 @@ class CompletedServiceProvider with ChangeNotifier {
           progress = "";
           notifyListeners();
           snackBarMessengers(context,
-              message: language(context, appFonts.invoiceDownload), color: appColor(context).primary);
+              message: language(context, appFonts.invoiceDownload),
+              color: appColor(context).primary);
         }
       } catch (e) {
         debugPrint(e.toString());
@@ -124,11 +123,15 @@ class CompletedServiceProvider with ChangeNotifier {
         "booking_id": booking!.id,
         "payment_method": booking!.paymentMethod,
         "currency_code": currency(context).currency!.code,
-        "type": booking!.extraCharges == null || booking!.extraCharges!.isEmpty ? "booking" : "extra_charge"
+        "type": booking!.extraCharges == null || booking!.extraCharges!.isEmpty
+            ? "booking"
+            : "extra_charge"
       };
 
       log("checkoutBody: $body");
-      await apiServices.postApi(api.extraPaymentCharge, body, isData: true, isToken: true).then((value) async {
+      await apiServices
+          .postApi(api.extraPaymentCharge, body, isData: true, isToken: true)
+          .then((value) async {
         hideLoading(context);
         notifyListeners();
         log("booking/payment :${value.data} //${value.message} // ${value.isSuccess}");
@@ -136,7 +139,9 @@ class CompletedServiceProvider with ChangeNotifier {
           if (isCash) {
             updateStatus(context, appFonts.completed);
           } else {
-            route.pushNamed(context, routeName.checkoutWebView, arg: value.data).then((e) async {
+            route
+                .pushNamed(context, routeName.checkoutWebView, arg: value.data)
+                .then((e) async {
               log("SSS :$e");
               if (e != null) {
                 log("value.data[sss :${value.data}");
@@ -146,11 +151,13 @@ class CompletedServiceProvider with ChangeNotifier {
                   await getVerifyPayment(value.data['item_id'], context);
                 } else {
                   log("value.data[sss :${value.message}");
-                  snackBarMessengers(context, message: "Payment Failed", color: appColor(context).red);
+                  snackBarMessengers(context,
+                      message: "Payment Failed", color: appColor(context).red);
                 }
               } else {
                 log("value.data[sss s:${value.data}");
-                snackBarMessengers(context, message: "Payment Failed", color: appColor(context).red);
+                snackBarMessengers(context,
+                    message: "Payment Failed", color: appColor(context).red);
               }
             });
           }
@@ -176,7 +183,10 @@ class CompletedServiceProvider with ChangeNotifier {
       dynamic data;
       data = {"booking_status": status};
       log("ON L$data");
-      await apiServices.putApi("${api.booking}/${booking!.id}", data, isToken: true, isData: true).then((value) {
+      await apiServices
+          .putApi("${api.booking}/${booking!.id}", data,
+              isToken: true, isData: true)
+          .then((value) {
         hideLoading(context);
         notifyListeners();
         if (value.isSuccess!) {
@@ -236,10 +246,15 @@ class CompletedServiceProvider with ChangeNotifier {
   getVerifyPayment(data, context) async {
     try {
       await apiServices
-          .getApi("${api.verifyPayment}?item_id=${data['item_id']}&type=booking", [], isToken: true, isData: true)
+          .getApi(
+              "${api.verifyPayment}?item_id=${data['item_id']}&type=booking",
+              [],
+              isToken: true,
+              isData: true)
           .then((value) {
         if (value.isSuccess!) {
-          if (value.data["payment_status"].toString().toLowerCase() == "pending") {
+          if (value.data["payment_status"].toString().toLowerCase() ==
+              "pending") {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(language(context, appFonts.yourPaymentIsDeclined)),
               backgroundColor: appColor(context).red,
@@ -261,7 +276,9 @@ class CompletedServiceProvider with ChangeNotifier {
       valDownload = (received / total * 100);
       debugPrint((received / total * 100).toStringAsFixed(0) + '%');
       FirebaseApi().sendNotification(
-          title: "Invoice Download", msg: "$valDownload% Invoice Downloaded", token: userModel!.fcmToken);
+          title: "Invoice Download",
+          msg: "$valDownload% Invoice Downloaded",
+          token: userModel!.fcmToken);
     }
     notifyListeners();
   }

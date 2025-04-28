@@ -1,12 +1,8 @@
-import 'package:leadvala/common/extension/widget_extension.dart';
-import 'package:leadvala/packages_list.dart';
-import 'package:leadvala/widgets/common_skeleton.dart';
-
 import '../config.dart';
 
 class ExpertServiceShimmer extends StatelessWidget {
   final int count;
-  const ExpertServiceShimmer({super.key,  this.count=2});
+  const ExpertServiceShimmer({super.key, this.count = 2});
 
   @override
   Widget build(BuildContext context) {
@@ -16,19 +12,25 @@ class ExpertServiceShimmer extends StatelessWidget {
           return Container(
               margin: const EdgeInsets.symmetric(horizontal: Sizes.s20),
               decoration: ShapeDecoration(
-                  color: isDark(context) ?Colors.black26: appColor(context).whiteBg,
-                  shadows: isDark(context) ?[]:[
-                    BoxShadow(
-                        color:
-                        appColor(context).darkText.withOpacity(0.06),
-                        spreadRadius: 2,
-                        blurRadius: 12)
-                  ],
+                  color: isDark(context)
+                      ? Colors.black26
+                      : appColor(context).whiteBg,
+                  shadows: isDark(context)
+                      ? []
+                      : [
+                          BoxShadow(
+                              color:
+                                  appColor(context).darkText.withOpacity(0.06),
+                              spreadRadius: 2,
+                              blurRadius: 12)
+                        ],
                   shape: SmoothRectangleBorder(
                       borderRadius: SmoothBorderRadius(
                           cornerRadius: 8, cornerSmoothing: 1),
                       side: BorderSide(
-                          color: isDark(context)?Colors.black26: appColor(context).skeletonColor))),
+                          color: isDark(context)
+                              ? Colors.black26
+                              : appColor(context).skeletonColor))),
               child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -43,15 +45,12 @@ class ExpertServiceShimmer extends StatelessWidget {
                             CommonSkeleton(
                                 height: Sizes.s15, width: Sizes.s128),
                             VSpace(Sizes.s6),
-                            CommonSkeleton(
-                                height: Sizes.s15, width: Sizes.s90),
+                            CommonSkeleton(height: Sizes.s15, width: Sizes.s90),
                             VSpace(Sizes.s10),
-                            CommonSkeleton(
-                                height: Sizes.s15, width: Sizes.s150)
+                            CommonSkeleton(height: Sizes.s15, width: Sizes.s150)
                           ])
                     ]).paddingAll(Sizes.s15),
-                    const CommonSkeleton(
-                        height: Sizes.s16, width: Sizes.s36)
+                    const CommonSkeleton(height: Sizes.s16, width: Sizes.s36)
                         .paddingAll(Sizes.s15)
                   ])).marginOnly(bottom: index != 2 ? Sizes.s15 : 0);
         })

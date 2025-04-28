@@ -1,9 +1,6 @@
 import 'dart:developer';
 
-import 'package:leadvala/helper/notification.dart';
 import 'package:leadvala/widgets/no_internet_layout.dart';
-import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../config.dart';

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import '../../../../config.dart';
 
 class BottomLocationLayout extends StatelessWidget {
@@ -8,7 +6,6 @@ class BottomLocationLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<LocationProvider>(builder: (context1, value, child) {
-
       return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -16,20 +13,20 @@ class BottomLocationLayout extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CommonArrow(svgColor: appColor(context).whiteBg,
+                CommonArrow(
+                        svgColor: appColor(context).whiteBg,
                         color: appColor(context).primary,
                         arrow: rtl(context)
                             ? eSvgAssets.arrowRight
                             : eSvgAssets.arrowLeft)
                     .inkWell(onTap: () => route.pop(context)),
-
-                CommonArrow(svgColor: appColor(context).whiteBg,
-                    color: appColor(context).primary,
-                    arrow:eSvgAssets.search)
+                CommonArrow(
+                        svgColor: appColor(context).whiteBg,
+                        color: appColor(context).primary,
+                        arrow: eSvgAssets.search)
                     .inkWell(onTap: () => value.searchLocation(context))
-
               ],
-            ) .paddingSymmetric(vertical: Insets.i50, horizontal: Insets.i20),
+            ).paddingSymmetric(vertical: Insets.i50, horizontal: Insets.i20),
             Column(
               children: [
                 Align(
@@ -48,8 +45,7 @@ class BottomLocationLayout extends StatelessWidget {
                         eSvgAssets.zipcode,
                         fit: BoxFit.scaleDown,
                         colorFilter: ColorFilter.mode(
-                            appColor(context).whiteBg,
-                            BlendMode.srcIn),
+                            appColor(context).whiteBg, BlendMode.srcIn),
                       )).inkWell(onTap: () => value.fetchCurrent(context)),
                 ),
                 const VSpace(Sizes.s20),
@@ -59,8 +55,8 @@ class BottomLocationLayout extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(language(context, appFonts.selectService),
-                            style: appCss.dmDenseRegular14.textColor(
-                                appColor(context).lightText)),
+                            style: appCss.dmDenseRegular14
+                                .textColor(appColor(context).lightText)),
                       ]),
                   const VSpace(Sizes.s15),
                   Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -74,7 +70,6 @@ class BottomLocationLayout extends StatelessWidget {
                               .paddingAll(Insets.i7)
                               .decorated(
                                   color: appColor(context)
-                                      
                                       .primary
                                       .withOpacity(0.15),
                                   shape: BoxShape.circle),
@@ -86,17 +81,14 @@ class BottomLocationLayout extends StatelessWidget {
                                   if (currentAddress != null)
                                     Text(currentAddress!,
                                         style: appCss.dmDenseBold14.textColor(
-                                            appColor(context)
-                                                
-                                                .darkText)),
+                                            appColor(context).darkText)),
                                   const VSpace(Sizes.s8),
                                   SizedBox(
                                       width: Sizes.s200,
                                       child: Text(street!,
                                           style: appCss.dmDenseRegular13
-                                              .textColor(appColor(context)
-                                                  
-                                                  .lightText)))
+                                              .textColor(
+                                                  appColor(context).lightText)))
                                 ])
                         ])
                   ])

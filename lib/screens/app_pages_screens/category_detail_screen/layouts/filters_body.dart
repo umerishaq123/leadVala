@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import '../../../../config.dart';
-import '../../../../widgets/switch_common.dart';
 
 class FiltersBody extends StatelessWidget {
   const FiltersBody({super.key});
@@ -17,15 +16,15 @@ class FiltersBody extends StatelessWidget {
                 Expanded(
                     child: Text(
                             "${language(context, appFonts.providerList)} (${value.providerList.length})",
-                            style: appCss.dmDenseMedium14.textColor(
-                                appColor(context).lightText))
+                            style: appCss.dmDenseMedium14
+                                .textColor(appColor(context).lightText))
                         .alignment(Alignment.centerLeft)),
-
                 DropDownLayout(
-                    isIcon: false,
-                    val: value.exValue,
-                    categoryList: appArray.experienceList,
-                    onChanged: (val) => value.onExperience(val)).width(Sizes.s180)
+                        isIcon: false,
+                        val: value.exValue,
+                        categoryList: appArray.experienceList,
+                        onChanged: (val) => value.onExperience(val))
+                    .width(Sizes.s180)
               ]).paddingSymmetric(vertical: Insets.i20, horizontal: Insets.i20),
               SearchTextFieldCommon(
                 controller: value.filterSearchCtrl,
@@ -33,7 +32,7 @@ class FiltersBody extends StatelessWidget {
                 onChanged: (v) {
                   if (v.isEmpty) {
                     value.fetchProviderByFilter();
-                  }else if(v.length >3){
+                  } else if (v.length > 3) {
                     value.fetchProviderByFilter();
                   }
                 },

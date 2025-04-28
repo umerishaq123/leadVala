@@ -292,6 +292,7 @@ class ServicesDetailsScreen extends StatelessWidget {
                                   }),
                                 ).paddingOnly(bottom: Insets.i20).decorated(
                                     color: appColor(context).whiteBg)*/
+
                                       ButtonCommon(
                                               margin: Insets.i20,
                                               title: appFonts.addToCart,

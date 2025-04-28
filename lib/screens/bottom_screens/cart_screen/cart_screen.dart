@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:leadvala/screens/bottom_screens/cart_screen/cart_shimmer/cart_shimmer.dart';
 import 'package:leadvala/screens/bottom_screens/cart_screen/layouts/bill_layout_copy.dart';
 
 import '../../../config.dart';
@@ -29,7 +26,8 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
       double gstRate = 18.0;
       double gstAmount = (subtotal * gstRate) / 100;
       double platformFees = subtotal * 0.05;
-      double totalAmount = subtotal + gstAmount + platformFees;
+      // double totalAmount = subtotal + gstAmount + platformFees;
+      double totalAmount = subtotal + platformFees;
 
       print("CartScreen: ${value.cartList}");
       return PopScope(
@@ -205,13 +203,27 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
 //   bill summeri text
                                           const VSpace(Sizes.s25),
                                           Consumer<CommonApiProvider>(
-                                              builder: (context1, api, child) {
-                                            return BillSummaryLayout(
-                                              balance: userModel?.wallet != null
-                                                  ? "${getSymbol(context)}${(currency(context).currencyVal * double.parse(userModel!.wallet!.balance.toString())).toStringAsFixed(2)}"
-                                                  : "0",
-                                            );
-                                          }),
+                                            builder: (context1, api, child) {
+                                              if (api.userModel?.wallet ==
+                                                  null) {
+                                                return const CircularProgressIndicator(); // Show loading until data is ready
+                                              }
+
+                                              return BillSummaryLayout(
+                                                balance:
+                                                    "${getSymbol(context)}${(currency(context).currencyVal * double.parse(api.userModel!.wallet!.balance.toString())).toStringAsFixed(2)}",
+                                              );
+                                            },
+                                          ),
+
+                                          // Consumer<CommonApiProvider>(
+                                          //     builder: (context1, api, child) {
+                                          //   return BillSummaryLayout(
+                                          //     balance: userModel?.wallet != null
+                                          //         ? "${getSymbol(context)}${(currency(context).currencyVal * double.parse(userModel!.wallet!.balance.toString())).toStringAsFixed(2)}"
+                                          //         : "0?",
+                                          //   );
+                                          // }),
 
                                           const VSpace(Sizes.s10),
 // bill summeri start part
@@ -221,10 +233,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                                           Consumer<CartProvider>(
                                             builder: (context, value, child) {
                                               if (value.checkoutModel != null) {
-                                                return
-                                                    // Text('hellow word');
-                                                    // BillLayout();
-                                                    BillcopyClass();
+                                                return BillcopyClass();
                                               }
                                               return Container(); // Show empty if null
                                             },

@@ -1,10 +1,3 @@
-import 'dart:developer';
-
-import 'package:leadvala/models/blog_model.dart';
-import 'package:leadvala/models/booking_status_model.dart';
-import 'package:leadvala/models/coupon_model.dart';
-import 'package:leadvala/models/currency_model.dart';
-
 import '../../config.dart';
 
 class ExpertServiceProvider with ChangeNotifier {
@@ -14,7 +7,8 @@ class ExpertServiceProvider with ChangeNotifier {
   TextEditingController txtFeaturedSearch = TextEditingController();
 
   onReady(context, TickerProvider sync) async {
-    animationController = AnimationController(vsync: sync, duration: const Duration(milliseconds: 1200));
+    animationController = AnimationController(
+        vsync: sync, duration: const Duration(milliseconds: 1200));
     _runAnimation();
     notifyListeners();
   }
@@ -40,7 +34,9 @@ class ExpertServiceProvider with ChangeNotifier {
       apiLink = api.highestRating;
     }
     try {
-      await apiServices.getApi(apiLink, [], isData: true, isMessage: true).then((value) {
+      await apiServices
+          .getApi(apiLink, [], isData: true, isMessage: true)
+          .then((value) {
         if (value.isSuccess!) {
           List service = value.data;
           searchList = [];

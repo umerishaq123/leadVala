@@ -51,63 +51,65 @@ class _CartLayoutState extends State<CartLayout> {
       IntrinsicHeight(
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Row(children: [
-          // CachedNetworkImage(
-          //   imageUrl: widget.data!.isPackage!
-          //       ? widget.data!.servicePackageList!.user!.media![0].originalUrl!
-          //       : widget.data!.serviceList!.media![0].originalUrl!,
-          //   imageBuilder: (context, imageProvider) => Container(
-          //       height: Sizes.s38,
-          //       width: Sizes.s38,
-          //       decoration: BoxDecoration(
-          //           shape: BoxShape.circle,
-          //           image: DecorationImage(
-          //               fit: BoxFit.cover, image: imageProvider))),
-          //   errorWidget: (context, url, error) => Container(
-          //       height: Sizes.s38,
-          //       width: Sizes.s38,
-          //       decoration: BoxDecoration(
-          //           shape: BoxShape.circle,
-          //           image: DecorationImage(
-          //               fit: BoxFit.cover,
-          //               image: AssetImage(eImageAssets.noImageFound1)))),
-          // ),
+        /* 24-03 
+       Row(children: [
+          CachedNetworkImage(
+            imageUrl: widget.data!.isPackage!
+                ? widget.data!.servicePackageList!.user!.media![0].originalUrl!
+                : widget.data!.serviceList!.media![0].originalUrl!,
+            imageBuilder: (context, imageProvider) => Container(
+                height: Sizes.s38,
+                width: Sizes.s38,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        fit: BoxFit.cover, image: imageProvider))),
+            errorWidget: (context, url, error) => Container(
+                height: Sizes.s38,
+                width: Sizes.s38,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage(eImageAssets.noImageFound1)))),
+          ),
           const HSpace(Sizes.s8),
-          // Text(
-          //    capitalizeFirstLetter( widget.data!.isPackage!
-          //        ? widget.data!.servicePackageList!.user!.name!
-          //        : widget.data!.serviceList!.user != null
-          //        ? widget.data!.serviceList!.user!.name!
-          //        : "Provider"),
-          //     style:
-          //         appCss.dmDenseMedium14.textColor(appColor(context).darkText)),
-          // VerticalDivider(
-          //         width: 1,
-          //         thickness: 1,
-          //         color: appColor(context).lightText,
-          //         indent: 12,
-          //         endIndent: 12)
-          //     .paddingSymmetric(horizontal: Insets.i8),
-          // Row(children: [
-          //   SvgPicture.asset(eSvgAssets.star),
-          //   const HSpace(Sizes.s3),
-          //   Text(
-          //       widget.data!.isPackage!
-          //           ? widget.data!.servicePackageList!.user!.reviewRatings !=
-          //                   null
-          //               ? widget.data!.servicePackageList!.user!.reviewRatings!
-          //                   .toStringAsFixed(1)
-          //               : "0.0"
-          //           : widget.data!.serviceList!.user != null
-          //               ? widget.data!.serviceList!.user!.reviewRatings != null
-          //                   ? widget.data!.serviceList!.user!.reviewRatings!
-          //                       .toStringAsFixed(1)
-          //                   : "0.0"
-          //               : "0.0",
-          //       style: appCss.dmDenseMedium13
-          //           .textColor(appColor(context).darkText))
-          // ])
+          Text(
+             capitalizeFirstLetter( widget.data!.isPackage!
+                 ? widget.data!.servicePackageList!.user!.name!
+                 : widget.data!.serviceList!.user != null
+                 ? widget.data!.serviceList!.user!.name!
+                 : "Provider"),
+              style:
+                  appCss.dmDenseMedium14.textColor(appColor(context).darkText)),
+          VerticalDivider(
+                  width: 1,
+                  thickness: 1,
+                  color: appColor(context).lightText,
+                  indent: 12,
+                  endIndent: 12)
+              .paddingSymmetric(horizontal: Insets.i8),
+          Row(children: [
+            SvgPicture.asset(eSvgAssets.star),
+            const HSpace(Sizes.s3),
+            Text(
+                widget.data!.isPackage!
+                    ? widget.data!.servicePackageList!.user!.reviewRatings !=
+                            null
+                        ? widget.data!.servicePackageList!.user!.reviewRatings!
+                            .toStringAsFixed(1)
+                        : "0.0"
+                    : widget.data!.serviceList!.user != null
+                        ? widget.data!.serviceList!.user!.reviewRatings != null
+                            ? widget.data!.serviceList!.user!.reviewRatings!
+                                .toStringAsFixed(1)
+                            : "0.0"
+                        : "0.0",
+                style: appCss.dmDenseMedium13
+                    .textColor(appColor(context).darkText))
+          ])
         ]),
+        */
         Row(children: [
           CommonArrow(
             arrow: eSvgAssets.edit,
@@ -244,7 +246,7 @@ class _CartLayoutState extends State<CartLayout> {
               width: Sizes.s94,
               decoration: ShapeDecoration(
                   image: DecorationImage(
-                      image: AssetImage(widget.data!.isPackage == true
+                      image: AssetImage(widget.data!.serviceList == true
                           ? eImageAssets.package
                           : eImageAssets.fsl1),
                       fit: BoxFit.cover),
@@ -445,11 +447,13 @@ class _CartLayoutState extends State<CartLayout> {
                 ],
               ),
         // if (data!.isPackage == true) const DottedLines(),
-        /* if (data!.isPackage == true)
+        /* 
+        if (data!.isPackage == true)
           Text(language(context, appFonts.thisServiceIsSelected),
                   style: appCss.dmDenseSemiBold12
                       .textColor(appColor(context).online))
-              .paddingOnly(top: Insets.i12)*/
+              .paddingOnly(top: Insets.i12)
+              */
       ]).paddingSymmetric(horizontal: Insets.i15),
       const VSpace(Sizes.s15),
     ])

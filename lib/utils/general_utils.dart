@@ -1,9 +1,9 @@
-import 'dart:developer';
 import 'dart:io';
 import 'dart:math';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:leadvala/config.dart';
 import 'package:intl/intl.dart';
 import 'package:rate_my_app/rate_my_app.dart';
@@ -140,14 +140,11 @@ Color fromHex(String hexString) {
 //   return token;
 // }
 
-getFcmToken() async {
+Future<String?> getFcmToken() async {
   try {
-    print('🔄 Fetching FCM Token...');
-
-    // Ensure Firebase Messaging is initialized
     FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-    // Request permission (for iOS & Web)
+    // Request permission (for web and iOS)
     NotificationSettings settings = await messaging.requestPermission(
       alert: true,
       badge: true,
@@ -155,24 +152,103 @@ getFcmToken() async {
     );
 
     if (settings.authorizationStatus == AuthorizationStatus.denied) {
-      print('❌ FCM Permission Denied');
+      print("❌ Permission Denied for Notifications");
       return null;
     }
 
-    // Get the FCM Token
-    String? token = await messaging.getToken();
-    if (token != null) {
-      print('✅ FCM Token Retrieved: $token');
+    String? token;
+
+    // Web needs VAPID key
+    if (kIsWeb) {
+      token = await messaging.getToken(
+        vapidKey:
+            "BJndSyPX5NuP9SyMR8B79QAMtGm0HTkoVujQKa27G_OVhlhNqrVKflSf4kRtDyQdQuXgIY7fu4Ghh9SbI9OHRAA", // ⚠️ Must add this from Firebase
+      );
+      print('web fcm token????///  $token  ????///');
     } else {
-      print('⚠️ Failed to retrieve FCM Token.');
+      token = await messaging.getToken();
+      print('app file  fcm token  $token');
+    }
+
+    if (token != null) {
+      print("✅ FCM Token Retrieved: $token");
+    } else {
+      print("⚠️ Token is null");
     }
 
     return token;
   } catch (e) {
-    print('🚨 Error retrieving FCM Token: $e');
+    print("🚨 Error retrieving FCM Token: $e");
     return null;
   }
 }
+
+/*
+getFcmToken() async {
+  try {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    // Request permission
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.denied) {
+      print("❌ Permission Denied for Notifications");
+      return null;
+    }
+
+    // Get FCM Token
+    String? token = await messaging.getToken();
+
+    if (token != null) {
+      print("✅ eFCM Token Retrieved: $token ..>>>>????///");
+    } else {
+      print("⚠️ Failed to retrieve FCM Token.");
+    }
+
+    return token;
+  } catch (e) {
+    print("🚨 Error retrieving FCM Token: $e");
+    return null;
+  }
+}
+*/
+// getFcmToken() async {
+//   try {
+//     print('🔄 Fetching FCM Token...');
+
+//     // Ensure Firebase Messaging is initialized
+//     FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+//     // Request permission (for iOS & Web)
+//     NotificationSettings settings = await messaging.requestPermission(
+//       alert: true,
+//       badge: true,
+//       sound: true,
+//     );
+
+//     if (settings.authorizationStatus == AuthorizationStatus.denied) {
+//       print('❌ FCM Permission Denied');
+//       return null;
+//     }
+
+//     // Get the FCM Token
+//     String? token = await messaging.getToken();
+//     if (token != null) {
+//       print('✅ FCM Token Retrieved: $token');
+//     } else {
+//       print('⚠️ Failed to retrieve FCM Token.');
+//     }
+
+//     return token;
+//   } catch (e) {
+//     print('🚨 Error retrieving FCM Token: $e');
+//     return null;
+//   }
+// }
 
 getTime(time) {
   if (!DateTime.now().difference(time).isNegative) {

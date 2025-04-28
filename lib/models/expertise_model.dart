@@ -27,7 +27,8 @@ class ExpertiseModel {
     id = json['id'];
     reviewRatings = json['review_ratings'].cast<int>();
     ratingCount = json['rating_count'];
-    pivot = json['pivot'] != null ? ExpertisePivot.fromJson(json['pivot']) : null;
+    pivot =
+        json['pivot'] != null ? ExpertisePivot.fromJson(json['pivot']) : null;
     if (json['categories'] != null) {
       categories = <CategoryModel>[];
       json['categories'].forEach((v) {
@@ -67,7 +68,8 @@ class ExpertiseModel {
       data['categories'] = categories!.map((v) => v.toJson()).toList();
     }
     if (relatedServices != null) {
-      data['related_services'] = relatedServices!.map((v) => v.toJson()).toList();
+      data['related_services'] =
+          relatedServices!.map((v) => v.toJson()).toList();
     }
     if (media != null) {
       data['media'] = media!.map((v) => v.toJson()).toList();
@@ -201,7 +203,9 @@ class RelatedServices {
     updatedAt = json['updated_at'];
     reviewRatings = json['review_ratings'].cast<int>();
     ratingCount = json['rating_count'];
-    pivot = json['pivot'] != null ? RelatedServicePivot.fromJson(json['pivot']) : null;
+    pivot = json['pivot'] != null
+        ? RelatedServicePivot.fromJson(json['pivot'])
+        : null;
     if (json['categories'] != null) {
       categories = <CategoryModel>[];
       json['categories'].forEach((v) {
@@ -260,7 +264,8 @@ class RelatedServices {
       data['categories'] = categories!.map((v) => v.toJson()).toList();
     }
     if (relatedServices != null) {
-      data['related_services'] = relatedServices!.map((v) => v.toJson()).toList();
+      data['related_services'] =
+          relatedServices!.map((v) => v.toJson()).toList();
     }
     if (media != null) {
       data['media'] = media!.map((v) => v.toJson()).toList();

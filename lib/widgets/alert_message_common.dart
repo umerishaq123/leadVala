@@ -35,7 +35,7 @@ void showSnackBar(scaffoldKey, context, {required String message, color}) {
 snackBarMessengers(context, {message, color, isDuration = false}) {
   ScaffoldMessenger.of(context).showSnackBar(isDuration
       ? SnackBar(
-          duration: Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 500),
           content: Container(
               padding: const EdgeInsets.all(Insets.i15),
               decoration: BoxDecoration(

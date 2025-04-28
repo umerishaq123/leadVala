@@ -13,6 +13,7 @@ class NotificationLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     log("data!.data!.thumbnail :${data!.data!.thumbnail}");
+    print('data of thumbline this ');
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(
           crossAxisAlignment: CrossAxisAlignment.center,

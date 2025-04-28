@@ -1,9 +1,6 @@
 import 'dart:developer';
 
-import 'package:flutter/rendering.dart';
 import 'package:leadvala/config.dart';
-import 'package:leadvala/providers/app_pages_providers/chat_history_provider.dart';
-import 'package:leadvala/providers/app_pages_providers/pending_booking_provider.dart';
 
 class PaymentScreen extends StatelessWidget {
   const PaymentScreen({super.key});
@@ -12,7 +9,16 @@ class PaymentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<PaymentProvider>(builder: (context1, value, child) {
       print('chek out of payment scren value ${value.scrollController}');
-      log("kdsjhg");
+
+      final commonApiProvider = Provider.of<CommonApiProvider>(context);
+      final userModel = commonApiProvider.userModel;
+
+      double walletBalance =
+          double.tryParse(userModel?.wallet?.balance?.toString() ?? "0.0") ??
+              0.0;
+      double totalAmount = value.checkoutModel?.total?.total ?? 0.0;
+
+      log("💰 Wallet Balance: $walletBalance | 🛒 Total Amount: $totalAmount");
 
       return LoadingComponent(
         child: StatefulWrapper(
@@ -34,41 +40,45 @@ class PaymentScreen extends StatelessWidget {
                                     .textColor(appColor(context).lightText))
                             .paddingSymmetric(horizontal: Insets.i20),
                         const VSpace(Sizes.s5),
-                        // if (value.bookingId == 0)
-                        // chnage for g
-                        // if (userModel?.wallet?.balance != null &&
-                        //     userModel!.wallet!.balance! >
-                        //         0 && // Wallet balance should not be zero
-                        //     userModel!.wallet!.balance! >=
-                        //         ((value.checkoutModel?.total?.total) ?? 0.0))
-                        //   const WalletOptionSelection()
-                        //       .paddingSymmetric(horizontal: Insets.i20),
+                        Consumer<PaymentProvider>(
+                          builder: (context, value, child) {
+                            print(
+                                "🔄 UI Updated - Selected Payment Method: ${value.selectedPaymentMethod}");
 
-                        ...paymentMethods
-                            .where((element) => element.status == true)
-                            .toList()
-                            .asMap()
-                            .entries
-                            .map((e) => PaymentMethodLayout(
-                                index: e.key,
-                                data: e.value,
-                                selectIndex: value.selectIndex,
-                                onTap: () {
-                                  print('print of value::1 ${value}');
-                                  print('print of value::2 ${e.key}');
-                                  print('print of value::3 ${e.value}');
-                                  print('print of value::4 ${e.value.slug}');
-                                  value.onSelectPaymentMethod(
-                                      e.key, e.value.slug.toString());
-
-                                  // value.onSelectPaymentMethod(
-                                  //     e.key, e.value.slug);
-                                }))
-                            .toList(),
+                            return Column(
+                              children: [
+                                if (walletBalance > 0 &&
+                                    walletBalance >= totalAmount)
+                                  GestureDetector(
+                                    behavior: HitTestBehavior.opaque,
+                                    onTap: () {
+                                      print('✅ Wallet Option Pressed!');
+                                      value.onSelectPaymentMethod(-1, "wallet");
+                                    },
+                                    child: const WalletOptionSelection()
+                                        .paddingSymmetric(
+                                            horizontal: Insets.i20),
+                                  ),
+                                ...paymentMethods
+                                    .where((element) => element.status == true)
+                                    .toList()
+                                    .asMap()
+                                    .entries
+                                    .map((e) => PaymentMethodLayout(
+                                        index: e.key,
+                                        data: e.value,
+                                        selectIndex: value.selectIndex,
+                                        onTap: () {
+                                          value.onSelectPaymentMethod(
+                                              e.key, e.value.slug.toString());
+                                        }))
+                                    .toList(),
+                              ],
+                            );
+                          },
+                        ),
                       ],
                     ),
-
-                    // all about change this part
                     const VSpace(Sizes.s100)
                   ]),
                   AnimatedBuilder(
@@ -83,6 +93,7 @@ class PaymentScreen extends StatelessWidget {
                               title: appFonts.continues,
                               margin: Sizes.s20,
                               onTap: () {
+                                print('showing booking idsss ${value.method}');
                                 value.addToCartOrBooking(context);
                               })
                           .paddingOnly(bottom: Insets.i20)
@@ -142,3 +153,56 @@ class PaymentScreen extends StatelessWidget {
 //               onTap: () => value.onSelectPaymentMethod(
 //                   e.key, e.value.slug)))
 //     ]),
+
+
+/*22-03
+
+ if (value.bookingId == 0)
+
+                        if (userModel?.wallet?.balance != null &&
+                            userModel!.wallet!.balance! >
+                                0 && // Wallet balance should not be zero
+                            userModel!.wallet!.balance! >=
+                                ((value.checkoutModel?.total?.total) ?? 0.0))
+                          const WalletOptionSelection()
+                              .paddingSymmetric(horizontal: Insets.i20),
+
+                        if (walletBalance > 0 && walletBalance >= totalAmount)
+                          GestureDetector(
+                            behavior: HitTestBehavior
+                                .opaque, // Ensures tap is detected
+                            onTap: () {
+                              print('✅ Wallet Option Tapped!');
+                              value.onSelectPaymentMethod(-1, "wallet");
+
+                              log("✅ Wallet option selected! New method: ${value.selectedPaymentMethod}");
+                            },
+                            child: Container(
+                              color: Colors.transparent, // Ensure it's tappable
+                              child: WalletOptionSelection()
+                                  .paddingSymmetric(horizontal: Insets.i20),
+                            ),
+                          ),
+
+                        ...paymentMethods
+                            .where((element) => element.status == true)
+                            .toList()
+                            .asMap()
+                            .entries
+                            .map((e) => PaymentMethodLayout(
+                                index: e.key,
+                                data: e.value,
+                                selectIndex: value.selectIndex,
+                                onTap: () {
+                                  print(
+                                      'showing value of this time??/1${e.value}');
+                                  print(
+                                      'showing value of this time??/2${value.selectIndex}');
+                                  value.onSelectPaymentMethod(
+                                      e.key, e.value.slug.toString());
+
+                                  // value.onSelectPaymentMethod(
+                                  //     e.key, e.value.slug);
+                                }))
+                            .toList(),
+*/

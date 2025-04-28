@@ -1,5 +1,4 @@
 import 'package:leadvala/screens/app_pages_screens/provider_details_screen/layouts/services_status_button.dart';
-import 'package:leadvala/screens/app_pages_screens/provider_details_screen/layouts/services_status_timeline.dart';
 
 import '../../../../config.dart';
 

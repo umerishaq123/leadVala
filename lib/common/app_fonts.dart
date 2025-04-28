@@ -460,7 +460,8 @@ class AppFonts {
   final paymentSummary = "paymentSummary";
   final paymentId = "paymentId";
   final methodType = "methodType";
-  final giveAppreciation = "Give appreciation to servicemen for his great work.";
+  final giveAppreciation =
+      "Give appreciation to servicemen for his great work.";
   final rateNow = "Rate now";
   final downloadBill = "Download Bill";
   final theProviderHas = "The provider has not approved yet.";
@@ -503,7 +504,9 @@ class AppFonts {
   final selectAddress = "selectAddress";
   final selectPrimaryLocation = "selectPrimaryLocation";
   final served = "served";
-  final added = "added";
+  // final added = "added";
+  final added = "Details ";
+
   final dealsZone = "dealsZone";
   final pleaseSelectAddress = "pleaseSelectAddress";
   final servicePackageDisclaimer = "servicePackageDisclaimer";

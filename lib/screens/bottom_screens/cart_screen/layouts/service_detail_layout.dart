@@ -1,5 +1,3 @@
-import 'package:leadvala/models/checkout_model.dart';
-
 import '../../../../config.dart';
 
 class ServiceDetailLayout extends StatelessWidget {

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import '../../../../config.dart';
 
 class RegisterFieldLayout extends StatelessWidget {

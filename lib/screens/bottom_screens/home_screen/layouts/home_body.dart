@@ -1,8 +1,3 @@
-import 'dart:developer';
-
-import 'package:leadvala/common/languages/app_language.dart';
-import 'package:leadvala/common_tap.dart';
-
 import '../../../../config.dart';
 
 class HomeBody extends StatelessWidget {
@@ -60,9 +55,14 @@ class HomeBody extends StatelessWidget {
                         index: index,
                         selectedIndex: dash.topSelected,
                         data: dash.categoryList.toList()[index],
-                        onTap: () => route.pushNamed(
-                            context, routeName.categoriesDetailsScreen,
-                            arg: dash.categoryList.toList()[index]));
+                        onTap: () {
+                          print('cvcvcvcvcvcvcv');
+                          route.pushNamed(
+                              context, routeName.categoriesDetailsScreen,
+                              arg: dash.categoryList.toList()[index]);
+                          print(
+                              'cvcvcvcvcvcvcv${dash.categoryList.toList()[index]}');
+                        });
                   }),
               if (dash.servicePackagesList.isNotEmpty)
                 HeadingRowCommon(

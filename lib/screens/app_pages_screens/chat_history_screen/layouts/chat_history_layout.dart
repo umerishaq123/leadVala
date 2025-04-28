@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:leadvala/widgets/common_image_layout.dart';
 import 'package:intl/intl.dart';
 
@@ -11,20 +9,24 @@ class ChatHistoryLayout extends StatelessWidget {
   final int? index;
   final GestureTapCallback? onTap;
 
-  const ChatHistoryLayout({super.key, this.data, this.list, this.index, this.onTap});
+  const ChatHistoryLayout(
+      {super.key, this.data, this.list, this.index, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Row(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Row(children: [
-          CommonImageLayout(
-              isCircle: true,
-              image: data['receiverImage'],
-              assetImage: eImageAssets.noImageFound3,
-              height: Sizes.s45,
-              width: Sizes.s45),
-          /* Container(
+      Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(children: [
+              CommonImageLayout(
+                  isCircle: true,
+                  image: data['receiverImage'],
+                  assetImage: eImageAssets.noImageFound3,
+                  height: Sizes.s45,
+                  width: Sizes.s45),
+              /* Container(
                   height: Sizes.s45,
                   width: Sizes.s45,
                   decoration: BoxDecoration(
@@ -32,20 +34,29 @@ class ChatHistoryLayout extends StatelessWidget {
                       image: DecorationImage(
                           image: NetworkImage(data['receiverImage']),
                           fit: BoxFit.cover))),*/
-          const HSpace(Sizes.s10),
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text("#${data['bookingId']}", style: appCss.dmDenseMedium14.textColor(appColor(context).darkText)),
-            const VSpace(Sizes.s2),
-            Text(data['senderId'].toString() == userModel!.id.toString() ? data["receiverName"] : data['senderName'],
-                style: appCss.dmDenseMedium12.textColor(appColor(context).lightText))
-          ])
-        ]),
-        Text(
-            DateFormat('dd MMM yyyy')
-                .format(DateTime.fromMillisecondsSinceEpoch(int.parse(data["updateStamp"].toString()))),
-            style: appCss.dmDenseRegular12.textColor(appColor(context).lightText))
-      ]).inkWell(onTap: onTap),
-      if (index != list!.length - 1) const DividerCommon().paddingSymmetric(vertical: Insets.i15)
+              const HSpace(Sizes.s10),
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text("#${data['bookingId']}",
+                    style: appCss.dmDenseMedium14
+                        .textColor(appColor(context).darkText)),
+                const VSpace(Sizes.s2),
+                Text(
+                    data['senderId'].toString() == userModel!.id.toString()
+                        ? data["receiverName"]
+                        : data['senderName'],
+                    style: appCss.dmDenseMedium12
+                        .textColor(appColor(context).lightText))
+              ])
+            ]),
+            Text(
+                DateFormat('dd MMM yyyy').format(
+                    DateTime.fromMillisecondsSinceEpoch(
+                        int.parse(data["updateStamp"].toString()))),
+                style: appCss.dmDenseRegular12
+                    .textColor(appColor(context).lightText))
+          ]).inkWell(onTap: onTap),
+      if (index != list!.length - 1)
+        const DividerCommon().paddingSymmetric(vertical: Insets.i15)
     ]);
   }
 }

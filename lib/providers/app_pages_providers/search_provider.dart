@@ -8,7 +8,6 @@ import 'dart:ui' as ui;
 import 'package:flutter/services.dart';
 
 import '../../common_tap.dart';
-import '../../widgets/alert_message_common.dart';
 
 class SearchProvider with ChangeNotifier {
   AnimationController? animationController;
@@ -25,7 +24,11 @@ class SearchProvider with ChangeNotifier {
   List<Services> recentSearchList = [];
 
   ui.FrameInfo? image, image1;
-  double slider = 0.0, minPrice = 0, maxPrice = 100, lowerVal = 00.0, upperVal = 100.0;
+  double slider = 0.0,
+      minPrice = 0,
+      maxPrice = 100,
+      lowerVal = 00.0,
+      upperVal = 100.0;
   bool? isSelect, isSearch = false;
   int ratingIndex = 0, selectedFilterCount = 0;
 
@@ -73,7 +76,8 @@ class SearchProvider with ChangeNotifier {
     ByteData data = await rootBundle.load(
       assetPath,
     );
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
+    ui.Codec codec = await ui.instantiateImageCodec(
+        data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
         targetWidth: 25);
     ui.FrameInfo fi = await codec.getNextFrame();
 
@@ -103,7 +107,8 @@ class SearchProvider with ChangeNotifier {
 
     notifyListeners();
     getRecentSearch();
-    animationController = AnimationController(vsync: sync, duration: const Duration(milliseconds: 1200));
+    animationController = AnimationController(
+        vsync: sync, duration: const Duration(milliseconds: 1200));
     _runAnimation();
     FrameInfo fi = await loadImage(eImageAssets.userSlider);
     customImage = fi.image;
@@ -117,7 +122,8 @@ class SearchProvider with ChangeNotifier {
     dynamic save = pref!.getString(session.recentSearch);
     log("PREE :$save");
     if (save != null) {
-      final List<dynamic> jsonData = jsonDecode(pref!.getString(session.recentSearch) ?? '[]');
+      final List<dynamic> jsonData =
+          jsonDecode(pref!.getString(session.recentSearch) ?? '[]');
       log("jsonData :${jsonData.length}");
       recentSearchList = jsonData.map<Services>((jsonList) {
         return Services.fromJson(jsonList);
@@ -204,7 +210,8 @@ class SearchProvider with ChangeNotifier {
     if (selectedCategory.isNotEmpty) {
       count++;
     }
-    if ((lowerVal != 00.0 || upperVal != maxPrice) && (lowerVal != 00.0 || upperVal != 100.0)) {
+    if ((lowerVal != 00.0 || upperVal != maxPrice) &&
+        (lowerVal != 00.0 || upperVal != 100.0)) {
       count++;
     }
     if (selectedRates.isNotEmpty) {
@@ -247,11 +254,13 @@ class SearchProvider with ChangeNotifier {
       apiUrl = "${api.service}?categoryIds=$selectedCategory&zone_ids=$zoneIds";
     }
     if (selectedRates.isNotEmpty) {
-      apiUrl = "${api.service}?categoryIds=$selectedCategory&zone_ids=$zoneIds&rating=$selectedRates";
+      apiUrl =
+          "${api.service}?categoryIds=$selectedCategory&zone_ids=$zoneIds&rating=$selectedRates";
     }
 
     if (selectedRates.isNotEmpty && selectedCategory.isNotEmpty) {
-      apiUrl = "${api.service}?categoryIds=$selectedCategory&zone_ids=$zoneIds&rating=$selectedRates";
+      apiUrl =
+          "${api.service}?categoryIds=$selectedCategory&zone_ids=$zoneIds&rating=$selectedRates";
     }
 
     if (lowerVal != 0 && upperVal != 100) {
@@ -263,37 +272,53 @@ class SearchProvider with ChangeNotifier {
     }
 
     if (isSelect != null && !isSelect! && selectedRates.isNotEmpty) {
-      apiUrl = "${api.service}?zone_ids=$zoneIds&distance=$slider&rating$selectedRates";
+      apiUrl =
+          "${api.service}?zone_ids=$zoneIds&distance=$slider&rating$selectedRates";
     }
 
     if (isSelect != null && !isSelect! && selectedCategory.isNotEmpty) {
-      apiUrl = "${api.service}?zone_ids=$zoneIds&distance=$slider&categoryIds$selectedCategory";
+      apiUrl =
+          "${api.service}?zone_ids=$zoneIds&distance=$slider&categoryIds$selectedCategory";
     }
 
-    if (isSelect != null && !isSelect! && selectedRates.isNotEmpty && selectedCategory.isNotEmpty) {
-      apiUrl = "${api.service}?zone_ids=$zoneIds&distance=$slider&rating$selectedRates&categoryIds$selectedCategory";
+    if (isSelect != null &&
+        !isSelect! &&
+        selectedRates.isNotEmpty &&
+        selectedCategory.isNotEmpty) {
+      apiUrl =
+          "${api.service}?zone_ids=$zoneIds&distance=$slider&rating$selectedRates&categoryIds$selectedCategory";
     }
 
     if (lowerVal != 0 && upperVal != 100 && selectedCategory.isNotEmpty) {
-      apiUrl = "${api.service}?categoryIds=$selectedCategory&min=$lowerVal&max$upperVal&zone_ids=$zoneIds";
+      apiUrl =
+          "${api.service}?categoryIds=$selectedCategory&min=$lowerVal&max$upperVal&zone_ids=$zoneIds";
     }
 
     if (lowerVal != 0 && upperVal != 100 && selectedRates.isNotEmpty) {
-      apiUrl = "${api.service}?rating=$selectedRates&min=$lowerVal&max$upperVal&zone_ids=$zoneIds";
+      apiUrl =
+          "${api.service}?rating=$selectedRates&min=$lowerVal&max$upperVal&zone_ids=$zoneIds";
     }
 
-    if (lowerVal != 0 && upperVal != 100 && selectedRates.isNotEmpty && selectedCategory.isNotEmpty) {
+    if (lowerVal != 0 &&
+        upperVal != 100 &&
+        selectedRates.isNotEmpty &&
+        selectedCategory.isNotEmpty) {
       apiUrl =
           "${api.service}?categoryIds=$selectedCategory&rating=$selectedRates&min=$lowerVal&max$upperVal&zone_ids=$zoneIds";
     }
 
-    if (lowerVal != 0 && upperVal != 100 && selectedCategory.isNotEmpty && selectedRates.isNotEmpty && isSelect!) {
+    if (lowerVal != 0 &&
+        upperVal != 100 &&
+        selectedCategory.isNotEmpty &&
+        selectedRates.isNotEmpty &&
+        isSelect!) {
       apiUrl =
           "${api.service}?categoryIds=$selectedCategory&min=$lowerVal&max$upperVal&zone_ids=$zoneIds&distance=$slider&rating=$selectedRates";
     }
 
     if (lowerVal != 0 && upperVal != 100 && isSelect!) {
-      apiUrl = "${api.service}?min=$lowerVal&max$upperVal&zone_ids=$zoneIds&distance=$slider";
+      apiUrl =
+          "${api.service}?min=$lowerVal&max$upperVal&zone_ids=$zoneIds&distance=$slider";
     }
     if (searchCtrl.text.isNotEmpty) {
       apiUrl = "${api.service}?zone_ids=$zoneIds&search=${searchCtrl.text}";
@@ -344,11 +369,15 @@ class SearchProvider with ChangeNotifier {
       route.pop(context);
       route.pushNamed(context, routeName.cartScreen);
     } else {
-      final providerDetail = Provider.of<ProviderDetailsProvider>(context, listen: false);
+      final providerDetail =
+          Provider.of<ProviderDetailsProvider>(context, listen: false);
       providerDetail.selectProviderIndex = 0;
       providerDetail.notifyListeners();
-      onBook(context, services!, addTap: () => onAdd(id), minusTap: () => onRemoveService(context, id)).then((e) {
-        searchList[id].selectedRequiredServiceMan = searchList[id].requiredServicemen;
+      onBook(context, services!,
+          addTap: () => onAdd(id),
+          minusTap: () => onRemoveService(context, id)).then((e) {
+        searchList[id].selectedRequiredServiceMan =
+            searchList[id].requiredServicemen;
         notifyListeners();
       });
     }
@@ -361,7 +390,8 @@ class SearchProvider with ChangeNotifier {
     if (save == null) {
       saveList.add(services!);
     } else {
-      final List<dynamic> jsonData = jsonDecode(pref!.getString(session.recentSearch) ?? '[]');
+      final List<dynamic> jsonData =
+          jsonDecode(pref!.getString(session.recentSearch) ?? '[]');
 
       saveList = jsonData.map<Services>((jsonList) {
         return Services.fromJson(jsonList);
@@ -385,13 +415,15 @@ class SearchProvider with ChangeNotifier {
 
     pref!.setString(session.recentSearch, jsonEncode(saveList));
     notifyListeners();
-    route.pushNamed(context, routeName.servicesDetailsScreen, arg: {'services': services!});
+    route.pushNamed(context, routeName.servicesDetailsScreen,
+        arg: {'services': services!});
   }
 
   getMaxPrice(context) async {
     try {
-      await apiServices
-          .getApi("${api.service}?latitude=${position!.latitude}&longitude=${position!.latitude}", []).then((value) {
+      await apiServices.getApi(
+          "${api.service}?latitude=${position!.latitude}&longitude=${position!.latitude}",
+          []).then((value) {
         if (value.isSuccess!) {
           List<Services> serviceList = [];
           for (var data in value.data) {
@@ -423,7 +455,8 @@ class SearchProvider with ChangeNotifier {
       isAlert = false;
       notifyListeners();
     } else {
-      if ((searchList[index].requiredServicemen!) == (searchList[index].selectedRequiredServiceMan!)) {
+      if ((searchList[index].requiredServicemen!) ==
+          (searchList[index].selectedRequiredServiceMan!)) {
         isAlert = true;
         notifyListeners();
         await Future.delayed(DurationClass.s3);
@@ -432,7 +465,8 @@ class SearchProvider with ChangeNotifier {
       } else {
         isAlert = false;
         notifyListeners();
-        searchList[index].selectedRequiredServiceMan = ((searchList[index].selectedRequiredServiceMan!) - 1);
+        searchList[index].selectedRequiredServiceMan =
+            ((searchList[index].selectedRequiredServiceMan!) - 1);
       }
     }
     notifyListeners();

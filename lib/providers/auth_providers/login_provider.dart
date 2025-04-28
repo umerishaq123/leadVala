@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:leadvala/config.dart';
 import 'package:leadvala/widgets/alert_message_common.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -14,6 +15,7 @@ class LoginProvider with ChangeNotifier {
   final FocusNode emailFocus = FocusNode();
   final FocusNode passwordFocus = FocusNode();
   bool isPassword = true;
+  var dio = Dio();
 
   onLogin(context) {
     FocusManager.instance.primaryFocus?.unfocus();
@@ -66,7 +68,7 @@ class LoginProvider with ChangeNotifier {
   socialLogin(context, User user) async {
     showLoading(context);
     notifyListeners();
-    String token = await getFcmToken();
+    String? token = await getFcmToken();
     print('print to $token');
     var body = {
       "login_type": "google",
@@ -120,24 +122,74 @@ class LoginProvider with ChangeNotifier {
     }
   }
 
-  //login
+  // login(contex) async {
+  //   var headers = {'Content-Type': 'application/json'};
+  //   var data = json.encode({
+  //     "email": "test99@gmail.com",
+  //     "password": "123456789",
+  //     "fcm_token":
+  //         "es8jHB28LPDu-yquGkViap:APA91bFarkljA6-jN0AVemdKAijNzm-SZtuwNz9lcYw_QpupsZWBKQTOEBCMVS7qg4c0SwairDdwpiQezy5nOBx-X0J3wlmt0cdnN7eLLwZWArsqRvvClao"
+  //   });
+  //   var dio = Dio();
+  //   var response = await dio.request(
+  //     'https://leadvala.com/api/login',
+  //     options: Options(
+  //       method: 'POST',
+  //       headers: headers,
+  //     ),
+  //     data: data,
+  //   );
+  //   // print('showing of response of data ???//??${response.data}');
+  //   // if (response.statusCode == 200) {
+  //   //   print(json.encode(response.data));
+  //   // } else {
+  //   //   print(response.statusMessage);
+  //   // }
+  // }
+
+  // login(context) async {
+  //   try {
+  //     pref = await SharedPreferences.getInstance();
+
+  //     String? token = await getFcmToken();
+  //     print('print to  login fcm token ?>>>1 $token???????? ');
+  //     showLoading(context);
+  //     var headers = {'Content-Type': 'application/json'};
+  //     var body = {
+  //       "email": emailController.text,
+  //       "password": passwordController.text,
+  //       "fcm_token": token
+  //     };
+  //     print('body ....>>>>${body}');
+
+  //     var response = await dio.request(
+  //       'https://leadvala.com/api/login',
+  //       options: Options(
+  //         method: 'POST',
+  //         headers: headers,
+  //       ),
+  //       data: body,
+  //     );
+  //     print('response code ${response.statusCode}');
+  //   } catch (e) {
+  //     print('response code???//??? $e');
+  //   }
+  // }
+
   login(context) async {
+    print('login function call');
     try {
       pref = await SharedPreferences.getInstance();
-      String token = await getFcmToken();
-      print('print to  login fcm token ? $token ');
-      showLoading(context);
 
+      String? token = await getFcmToken();
+      print('print to  login fcm token ?>>>1 $token???????? ');
+      showLoading(context);
       var body = {
         "email": emailController.text,
         "password": passwordController.text,
         "fcm_token": token
       };
-      print('tokem check to screen:::>>>>${token}');
       print('body ....>>>>${body}');
-
-      log('fcm_token:$token');
-      log("body : $body");
 
       await apiServices
           .postApi(api.login, jsonEncode(body))
@@ -189,15 +241,18 @@ class LoginProvider with ChangeNotifier {
           hideLoading(context);
           emailController.text = "";
           passwordController.text = "";
-          // route.pushReplacementNamed(context, routeName.dashboard);
+          route.pushReplacementNamed(context, routeName.dashboard);
           notifyListeners();
         } else {
+          print('else part');
           hideLoading(context);
           snackBarMessengers(context,
               message: value.message, color: appColor(context).red);
         }
+        print('login data ${value.data}');
       });
     } catch (e) {
+      print('showing this error on this time??? $e');
       hideLoading(context);
       notifyListeners();
       log("CATCH login: $e");

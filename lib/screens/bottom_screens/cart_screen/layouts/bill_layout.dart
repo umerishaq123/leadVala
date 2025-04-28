@@ -1,12 +1,9 @@
 import 'dart:developer';
 
-import 'package:leadvala/providers/app_pages_providers/pending_booking_provider.dart';
-
 import '../../../../config.dart';
 
 class BillLayout extends StatelessWidget {
   const BillLayout({super.key});
-
   @override
   Widget build(BuildContext context) {
     final value = Provider.of<CartProvider>(context, listen: true);
@@ -49,7 +46,6 @@ class BillLayout extends StatelessWidget {
                           .map((e) {
                         int total = getTotalRequiredServiceMan(
                             value.cartList, e.serviceId!, false);
-
                         return (value.checkoutModel?.services?.first.total
                                         ?.totalServicemen ??
                                     0) >

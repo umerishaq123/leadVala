@@ -9,8 +9,11 @@ import '../../models/app_setting_model.dart';
 class CommonApiProvider extends ChangeNotifier {
   //self api
   var dio = Dio();
+  UserModel? _userModel; // Store user data here
 
-  selfApi(context) async {
+  UserModel? get userModel => _userModel; // Getter for UI access
+
+  Future<void> selfApi(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString("accessToken") ?? "NO_TOKEN";
 
@@ -31,34 +34,78 @@ class CommonApiProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         print('✅ API Response: ${json.encode(response.data)}');
 
-        // ✅ Ensure 'user' key exists
         if (!response.data.containsKey("user") ||
             response.data["user"] == null) {
           print("❌ ERROR: 'user' key is missing or null in API response!");
           return;
         }
+
+        // ✅ Set the userModel and call notifyListeners()
+        _userModel = UserModel.fromJson(response.data["user"]);
+        print('🔹 Parsed UserModel: ${json.encode(_userModel!.toJson())}');
+        print('🟢 Wallet Balance: ${_userModel!.wallet?.balance}');
+
+        await prefs.setString(session.user, json.encode(_userModel!.toJson()));
+
+        // ✅ Ensure UI updates with new data
         notifyListeners();
-        // ✅ Correct Parsing
-        UserModel userModel = UserModel.fromJson(response.data["user"]);
-        print('🔹 Parsed UserModel: ${json.encode(userModel.toJson())}');
-
-        // ✅ Save UserModel to SharedPreferences
-        await prefs.setString(session.user, json.encode(userModel.toJson()));
-
-        // ✅ Verify Data in SharedPreferences
-        String? storedData = prefs.getString(session.user);
-        print("🔵 Stored User Data in SharedPreferences: $storedData");
-
-        notifyListeners();
-        return;
       } else {
         print('⚠️ API Error: ${response.statusMessage}');
       }
     } catch (e) {
       print('❌ API Call Failed: $e');
     }
-    notifyListeners();
   }
+//  tempory stope
+  // selfApi(context) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String? token = prefs.getString("accessToken") ?? "NO_TOKEN";
+
+  //   var headers = {
+  //     'Content-Type': 'application/json',
+  //     'Accept': 'application/json',
+  //     'Authorization': 'Bearer $token',
+  //   };
+
+  //   try {
+  //     print('🚀 Calling self API...');
+
+  //     var response = await dio.get(
+  //       api.self,
+  //       options: Options(headers: headers),
+  //     );
+
+  //     if (response.statusCode == 200) {
+  //       print('✅ API Response:???//hello ${json.encode(response.data)}');
+
+  //       // ✅ Ensure 'user' key exists
+  //       if (!response.data.containsKey("user") ||
+  //           response.data["user"] == null) {
+  //         print("❌ ERROR: 'user' key is missing or null in API response!");
+  //         return;
+  //       }
+  //       notifyListeners();
+  //       // ✅ Correct Parsing
+  //       UserModel userModel = UserModel.fromJson(response.data["user"]);
+  //       print('🔹 Parsed UserModel: ${json.encode(userModel.toJson())}');
+  //       print('showing data of this wallet??${userModel.wallet!.balance}');
+  //       // ✅ Save UserModel to SharedPreferences
+  //       await prefs.setString(session.user, json.encode(userModel.toJson()));
+
+  //       // ✅ Verify Data in SharedPreferences
+  //       String? storedData = prefs.getString(session.user);
+  //       print("🔵 Stored User Data in SharedPreferences: $storedData");
+
+  //       notifyListeners();
+  //       return;
+  //     } else {
+  //       print('⚠️ API Error: ${response.statusMessage}');
+  //     }
+  //   } catch (e) {
+  //     print('❌ API Call Failed: $e');
+  //   }
+  //   notifyListeners();
+  // }
 
   // selfApi(context) async {
   //   var body = {};

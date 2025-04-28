@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:leadvala/config.dart';
@@ -51,7 +50,9 @@ class EditReviewProvider with ChangeNotifier {
                         : 5
       };
 
-      await apiServices.putApi("${api.review}/${review!.id}", body, isToken: true).then((value) async {
+      await apiServices
+          .putApi("${api.review}/${review!.id}", body, isToken: true)
+          .then((value) async {
         hideLoading(context);
 
         notifyListeners();
@@ -73,7 +74,8 @@ class EditReviewProvider with ChangeNotifier {
               });
         } else {
           log("value.message :${value.message}");
-          snackBarMessengers(context, message: value.message, color: appColor(context).red);
+          snackBarMessengers(context,
+              message: value.message, color: appColor(context).red);
         }
       });
     } catch (e) {

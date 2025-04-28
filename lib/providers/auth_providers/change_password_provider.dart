@@ -2,9 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:leadvala/config.dart';
-import 'package:leadvala/widgets/alert_dialog_common.dart';
 import 'package:leadvala/widgets/alert_message_common.dart';
-import 'package:flutter/cupertino.dart';
 import 'dart:ui' as ui;
 
 import 'package:flutter/services.dart';
@@ -59,14 +57,18 @@ class ChangePasswordProvider extends ChangeNotifier {
     };
 
     try {
-      await apiServices.putApi(api.updatePassword, body, isToken: true).then((value) {
+      await apiServices
+          .putApi(api.updatePassword, body, isToken: true)
+          .then((value) {
         hideLoading(context);
         notifyListeners();
         if (value.isSuccess!) {
-          snackBarMessengers(context, message: value.message, color: appColor(context).primary);
+          snackBarMessengers(context,
+              message: value.message, color: appColor(context).primary);
         } else {
           log("VVVV : ${value.message}");
-          snackBarMessengers(context, message: value.message, color: appColor(context).red);
+          snackBarMessengers(context,
+              message: value.message, color: appColor(context).red);
         }
       });
     } catch (e) {
@@ -95,7 +97,8 @@ class ChangePasswordProvider extends ChangeNotifier {
       email = data['email'];
       otp = data['otp'];
     } else {
-      userModel = UserModel.fromJson(json.decode(preferences.getString(session.user)!));
+      userModel =
+          UserModel.fromJson(json.decode(preferences.getString(session.user)!));
       email = userModel!.email;
     }
     notifyListeners();

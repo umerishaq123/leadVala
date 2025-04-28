@@ -106,23 +106,41 @@ class BookingModel {
     bookingNumber = json['booking_number']?.toString();
     consumerId = json['consumer_id'];
     couponId = json['coupon_id'];
-    taxTotal = json['tax_total'] != null ? double.tryParse(json['tax_total'].toString()) : null;
-    walletBalance = json['wallet_balance'] != null ? double.tryParse(json['wallet_balance'].toString()) : null;
-    convertWalletBalance = json['convert_wallet_balance'] != null ? double.tryParse(json['convert_wallet_balance'].toString()) : null;
+    taxTotal = json['tax_total'] != null
+        ? double.tryParse(json['tax_total'].toString())
+        : null;
+    walletBalance = json['wallet_balance'] != null
+        ? double.tryParse(json['wallet_balance'].toString())
+        : null;
+    convertWalletBalance = json['convert_wallet_balance'] != null
+        ? double.tryParse(json['convert_wallet_balance'].toString())
+        : null;
     providerId = json['provider_id'];
     serviceId = json['service_id'];
     servicePackageId = json['service_package_id'];
     addressId = json['address_id'];
-    servicePrice = json['service_price'] != null ? double.tryParse(json['service_price'].toString()) : null;
+    servicePrice = json['service_price'] != null
+        ? double.tryParse(json['service_price'].toString())
+        : null;
     tax = json['tax'] != null ? double.tryParse(json['tax'].toString()) : null;
-    perServicemanCharge = json['per_serviceman_charge'] != null ? double.tryParse(json['per_serviceman_charge'].toString()) : null;
+    perServicemanCharge = json['per_serviceman_charge'] != null
+        ? double.tryParse(json['per_serviceman_charge'].toString())
+        : null;
     totalExtraServicemen = json['total_extra_servicemen'];
     totalServicemen = json['total_servicemen'];
     requiredServicemen = json['required_servicemen'];
-    totalExtraServicemenCharge = json['total_extra_servicemen_charge'] != null ? double.tryParse(json['total_extra_servicemen_charge'].toString()) : null;
-    couponTotalDiscount = json['coupon_total_discount'] != null ? double.tryParse(json['coupon_total_discount'].toString()) : null;
-    subtotal = json['subtotal'] != null ? double.tryParse(json['subtotal'].toString()) : null;
-    total = json['total'] != null ? double.tryParse(json['total'].toString()) : null;
+    totalExtraServicemenCharge = json['total_extra_servicemen_charge'] != null
+        ? double.tryParse(json['total_extra_servicemen_charge'].toString())
+        : null;
+    couponTotalDiscount = json['coupon_total_discount'] != null
+        ? double.tryParse(json['coupon_total_discount'].toString())
+        : null;
+    subtotal = json['subtotal'] != null
+        ? double.tryParse(json['subtotal'].toString())
+        : null;
+    total = json['total'] != null
+        ? double.tryParse(json['total'].toString())
+        : null;
     dateTime = json['date_time'];
     bookingStatusId = json['booking_status_id'];
     paymentMethod = json['payment_method']?.toString();
@@ -133,11 +151,16 @@ class BookingModel {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    platformFees = json['platform_fees'] != null ? double.tryParse(json['platform_fees'].toString()) : null;
+    platformFees = json['platform_fees'] != null
+        ? double.tryParse(json['platform_fees'].toString())
+        : null;
     platformFeesType = json['platform_fees_type']?.toString();
     role = json['role']?.toString();
-    provider = json['provider'] != null ? BookingProviderModel.fromJson(json['provider']) : null;
-    service = json['service'] != null ? Services.fromJson(json['service']) : null;
+    provider = json['provider'] != null
+        ? BookingProviderModel.fromJson(json['provider'])
+        : null;
+    service =
+        json['service'] != null ? Services.fromJson(json['service']) : null;
 
     if (json['servicemen'] != null) {
       servicemen = <ServicemanModel>[];
@@ -146,9 +169,13 @@ class BookingModel {
       });
     }
 
-    coupon = json['coupon'] != null ? CouponModel.fromJson(json['coupon']) : null;
-    bookingStatus = json['booking_status'] != null ? BookingStatus.fromJson(json['booking_status']) : null;
-    consumer = json['consumer'] != null ? UserModel.fromJson(json['consumer']) : null;
+    coupon =
+        json['coupon'] != null ? CouponModel.fromJson(json['coupon']) : null;
+    bookingStatus = json['booking_status'] != null
+        ? BookingStatus.fromJson(json['booking_status'])
+        : null;
+    consumer =
+        json['consumer'] != null ? UserModel.fromJson(json['consumer']) : null;
 
     if (json['booking_status_logs'] != null) {
       bookingStatusLogs = <BookingStatusLogs>[];
@@ -164,7 +191,9 @@ class BookingModel {
       });
     }
 
-    address = json['address'] != null ? PrimaryAddress.fromJson(json['address']) : null;
+    address = json['address'] != null
+        ? PrimaryAddress.fromJson(json['address'])
+        : null;
 
     if (json['booking_reasons'] != null) {
       bookingReasons = <BookingReasons>[];
@@ -228,7 +257,8 @@ class BookingModel {
       data['booking_status'] = bookingStatus!.toJson();
     }
     if (bookingStatusLogs != null) {
-      data['booking_status_logs'] = bookingStatusLogs!.map((v) => v.toJson()).toList();
+      data['booking_status_logs'] =
+          bookingStatusLogs!.map((v) => v.toJson()).toList();
     }
     if (consumer != null) {
       data['consumer'] = consumer!.toJson();
@@ -246,7 +276,6 @@ class BookingModel {
     return data;
   }
 }
-
 
 class Status {
   int? id;
@@ -298,7 +327,9 @@ class BookingReasons {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    status = json['status'] != null ? BookingStatusModel.fromJson(json['status']) : null;
+    status = json['status'] != null
+        ? BookingStatusModel.fromJson(json['status'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -343,14 +374,17 @@ class UserDetail {
     id = json['id'];
     name = json['name'];
     reviewRatings = json['review_ratings'];
-    primaryAddress = json['primary_address'] != null ? PrimaryAddress.fromJson(json['primary_address']) : null;
+    primaryAddress = json['primary_address'] != null
+        ? PrimaryAddress.fromJson(json['primary_address'])
+        : null;
     if (json['media'] != null) {
       media = <Media>[];
       json['media'].forEach((v) {
         media!.add(Media.fromJson(v));
       });
     }
-    wallet = json['wallet'] != null ? WalletModel.fromJson(json['wallet']) : null;
+    wallet =
+        json['wallet'] != null ? WalletModel.fromJson(json['wallet']) : null;
     if (json['known_languages'] != null) {
       knownLanguages = <KnownLanguageModel>[];
       json['known_languages'].forEach((v) {
@@ -426,7 +460,9 @@ class BookingStatusLogs {
     description = json['description'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    status = json['status'] != null ? BookingStatusModel.fromJson(json['status']) : null;
+    status = json['status'] != null
+        ? BookingStatusModel.fromJson(json['status'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -504,8 +540,12 @@ class BookingProviderModel {
     experienceDuration = json['experience_duration'];
     email = json['email'];
     phone = json['phone']?.toString();
-    reviewRatings = json['review_ratings'] != null ? double.parse(json['review_ratings'].toString()) : null;
-    primaryAddress = json['primary_address'] != null ? PrimaryAddress.fromJson(json['primary_address']) : null;
+    reviewRatings = json['review_ratings'] != null
+        ? double.parse(json['review_ratings'].toString())
+        : null;
+    primaryAddress = json['primary_address'] != null
+        ? PrimaryAddress.fromJson(json['primary_address'])
+        : null;
     if (json['media'] != null) {
       media = <Media>[];
       json['media'].forEach((v) {

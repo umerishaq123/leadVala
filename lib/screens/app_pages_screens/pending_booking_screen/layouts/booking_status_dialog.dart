@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import '../../../../config.dart';
 
@@ -26,7 +24,7 @@ class BookingStatusDialog extends StatelessWidget {
                       child: Column(children: [
                 Container(
                         height: Sizes.s46,
-                    width: MediaQuery.of(context).size.width,
+                        width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                             image: DecorationImage(
                                 fit: BoxFit.fill,
@@ -37,12 +35,13 @@ class BookingStatusDialog extends StatelessWidget {
                             children: [
                               Text(
                                   "\u2022 ${language(context, appFonts.bookingId)}",
-                                  style: appCss.dmDenseMedium12.textColor(
-                                      appColor(context).primary)),
+                                  style: appCss.dmDenseMedium12
+                                      .textColor(appColor(context).primary)),
                               Text("#${bookingModel!.bookingNumber}",
-                                  style: appCss.dmDenseMedium14.textColor(
-                                      appColor(context).primary))
-                            ]).paddingSymmetric(horizontal: MediaQuery.of(context).size.width /20))
+                                  style: appCss.dmDenseMedium14
+                                      .textColor(appColor(context).primary))
+                            ]).paddingSymmetric(
+                            horizontal: MediaQuery.of(context).size.width / 20))
                     .paddingOnly(top: Insets.i25, bottom: Insets.i20),
                 if (bookingModel!.bookingStatusLogs!.isNotEmpty)
                   ...bookingModel!.bookingStatusLogs!.reversed

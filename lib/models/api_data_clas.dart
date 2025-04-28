@@ -1,5 +1,3 @@
-import 'package:leadvala/config.dart';
-
 class APIDataClass {
   String message;
   bool? isSuccess;

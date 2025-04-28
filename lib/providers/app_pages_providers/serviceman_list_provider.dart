@@ -34,7 +34,8 @@ class ServicemanListProvider with ChangeNotifier {
         selectCategory.add(d.id); // select
       }
     }
-    animationController = AnimationController(vsync: sync, duration: const Duration(milliseconds: 1200));
+    animationController = AnimationController(
+        vsync: sync, duration: const Duration(milliseconds: 1200));
     _runAnimation();
     notifyListeners();
 
@@ -75,8 +76,10 @@ class ServicemanListProvider with ChangeNotifier {
 
   void onCategorySelected(context, index, indexKey, name) async {
     if (int.parse(requiredServiceman ?? "1") == 1) {
-      final selectProvider = Provider.of<ServiceSelectProvider>(context, listen: false);
-      bool isValid = await selectProvider.checkSlotAvailable(context, index, indexKey);
+      final selectProvider =
+          Provider.of<ServiceSelectProvider>(context, listen: false);
+      bool isValid =
+          await selectProvider.checkSlotAvailable(context, index, indexKey);
       if (isValid) {
         selectedIndex = indexKey;
       } else {
@@ -86,11 +89,14 @@ class ServicemanListProvider with ChangeNotifier {
       if (selectCategory.contains(index)) {
         selectCategory.remove(index); // unselect
       } else {
-        final selectProvider = Provider.of<ServiceSelectProvider>(context, listen: false);
-        bool isValid = await selectProvider.checkSlotAvailable(context, index, indexKey);
+        final selectProvider =
+            Provider.of<ServiceSelectProvider>(context, listen: false);
+        bool isValid =
+            await selectProvider.checkSlotAvailable(context, index, indexKey);
         if (selectCategory.length == int.parse(requiredServiceman ?? "1")) {
           //   snackBarMessengers(context,message: "Only $requiredServiceman required person");
-          snackBarMessengers(context, message: "Only $requiredServiceman required person");
+          snackBarMessengers(context,
+              message: "Only $requiredServiceman required person");
         } else {
           log(" isValid :$isValid");
           if (isValid) {
@@ -137,7 +143,8 @@ class ServicemanListProvider with ChangeNotifier {
         rate = selectedRates.join(', ');
 
         log("rate: $rate");
-        apiUrl = "${api.serviceman}?provider_id=$id&experience=${yearValue == 1 ? "low" : "high"}&rating=$rate";
+        apiUrl =
+            "${api.serviceman}?provider_id=$id&experience=${yearValue == 1 ? "low" : "high"}&rating=$rate";
       } else {
         apiUrl =
             "${api.serviceman}?provider_id=$id&experience=${yearValue == 1 ? "low" : "high"}&search=${controller.text}";

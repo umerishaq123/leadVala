@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:leadvala/screens/app_pages_screens/category_detail_screen/category_detail_shimmer/category_detail_shimmer.dart';
 
 import '../../../config.dart';
@@ -157,19 +155,29 @@ class CategoryDetailScreen extends StatelessWidget {
                                         .asMap()
                                         .entries
                                         .map((e) => FeaturedServicesLayout(
-                                            data: e.value,
-                                            isProvider: false,
-                                            inCart:
-                                                isInCart(context, e.value.id),
-                                            addTap: () => value.getProviderById(
-                                                context,
-                                                e.value.userId,
-                                                e.key,
-                                                e.value),
-                                            onTap: () => value.getServiceById(
-                                                context,
-                                                e.value.id)).paddingSymmetric(
-                                            horizontal: Insets.i20))
+                                                data: e.value,
+                                                isProvider: false,
+                                                inCart: isInCart(
+                                                    context, e.value.id),
+                                                addTap: () {
+                                                  print('call 1');
+
+                                                  value.getServiceById(
+                                                      context, e.value.id);
+                                                  // value.getProviderById(
+                                                  //     context,
+                                                  //     e.value.userId,
+                                                  //     e.key,
+                                                  //     e.value);
+                                                },
+                                                onTap: () {
+                                                  print('call 2');
+
+                                                  // value.getServiceById(
+                                                  //     context, e.value.id);
+                                                })
+                                            .paddingSymmetric(
+                                                horizontal: Insets.i20))
                                         .toList(),
                                   ).marginOnly(top: Insets.i15);
                                 })

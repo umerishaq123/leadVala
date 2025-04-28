@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:leadvala/config.dart';
-import 'package:leadvala/widgets/alert_dialog_common.dart';
 import 'package:leadvala/widgets/alert_message_common.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:ui' as ui;
@@ -53,7 +52,9 @@ class ResetPasswordProvider extends ChangeNotifier {
     };
 
     try {
-      await apiServices.postApi(api.updatePassword, jsonEncode(body)).then((value) {
+      await apiServices
+          .postApi(api.updatePassword, jsonEncode(body))
+          .then((value) {
         hideLoading(context);
         notifyListeners();
         if (value.isSuccess!) {
@@ -77,9 +78,13 @@ class ResetPasswordProvider extends ChangeNotifier {
                       MaterialPageRoute(
                           builder: (_) => MultiProvider(
                                   providers: [
-                                    ChangeNotifierProvider(create: (_) => LoginProvider()),
-                                    ChangeNotifierProvider(create: (_) => ForgetPasswordProvider()),
-                                    ChangeNotifierProvider(create: (_) => VerifyOtpProvider()),
+                                    ChangeNotifierProvider(
+                                        create: (_) => LoginProvider()),
+                                    ChangeNotifierProvider(
+                                        create: (_) =>
+                                            ForgetPasswordProvider()),
+                                    ChangeNotifierProvider(
+                                        create: (_) => VerifyOtpProvider()),
                                   ],
                                   child: const LoginScreen(),
                                   builder: (context, child) {
@@ -91,7 +96,8 @@ class ResetPasswordProvider extends ChangeNotifier {
           );
         } else {
           log("VVVV : ${value.message}");
-          snackBarMessengers(context, message: value.message, color: appColor(context).red);
+          snackBarMessengers(context,
+              message: value.message, color: appColor(context).red);
         }
       });
     } catch (e) {

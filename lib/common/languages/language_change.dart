@@ -1,16 +1,13 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:leadvala/common/languages/language_helper.dart';
 import 'package:leadvala/config.dart';
-import 'package:rate_my_app/rate_my_app.dart';
 
 class LanguageProvider with ChangeNotifier {
   String currentLanguage = appFonts.english;
   Locale? locale;
   int selectedIndex = 0;
   final SharedPreferences sharedPreferences;
-
 
   LanguageProvider(this.sharedPreferences) {
     var selectedLocale = sharedPreferences.getString("selectedLocale");
@@ -25,7 +22,6 @@ class LanguageProvider with ChangeNotifier {
     }
 
     setVal(selectedLocale);
-
   }
 
   LanguageHelper languageHelper = LanguageHelper();
@@ -79,9 +75,8 @@ class LanguageProvider with ChangeNotifier {
     changeLocale(currentLanguage);
   }
 
-  setIndex(index){
+  setIndex(index) {
     selectedIndex = index;
     notifyListeners();
-
   }
 }

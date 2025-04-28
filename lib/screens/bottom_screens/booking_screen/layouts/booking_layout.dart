@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-
 import '../../../../config.dart';
 
 import 'package:leadvala/models/booking_response_model.dart' as booking_model;

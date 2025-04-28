@@ -1,4 +1,3 @@
-import 'package:country_list_pick/country_list_pick.dart';
 import 'package:leadvala/config.dart';
 import 'package:leadvala/widgets/country_picker_custom/country_code_custom.dart';
 import 'package:flutter/gestures.dart';
@@ -8,12 +7,15 @@ class RegisterWidgetClass {
   Widget notMember(context) => RichText(
           text: TextSpan(
               text: language(context, appFonts.alreadyMember),
-              style: appCss.dmDenseMedium14.textColor(appColor(context).lightText),
+              style:
+                  appCss.dmDenseMedium14.textColor(appColor(context).lightText),
               children: <TextSpan>[
             TextSpan(
-                recognizer: TapGestureRecognizer()..onTap = () => route.pop(context),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () => route.pop(context),
                 text: " ${language(context, appFonts.loginUp)}",
-                style: appCss.dmDenseSemiBold16.textColor(appColor(context).primary))
+                style: appCss.dmDenseSemiBold16
+                    .textColor(appColor(context).primary))
           ])).alignment(Alignment.center);
 
   //phone textBox
@@ -22,7 +24,8 @@ class RegisterWidgetClass {
           ValueChanged<String>? onFieldSubmitted,
           double? hPadding,
           dialCode}) =>
-      Consumer2<ProfileDetailProvider, RegisterProvider>(builder: (context1, value, register, child) {
+      Consumer2<ProfileDetailProvider, RegisterProvider>(
+          builder: (context1, value, register, child) {
         return IntrinsicHeight(
           child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
             CountryListLayout(
@@ -33,7 +36,8 @@ class RegisterWidgetClass {
             Expanded(
                 child: TextFieldCommon(
                     keyboardType: TextInputType.number,
-                    validator: (phone) => Validation().phoneValidation(context, phone),
+                    validator: (phone) =>
+                        Validation().phoneValidation(context, phone),
                     controller: controller,
                     onFieldSubmitted: onFieldSubmitted,
                     focusNode: focus,

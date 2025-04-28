@@ -1,9 +1,6 @@
 import 'dart:async';
 
-import 'package:leadvala/providers/auth_providers/splash_apis.dart';
-
 import '../../../config.dart';
-import '../../../widgets/alert_message_common.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
