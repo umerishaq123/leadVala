@@ -157,52 +157,52 @@ class PaymentScreen extends StatelessWidget {
 
 /*22-03
 
- if (value.bookingId == 0)
+ // if (value.bookingId == 0)
 
-                        if (userModel?.wallet?.balance != null &&
-                            userModel!.wallet!.balance! >
-                                0 && // Wallet balance should not be zero
-                            userModel!.wallet!.balance! >=
-                                ((value.checkoutModel?.total?.total) ?? 0.0))
-                          const WalletOptionSelection()
-                              .paddingSymmetric(horizontal: Insets.i20),
+                        // if (userModel?.wallet?.balance != null &&
+                        //     userModel!.wallet!.balance! >
+                        //         0 && // Wallet balance should not be zero
+                        //     userModel!.wallet!.balance! >=
+                        //         ((value.checkoutModel?.total?.total) ?? 0.0))
+                        //   const WalletOptionSelection()
+                        //       .paddingSymmetric(horizontal: Insets.i20),
 
-                        if (walletBalance > 0 && walletBalance >= totalAmount)
-                          GestureDetector(
-                            behavior: HitTestBehavior
-                                .opaque, // Ensures tap is detected
-                            onTap: () {
-                              print('✅ Wallet Option Tapped!');
-                              value.onSelectPaymentMethod(-1, "wallet");
+                        // if (walletBalance > 0 && walletBalance >= totalAmount)
+                        //   GestureDetector(
+                        //     behavior: HitTestBehavior
+                        //         .opaque, // Ensures tap is detected
+                        //     onTap: () {
+                        //       print('✅ Wallet Option Tapped!');
+                        //       value.onSelectPaymentMethod(-1, "wallet");
 
-                              log("✅ Wallet option selected! New method: ${value.selectedPaymentMethod}");
-                            },
-                            child: Container(
-                              color: Colors.transparent, // Ensure it's tappable
-                              child: WalletOptionSelection()
-                                  .paddingSymmetric(horizontal: Insets.i20),
-                            ),
-                          ),
+                        //       log("✅ Wallet option selected! New method: ${value.selectedPaymentMethod}");
+                        //     },
+                        //     child: Container(
+                        //       color: Colors.transparent, // Ensure it's tappable
+                        //       child: WalletOptionSelection()
+                        //           .paddingSymmetric(horizontal: Insets.i20),
+                        //     ),
+                        //   ),
 
-                        ...paymentMethods
-                            .where((element) => element.status == true)
-                            .toList()
-                            .asMap()
-                            .entries
-                            .map((e) => PaymentMethodLayout(
-                                index: e.key,
-                                data: e.value,
-                                selectIndex: value.selectIndex,
-                                onTap: () {
-                                  print(
-                                      'showing value of this time??/1${e.value}');
-                                  print(
-                                      'showing value of this time??/2${value.selectIndex}');
-                                  value.onSelectPaymentMethod(
-                                      e.key, e.value.slug.toString());
+                        // ...paymentMethods
+                        //     .where((element) => element.status == true)
+                        //     .toList()
+                        //     .asMap()
+                        //     .entries
+                        //     .map((e) => PaymentMethodLayout(
+                        //         index: e.key,
+                        //         data: e.value,
+                        //         selectIndex: value.selectIndex,
+                        //         onTap: () {
+                        //           print(
+                        //               'showing value of this time??/1${e.value}');
+                        //           print(
+                        //               'showing value of this time??/2${value.selectIndex}');
+                        //           value.onSelectPaymentMethod(
+                        //               e.key, e.value.slug.toString());
 
-                                  // value.onSelectPaymentMethod(
-                                  //     e.key, e.value.slug);
-                                }))
-                            .toList(),
+                        //           // value.onSelectPaymentMethod(
+                        //           //     e.key, e.value.slug);
+                        //         }))
+                        //     .toList(),
 */

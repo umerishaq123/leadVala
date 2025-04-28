@@ -45,7 +45,7 @@ dependencies:
   #marquee: ^2.2.3
   image: ^4.1.4
 
-  figma_squircle: ^0.5.3
+  #figma_squircle: ^0.5.3
   pinput: ^3.0.1
   fluttertoast: ^8.2.4
   localization: ^2.1.1
@@ -93,7 +93,7 @@ dependencies:
   table_calendar: ^3.0.9
   flutter_localization: ^0.2.0
   webview_flutter: ^4.4.4
-  url_launcher:
+  url_launcher: ^6.1.12
   marquee: ^2.2.3
   firebase_storage: ^12.1.1
   shimmer: ^3.0.0
@@ -105,6 +105,8 @@ dependencies:
   rename: ^3.0.2
   just_audio: ^0.9.42
   audioplayers:
+  figma_squircle: ^0.5.3
+  timelines: ^0.1.0
 
 dev_dependencies:
   flutter_test:
