@@ -95,9 +95,8 @@ class AddButtonCommon extends StatelessWidget {
 }
 class AddedButtonCommon extends StatelessWidget {
   final GestureTapCallback? onTap;
-  final bool isLoading;
 
-  const AddedButtonCommon({super.key, this.onTap, this.isLoading = false});
+  const AddedButtonCommon({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -115,25 +114,15 @@ class AddedButtonCommon extends StatelessWidget {
       ),
       child: SizedBox(
         width: Sizes.s65,
-        height: 40, // <-- Fix the height so it doesn't shrink
+        height: 40, // Fixed height
         child: Center(
-          child: isLoading
-              ? SizedBox(
-                  width: 20, // Keep loader small
-                  height: 20,
-                  child: CircularProgressIndicator(
-                    color: appColor(context).primary,
-                    strokeWidth: 2,
-                  ),
-                )
-              : Text(
-                  language(context, appFonts.added),
-                  overflow: TextOverflow.clip,
-                  style: appCss.dmDenseMedium12.textColor(appColor(context).primary),
-                )
-                  .padding(horizontal: Insets.i12, vertical: Insets.i10),
+          child: Text(
+            language(context, appFonts.added),
+            overflow: TextOverflow.clip,
+            style: appCss.dmDenseMedium12.textColor(appColor(context).primary),
+          ).padding(horizontal: Insets.i12, vertical: Insets.i10),
         ),
       ),
-    ).inkWell(onTap: isLoading ? null : onTap); // disable tap while loading
+    ).inkWell(onTap: onTap);
   }
 }

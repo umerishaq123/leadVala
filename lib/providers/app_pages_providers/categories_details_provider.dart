@@ -385,25 +385,39 @@ setLoadingService(bool status) {
   notifyListeners();
 }
 
-getServiceById(BuildContext context, serviceId) async {
+Future<void> getServiceById(BuildContext context, serviceId) async {
   try {
-    setLoadingService(true); // Start loading
-    await apiServices
-        .getApi("${api.service}?serviceId=$serviceId", []).then((value) {
-      if (value.isSuccess!) {
-        services = Services.fromJson(value.data[0]);
-        notifyListeners();
-      }
-      route.pushNamed(context, routeName.servicesDetailsScreen,
-          arg: {'services': services!});
-    });
+    showLoading(context); // Show loading overlay first
+
+    final value = await apiServices.getApi("${api.service}?serviceId=$serviceId", []);
+
+    if (value.isSuccess!) {
+      services = Services.fromJson(value.data[0]);
+      notifyListeners();
+
+      hideLoading(context); // Hide loading FIRST before navigation
+
+      await route.pushNamed(
+        context,
+        routeName.servicesDetailsScreen,
+        arg: {'services': services!},
+      );
+    } else {
+      hideLoading(context); // Hide loading on error too
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to fetch service')),
+      );
+    }
   } catch (e) {
-    log("ERROR getServiceById : $e");
-  } finally {
-    setLoadingService(false); // Stop loading always
+    log("ERROR getServiceById: $e");
+    hideLoading(context); // Hide loading if any error
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Something went wrong!')),
+    );
   }
 }
-
 
   getProviderById(context, id, index, Services service) async {
     final cartCtrl = Provider.of<CartProvider>(context, listen: false);

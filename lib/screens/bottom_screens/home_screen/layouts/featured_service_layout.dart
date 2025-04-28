@@ -196,7 +196,6 @@ return   SizedBox(
       // ?
        AddedButtonCommon(
           onTap: addTap,
-          isLoading: value.isLoadingService, // Pass loading here
         )
       // :
       //  AddButtonCommon(
